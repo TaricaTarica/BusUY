@@ -61,5 +61,9 @@ public class IniciarSesion implements Serializable{
 		}
 		return redireccion;
 	}
+	public String cerrarSesion() {
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return "index?faces-redirect=true";
+	} 
 
 }

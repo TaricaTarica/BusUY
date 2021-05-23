@@ -47,6 +47,9 @@
   </latLonBoundingBox>
   <projectionPolicy>FORCE_DECLARED</projectionPolicy>
   <enabled>true</enabled>
+  <metadata>
+    <entry key="cachingEnabled">false</entry>
+  </metadata>
   <store class="dataStore">
     <id>DataStoreInfoImpl--708a59db:1799ad5d3a2:-7ffc</id>
   </store>

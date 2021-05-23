@@ -1,0 +1,16 @@
+<layer>
+  <name>ejes</name>
+  <id>LayerInfoImpl-1d10aa5f:1798bf5a71c:-7ff3</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-6e8a8f86:1798bd63307:-7ffd</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-1d10aa5f:1798bf5a71c:-7ff4</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-05-20 23:42:26.902 UTC</dateCreated>
+</layer>

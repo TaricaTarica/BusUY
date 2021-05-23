@@ -1,0 +1,17 @@
+<layer>
+  <name>departamento</name>
+  <id>LayerInfoImpl-6e8a8f86:1798bd63307:-7fde</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-6e8a8f86:1798bd63307:-7ffc</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-6e8a8f86:1798bd63307:-7fdf</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-05-20 22:45:43.788 UTC</dateCreated>
+  <dateModified>2021-05-23 19:30:46.806 UTC</dateModified>
+</layer>

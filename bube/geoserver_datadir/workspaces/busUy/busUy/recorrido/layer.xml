@@ -1,0 +1,22 @@
+<layer>
+  <name>recorrido</name>
+  <id>LayerInfoImpl-1d10aa5f:1798bf5a71c:-7fed</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl-1d10aa5f:1798bf5a71c:-7feb</id>
+  </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl-1d10aa5f:1798bf5a71c:-7feb</id>
+    </style>
+  </styles>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl-1d10aa5f:1798bf5a71c:-7fee</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-05-20 23:43:38.503 UTC</dateCreated>
+  <dateModified>2021-05-20 23:50:47.211 UTC</dateModified>
+</layer>

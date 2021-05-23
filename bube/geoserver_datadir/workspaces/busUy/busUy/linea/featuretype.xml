@@ -1,0 +1,41 @@
+<featureType>
+  <id>FeatureTypeInfoImpl-1d10aa5f:1798bf5a71c:-7ff2</id>
+  <name>linea</name>
+  <nativeName>linea</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-6e8a8f86:1798bd63307:-7fe1</id>
+  </namespace>
+  <title>linea</title>
+  <keywords>
+    <string>features</string>
+    <string>linea</string>
+  </keywords>
+  <srs>EPSG:32721</srs>
+  <nativeBoundingBox>
+    <minx>577059.63233</minx>
+    <maxx>577061.63233</maxx>
+    <miny>6139343.78247</miny>
+    <maxy>6139345.78247</maxy>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-56.15671128269603</minx>
+    <maxx>-56.15668921390607</maxx>
+    <miny>-34.885376417229004</miny>
+    <maxy>-34.88535823214965</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-6e8a8f86:1798bd63307:-7fe0</id>
+  </store>
+  <serviceConfiguration>false</serviceConfiguration>
+  <simpleConversionEnabled>false</simpleConversionEnabled>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <padWithZeros>false</padWithZeros>
+  <forcedDecimal>false</forcedDecimal>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

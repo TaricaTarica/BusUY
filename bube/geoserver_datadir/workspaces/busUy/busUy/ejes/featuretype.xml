@@ -1,0 +1,41 @@
+<featureType>
+  <id>FeatureTypeInfoImpl-1d10aa5f:1798bf5a71c:-7ff4</id>
+  <name>ejes</name>
+  <nativeName>ejes</nativeName>
+  <namespace>
+    <id>NamespaceInfoImpl-6e8a8f86:1798bd63307:-7fe1</id>
+  </namespace>
+  <title>ejes</title>
+  <keywords>
+    <string>features</string>
+    <string>ejes</string>
+  </keywords>
+  <srs>EPSG:32721</srs>
+  <nativeBoundingBox>
+    <minx>552729.6875</minx>
+    <maxx>588547.0</maxx>
+    <miny>6133927.0</miny>
+    <maxy>6159774.5</maxy>
+  </nativeBoundingBox>
+  <latLonBoundingBox>
+    <minx>-56.42422906794894</minx>
+    <maxx>-56.030441946374594</maxx>
+    <miny>-34.93577548181591</miny>
+    <maxy>-34.70022674465744</maxy>
+    <crs>EPSG:4326</crs>
+  </latLonBoundingBox>
+  <projectionPolicy>FORCE_DECLARED</projectionPolicy>
+  <enabled>true</enabled>
+  <store class="dataStore">
+    <id>DataStoreInfoImpl-6e8a8f86:1798bd63307:-7fe0</id>
+  </store>
+  <serviceConfiguration>false</serviceConfiguration>
+  <simpleConversionEnabled>false</simpleConversionEnabled>
+  <maxFeatures>0</maxFeatures>
+  <numDecimals>0</numDecimals>
+  <padWithZeros>false</padWithZeros>
+  <forcedDecimal>false</forcedDecimal>
+  <overridingServiceSRS>false</overridingServiceSRS>
+  <skipNumberMatched>false</skipNumberMatched>
+  <circularArcPresent>false</circularArcPresent>
+</featureType>

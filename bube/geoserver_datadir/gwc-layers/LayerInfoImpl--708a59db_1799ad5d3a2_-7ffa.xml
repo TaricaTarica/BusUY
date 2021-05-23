@@ -1,8 +1,8 @@
 <GeoServerTileLayer>
-  <id>LayerInfoImpl-1d10aa5f:1798bf5a71c:-7ff3</id>
+  <id>LayerInfoImpl--708a59db:1799ad5d3a2:-7ffa</id>
   <enabled>true</enabled>
   <inMemoryCached>true</inMemoryCached>
-  <name>busUy:ejes</name>
+  <name>busUy:departamento</name>
   <mimeFormats>
     <string>image/png</string>
     <string>image/jpeg</string>
@@ -26,7 +26,7 @@
       <key>STYLES</key>
       <defaultValue></defaultValue>
       <availableStyles class="sorted-set"/>
-      <defaultStyle>line</defaultStyle>
+      <defaultStyle>polygon</defaultStyle>
     </styleParameterFilter>
   </parameterFilters>
   <gutter>0</gutter>

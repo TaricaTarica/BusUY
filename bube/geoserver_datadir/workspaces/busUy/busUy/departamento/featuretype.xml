@@ -1,5 +1,5 @@
 <featureType>
-  <id>FeatureTypeInfoImpl-6e8a8f86:1798bd63307:-7fdf</id>
+  <id>FeatureTypeInfoImpl--708a59db:1799ad5d3a2:-7ffb</id>
   <name>departamento</name>
   <nativeName>departamento</nativeName>
   <namespace>
@@ -33,22 +33,22 @@
   <srs>EPSG:32721</srs>
   <nativeBoundingBox>
     <minx>551963.222194711</minx>
-    <maxx>588919.6701779376</maxx>
-    <miny>6133763.748910239</miny>
-    <maxy>6159838.029572172</maxy>
+    <maxx>588919.670177938</maxx>
+    <miny>6133763.74891024</miny>
+    <maxy>6159838.02957217</maxy>
     <crs class="projected">EPSG:32721</crs>
   </nativeBoundingBox>
   <latLonBoundingBox>
     <minx>-56.43260187272308</minx>
     <maxx>-56.02634446852787</maxx>
-    <miny>-34.93728712758686</miny>
-    <maxy>-34.69962157437238</maxy>
+    <miny>-34.937287127586856</miny>
+    <maxy>-34.6996215743724</maxy>
     <crs>EPSG:4326</crs>
   </latLonBoundingBox>
   <projectionPolicy>FORCE_DECLARED</projectionPolicy>
   <enabled>true</enabled>
   <store class="dataStore">
-    <id>DataStoreInfoImpl-6e8a8f86:1798bd63307:-7fe0</id>
+    <id>DataStoreInfoImpl--708a59db:1799ad5d3a2:-7ffc</id>
   </store>
   <serviceConfiguration>false</serviceConfiguration>
   <simpleConversionEnabled>false</simpleConversionEnabled>

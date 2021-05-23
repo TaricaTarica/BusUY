@@ -1,5 +1,5 @@
 <featureType>
-  <id>FeatureTypeInfoImpl-1d10aa5f:1798bf5a71c:-7ff7</id>
+  <id>FeatureTypeInfoImpl--708a59db:1799ad5d3a2:-7ff0</id>
   <name>parada</name>
   <nativeName>parada</nativeName>
   <namespace>
@@ -27,7 +27,7 @@
   <projectionPolicy>FORCE_DECLARED</projectionPolicy>
   <enabled>true</enabled>
   <store class="dataStore">
-    <id>DataStoreInfoImpl-6e8a8f86:1798bd63307:-7fe0</id>
+    <id>DataStoreInfoImpl--708a59db:1799ad5d3a2:-7ffc</id>
   </store>
   <serviceConfiguration>false</serviceConfiguration>
   <simpleConversionEnabled>false</simpleConversionEnabled>

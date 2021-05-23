@@ -1,34 +1,18 @@
 <GeoServerTileLayer>
-  <id>LayerInfoImpl-1d10aa5f:1798bf5a71c:-7fed</id>
+  <id>LayerInfoImpl--708a59db:1799ad5d3a2:-7ff5</id>
   <enabled>true</enabled>
   <inMemoryCached>true</inMemoryCached>
-  <name>busUy:recorrido</name>
+  <name>busUy:linea</name>
   <mimeFormats>
     <string>image/png</string>
     <string>image/jpeg</string>
   </mimeFormats>
   <gridSubsets>
     <gridSubset>
-      <gridSetName>EPSG:900913</gridSetName>
-      <extent>
-        <coords>
-          <double>-6251402.234445249</double>
-          <double>-4148313.9126567612</double>
-          <double>-6246718.567143044</double>
-          <double>-4140275.5559170814</double>
-        </coords>
-      </extent>
+      <gridSetName>EPSG:4326</gridSetName>
     </gridSubset>
     <gridSubset>
-      <gridSetName>EPSG:4326</gridSetName>
-      <extent>
-        <coords>
-          <double>-56.15730174381095</double>
-          <double>-34.8853673246898</double>
-          <double>-56.115227644577935</double>
-          <double>-34.8261124403028</double>
-        </coords>
-      </extent>
+      <gridSetName>EPSG:900913</gridSetName>
     </gridSubset>
   </gridSubsets>
   <metaWidthHeight>

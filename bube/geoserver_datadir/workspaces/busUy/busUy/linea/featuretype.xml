@@ -1,5 +1,5 @@
 <featureType>
-  <id>FeatureTypeInfoImpl-1d10aa5f:1798bf5a71c:-7ff2</id>
+  <id>FeatureTypeInfoImpl--708a59db:1799ad5d3a2:-7ff6</id>
   <name>linea</name>
   <nativeName>linea</nativeName>
   <namespace>
@@ -26,8 +26,11 @@
   </latLonBoundingBox>
   <projectionPolicy>FORCE_DECLARED</projectionPolicy>
   <enabled>true</enabled>
+  <metadata>
+    <entry key="cachingEnabled">false</entry>
+  </metadata>
   <store class="dataStore">
-    <id>DataStoreInfoImpl-6e8a8f86:1798bd63307:-7fe0</id>
+    <id>DataStoreInfoImpl--708a59db:1799ad5d3a2:-7ffc</id>
   </store>
   <serviceConfiguration>false</serviceConfiguration>
   <simpleConversionEnabled>false</simpleConversionEnabled>

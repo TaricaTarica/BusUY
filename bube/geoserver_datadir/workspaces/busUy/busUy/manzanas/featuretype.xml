@@ -1,5 +1,5 @@
 <featureType>
-  <id>FeatureTypeInfoImpl-1d10aa5f:1798bf5a71c:-7ff0</id>
+  <id>FeatureTypeInfoImpl--708a59db:1799ad5d3a2:-7ff2</id>
   <name>manzanas</name>
   <nativeName>manzanas</nativeName>
   <namespace>
@@ -32,23 +32,23 @@
   AUTHORITY[&quot;EPSG&quot;,&quot;32721&quot;]]</nativeCRS>
   <srs>EPSG:32721</srs>
   <nativeBoundingBox>
-    <minx>552743.375</minx>
-    <maxx>588867.1875</maxx>
-    <miny>6134516.0</miny>
-    <maxy>6159799.5</maxy>
+    <minx>553617.1875</minx>
+    <maxx>589042.5625</maxx>
+    <miny>6134394.5</miny>
+    <maxy>6158890.0</maxy>
     <crs class="projected">EPSG:32721</crs>
   </nativeBoundingBox>
   <latLonBoundingBox>
-    <minx>-56.42408117894828</minx>
-    <maxx>-56.026999164509576</maxx>
-    <miny>-34.930463708329256</miny>
-    <maxy>-34.69997354371204</maxy>
+    <minx>-56.4144824432721</minx>
+    <maxx>-56.025066281924076</maxx>
+    <miny>-34.931513430721566</miny>
+    <maxy>-34.708158860648574</maxy>
     <crs>EPSG:4326</crs>
   </latLonBoundingBox>
   <projectionPolicy>FORCE_DECLARED</projectionPolicy>
   <enabled>true</enabled>
   <store class="dataStore">
-    <id>DataStoreInfoImpl-6e8a8f86:1798bd63307:-7fe0</id>
+    <id>DataStoreInfoImpl--708a59db:1799ad5d3a2:-7ffc</id>
   </store>
   <serviceConfiguration>false</serviceConfiguration>
   <simpleConversionEnabled>false</simpleConversionEnabled>

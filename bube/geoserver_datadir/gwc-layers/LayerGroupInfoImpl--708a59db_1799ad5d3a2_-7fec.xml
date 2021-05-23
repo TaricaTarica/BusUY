@@ -1,8 +1,8 @@
 <GeoServerTileLayer>
-  <id>LayerInfoImpl-6e8a8f86:1798bd63307:-7fde</id>
+  <id>LayerGroupInfoImpl--708a59db:1799ad5d3a2:-7fec</id>
   <enabled>true</enabled>
   <inMemoryCached>true</inMemoryCached>
-  <name>busUy:departamento</name>
+  <name>Montevideo</name>
   <mimeFormats>
     <string>image/png</string>
     <string>image/jpeg</string>
@@ -21,13 +21,6 @@
   </metaWidthHeight>
   <expireCache>0</expireCache>
   <expireClients>0</expireClients>
-  <parameterFilters>
-    <styleParameterFilter>
-      <key>STYLES</key>
-      <defaultValue></defaultValue>
-      <availableStyles class="sorted-set"/>
-      <defaultStyle>polygon</defaultStyle>
-    </styleParameterFilter>
-  </parameterFilters>
+  <parameterFilters/>
   <gutter>0</gutter>
 </GeoServerTileLayer>

@@ -12,16 +12,16 @@
   </keywords>
   <srs>EPSG:32721</srs>
   <nativeBoundingBox>
-    <minx>577060.63233</minx>
-    <maxx>580850.785333816</maxx>
-    <miny>6136471.85641</miny>
-    <maxy>6145883.8604704</maxy>
+    <minx>577041.6875</minx>
+    <maxx>580869.75</maxx>
+    <miny>6136424.5</miny>
+    <maxy>6145931.0</maxy>
   </nativeBoundingBox>
   <latLonBoundingBox>
-    <minx>-56.15730174381095</minx>
-    <maxx>-56.114949806844145</maxx>
-    <miny>-34.91127138687681</miny>
-    <maxy>-34.8261124403028</maxy>
+    <minx>-56.15751322428584</minx>
+    <maxx>-56.11473764426446</maxx>
+    <miny>-34.91169981962619</miny>
+    <maxy>-34.82568589371123</maxy>
     <crs>EPSG:4326</crs>
   </latLonBoundingBox>
   <projectionPolicy>FORCE_DECLARED</projectionPolicy>

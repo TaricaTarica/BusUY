@@ -45,6 +45,7 @@
 <button id="btnLine" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
   <i class="material-icons">build</i>
 </button>
+<input id="nombre-parada" type="text">
 <button id="btnPoint" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
   <i class="material-icons">delete</i>
 </button>
@@ -55,6 +56,8 @@
     
 <script type="text/javascript">
 
+
+	
 	var map;
 	var coord;
 	proj4.defs('EPSG:32721', '+proj=utm + zone=21 + south + datum=WGS84 + units=m + no_defs');
@@ -218,6 +221,7 @@
 	            break;
 
 	        case 'btnPoint':
+	        	var nombreParada = document.getElementById("nombre-parada").value;
 	            interaction = new ol.interaction.Draw({
 	                type: 'Point',
 	                source: layerWFS.getSource()
@@ -225,7 +229,7 @@
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
 	            		e.feature.set('geom', e.feature.getGeometry()); 
-	                	e.feature.set('nombre', 'test');
+	                	e.feature.set('nombre', nombreParada);
 	                    transactWFS('insert', e.feature); 
 	            });
 	            break;

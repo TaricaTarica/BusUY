@@ -8,7 +8,13 @@
 	text-decoration: none !important;
 }
 .row .col.s3{
-	max-width: 25%;
+	max-width: 35%;
+}
+.collapsible-body{
+	padding: 0px !important;
+}
+.collapsible-body .input-field{
+	margin-top: 1.5rem !important;
 }
 material-icons:hover,
 nav ul a:hover{
@@ -19,7 +25,6 @@ nav ul a:hover{
 #map{
 	width: 100%;
 	border: 0px;
-	border-left: 1px solid gray;
 }
 .body-login{
 	display: flex;

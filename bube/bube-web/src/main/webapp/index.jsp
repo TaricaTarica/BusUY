@@ -6,26 +6,57 @@
 	<%@include file="head.jsp"%>
 </head>
 <body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
-
+	<script>
+	  document.addEventListener('DOMContentLoaded', function() {
+		    var elems = document.querySelectorAll('.collapsible');
+		    var instances = M.Collapsible.init(elems, {
+		    	  accordion: false
+		    });
+		  });
+	</script>
 	<%@include file="navbar.jsp"%>
 	
 	<div class="row">
 		<div class="col s3">
 			<%if(sesion.getAttribute("administrador") != null){ %>
-				<button id="btnArea" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-				  <i class="material-icons">signal_cellular_null</i>
-				</button>
-				<button id="btnLine" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-				  <i class="material-icons">build</i>
-				</button>
-				<button id="btnPoint" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-				  <i class="material-icons">delete</i>
-				</button>
-				<button id="btnInfo" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-				  <i class="material-icons">info</i>
-				</button>
+			 <ul class="collapsible">
+			    <li>
+			      <div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Gestión Paradas</div>
+			      <div class="collapsible-body">
+			      	<div class="input-field col s12">
+				      <input name = "nombre-parada" id="nombre-parada" type="text">
+				      <label class="active" for="nombre-parada">Nombre parada</label>
+				      <div class="right">
+				      	<button id="btnPoint" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+						  <i class="material-icons">control_point</i>
+					  	</button>
+				      </div>
+				    </div>
+			      </div>
+			    </li>
+			    <li>
+			      <div class="collapsible-header"><i class="teal-text material-icons">map</i>Gestión Recorrido</div>
+			      <div class="collapsible-body">
+			      	<span>Lorem ipsum dolor sit amet.</span>
+			      	<button id="btnArea" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+					  <i class="material-icons">signal_cellular_null</i>
+					</button>
+					<button id="btnLine" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+					  <i class="material-icons">build</i>
+					</button>
+					
+					<button id="btnInfo" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+					  <i class="material-icons">info</i>
+					</button>
+			      </div>
+			    </li>
+			  </ul>
+			
+			
+				
 				<div id="infoCont"></div>
 			<%} %>
 			
@@ -201,6 +232,7 @@
 	            break;
 
 	        case 'btnPoint':
+	        	var nombreParada = document.getElementById("nombre-parada").value;
 	            interaction = new ol.interaction.Draw({
 	                type: 'Point',
 	                source: layerWFS.getSource()
@@ -208,7 +240,7 @@
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
 	            		e.feature.set('geom', e.feature.getGeometry()); 
-	                	e.feature.set('nombre', 'test');
+	                	e.feature.set('nombre', nombreParada);
 	                    transactWFS('insert', e.feature); 
 	            });
 	            break;
@@ -263,6 +295,7 @@
 	            break;
 	    }
 	});
-</script>  
+</script>
+ 
 </body>
 </html>

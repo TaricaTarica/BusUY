@@ -65,7 +65,7 @@
 			
 			
 				
-				<div id="infoCont"></div>
+				<!-- <div id="infoCont"></div> -->
 			<%} %>
 			
 		</div>
@@ -90,6 +90,12 @@
     var formatGML = new ol.format.GML3({
     	featureNS: 'busUy',
         featureType: 'parada',
+        srsName: 'EPSG:32721'
+    });
+
+    var formatGML2 = new ol.format.GML3({
+    	featureNS: 'busUy',
+        featureType: 'recorrido',
         srsName: 'EPSG:32721'
     });
 
@@ -121,6 +127,11 @@
     	source: sourceWFS
 	});
 
+    var layerWFS2 = new ol.layer.Vector({
+        visible: true,
+    	source: sourceWFS
+	});
+
 	var layers = [
 	    new ol.layer.Image({
 	        visible: true,
@@ -141,6 +152,27 @@
 		}),
 	layerWFS    
 	];	
+
+	var layers2 = [
+	    new ol.layer.Image({
+	        visible: true,
+	        source: new ol.source.ImageWMS({
+	            url: 'http://localhost:8080/geoserver/wms?',
+	            params: {'LAYERS': 'busUy:Montevideo'},
+	            serverType: 'geoserver',
+	            crossOrigin: 'anonymous'
+	        }),
+	        opacity: 0.5
+	    }),
+	    new ol.layer.Vector({
+	        visible: true,
+	    	source: new ol.source.Vector({
+	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:recorrido&srs=EPSG:32721&outputFormat=application/json',
+	        	format: new ol.format.GeoJSON()
+	    	})
+		}),
+	layerWFS2    
+	];	
 	
 	var interaction;
 	
@@ -159,6 +191,13 @@
 	var interactionSnap = new ol.interaction.Snap({
 	    source: layerWFS.getSource()
 	});
+
+	var interactionSnap2 = new ol.interaction.Snap({
+	    source: layerWFS2.getSource()
+	});
+
+	/****************************************************************************************************/
+	/* CAMBIANDO LAYERS: LAYERS POR LAYERS:LAYERS2 SE VISUALIZAN LOS RECORRIDOS / VISEBERSA LAS PARADAS */
 	
 	map = new ol.Map({
 	    layers: layers,
@@ -175,7 +214,6 @@
 	        zoom: 11
 	        })
 	});
-	
 
 	var transactWFS = function (p, f) {
 	    var node;
@@ -203,6 +241,34 @@
 	        layerWFS.getSource().refresh();
 	        });
 	}
+
+	var transactWFS2 = function (p, f) {
+	    var node;
+	    switch (p) {
+	        case 'insert':
+	            node = formatWFS.writeTransaction([f], null, null, formatGML2);
+	            break;
+	        case 'update':
+	            node = formatWFS.writeTransaction(null, [f], null, formatGML2);
+	            break;
+	        case 'delete':
+	            node = formatWFS.writeTransaction(null, null, [f], formatGML2);
+	            break;
+	    }
+	    s = new XMLSerializer();
+	    str = s.serializeToString(node);
+	    $.ajax('http://localhost:8080/geoserver/wfs', {
+	        type: 'POST',
+	        dataType: 'xml',
+	        processData: false,
+	        contentType: 'text/xml',
+	        data: str
+	    }).done( function(){
+	        layerWFS2.getSource().clear();
+	        layerWFS2.getSource().refresh();
+	        });
+	}
+	
 	$('button').click(function () {
 		
 	    $(this).siblings().removeClass('btn-active');
@@ -220,6 +286,7 @@
 	            });
 	            map.addInteraction(interaction);
 	            map.addInteraction(interactionSnap);
+	            map.addInteraction(interactionSnap2);
 	            dirty = {};
 	            interactionSelect.getFeatures().on('add', function (e) {
 	                e.element.on('change', function (e) {
@@ -257,13 +324,13 @@
 	        	var nombreRecorrido = document.getElementById("nombre-recorrido").value;
 	            interaction = new ol.interaction.Draw({
 	                type: 'LineString',
-	                source: layerWFS.getSource()
+	                source: layerWFS2.getSource()
 	            });
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
 	            	e.feature.set('geom', e.feature.getGeometry()); 
                 	e.feature.set('nombre', nombreRecorrido);
-	                transactWFS('insert', e.feature);
+	                transactWFS2('insert', e.feature);
 	            });
 	            break;
 

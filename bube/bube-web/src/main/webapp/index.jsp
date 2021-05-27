@@ -40,17 +40,25 @@
 			    <li>
 			      <div class="collapsible-header"><i class="teal-text material-icons">map</i>Gestión Recorrido</div>
 			      <div class="collapsible-body">
-			      	<span>Lorem ipsum dolor sit amet.</span>
+				      <div class="input-field col s12">
+					      <input name = "nombre-recorrido" id="nombre-recorrido" type="text">
+					      <label class="active" for="nombre-recorrido">Nombre recorrido</label>
+					      <div class="right">
+					      	<button id="btnLine" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+							  <i class="material-icons">edit</i>
+						  	</button>
+					      </div>
+					    </div>
+			      
+			      
+			      	<!-- <span>Lorem ipsum dolor sit amet.</span>
 			      	<button id="btnArea" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
 					  <i class="material-icons">signal_cellular_null</i>
-					</button>
-					<button id="btnLine" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-					  <i class="material-icons">build</i>
 					</button>
 					
 					<button id="btnInfo" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
 					  <i class="material-icons">info</i>
-					</button>
+					</button> -->
 			      </div>
 			    </li>
 			  </ul>
@@ -118,7 +126,7 @@
 	        visible: true,
 	        source: new ol.source.ImageWMS({
 	            url: 'http://localhost:8080/geoserver/wms?',
-	            params: {'LAYERS': 'Montevideo'},
+	            params: {'LAYERS': 'busUy:Montevideo'},
 	            serverType: 'geoserver',
 	            crossOrigin: 'anonymous'
 	        }),
@@ -246,12 +254,15 @@
 	            break;
 
 	        case 'btnLine':
+	        	var nombreRecorrido = document.getElementById("nombre-recorrido").value;
 	            interaction = new ol.interaction.Draw({
 	                type: 'LineString',
 	                source: layerWFS.getSource()
 	            });
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
+	            	e.feature.set('geom', e.feature.getGeometry()); 
+                	e.feature.set('nombre', nombreRecorrido);
 	                transactWFS('insert', e.feature);
 	            });
 	            break;

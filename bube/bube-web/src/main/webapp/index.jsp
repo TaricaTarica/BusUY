@@ -150,6 +150,13 @@
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}),
+		new ol.layer.Vector({
+	        visible: true,
+	    	source: new ol.source.Vector({
+	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:recorrido&srs=EPSG:32721&outputFormat=application/json',
+	        	format: new ol.format.GeoJSON()
+	    	})
+		}),
 	layerWFS    
 	];	
 

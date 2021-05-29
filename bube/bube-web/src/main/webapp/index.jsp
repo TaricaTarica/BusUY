@@ -24,13 +24,13 @@
 			<%if(sesion.getAttribute("administrador") != null){ %>
 			 <ul class="collapsible">
 			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Gestión Paradas</div>
+			      <div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Agregar Paradas</div>
 			      <div class="collapsible-body">
 			      	<div class="input-field col s12">
 				      <input name = "nombre-parada" id="nombre-parada" type="text">
 				      <label class="active" for="nombre-parada">Nombre parada</label>
 				      <div class="right">
-				      	<button id="btnPoint" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+				      	<button id="btnAddParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 						  <i class="material-icons">control_point</i>
 					  	</button>
 				      </div>
@@ -38,33 +38,56 @@
 			      </div>
 			    </li>
 			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">map</i>Gestión Recorrido</div>
+			      <div class="collapsible-header"><i class="teal-text material-icons">map</i>Agregar Recorrido</div>
 			      <div class="collapsible-body">
-				      <div class="input-field col s12">
-					      <input name = "nombre-recorrido" id="nombre-recorrido" type="text">
-					      <label class="active" for="nombre-recorrido">Nombre recorrido</label>
-					      <div class="right">
-					      	<button id="btnLine" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-							  <i class="material-icons">edit</i>
-						  	</button>
-					      </div>
-					    </div>
-			      
-			      
-			      	<!-- <span>Lorem ipsum dolor sit amet.</span>
-			      	<button id="btnArea" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-					  <i class="material-icons">signal_cellular_null</i>
-					</button>
-					
-					<button id="btnInfo" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-					  <i class="material-icons">info</i>
-					</button> -->
+				  	<div class="input-field col s12">
+				      <input name = "nombre-recorrido" id="nombre-recorrido" type="text">
+				      <label class="active" for="nombre-recorrido">Nombre recorrido</label>
+				      <div class="right">
+				      	<button id="btnAddRecorrido" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+						  <i class="material-icons">edit</i>
+					  	</button>
+				      </div>
+				    </div>
+			      </div>
+			    </li>
+			    <li>
+			      <div class="collapsible-header"><i class="teal-text material-icons">location_off</i>Eliminar Paradas</div>
+			      <div class="collapsible-body">
+			      	<div class="input-field col s12">
+					<p>Seleccione las paradas a eliminar luego de presionar el botón</p>
+				      <div class="right">
+				      	<button id="btnDeleteParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+						  <i class="material-icons">remove_circle</i>
+					  	</button>
+				      </div>
+				    </div>
+			      </div>
+			    </li>
+			    <li>
+			      <div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Eliminar Recorrido</div>
+			      <div class="collapsible-body">
+			      	<div class="input-field col s12">
+					<p>Seleccione los recorridos a eliminar luego de presionar el botón</p>
+				      <div class="right">
+				      	<button id="btnDeleteRecorrido" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+						  <i class="material-icons">delete</i>
+					  	</button>
+				      </div>
+				    </div>
 			      </div>
 			    </li>
 			  </ul>
-			
-			
 				
+
+		      	<!-- <span>Lorem ipsum dolor sit amet.</span>
+		      	<button id="btnArea" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+				  <i class="material-icons">signal_cellular_null</i>
+				</button>
+				
+				<button id="btnInfo" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
+				  <i class="material-icons">info</i>
+				</button> -->
 				<!-- <div id="infoCont"></div> -->
 			<%} %>
 			
@@ -159,27 +182,6 @@
 		}),
 	layerWFS    
 	];	
-
-	var layers2 = [
-	    new ol.layer.Image({
-	        visible: true,
-	        source: new ol.source.ImageWMS({
-	            url: 'http://localhost:8080/geoserver/wms?',
-	            params: {'LAYERS': 'busUy:Montevideo'},
-	            serverType: 'geoserver',
-	            crossOrigin: 'anonymous'
-	        }),
-	        opacity: 0.5
-	    }),
-	    new ol.layer.Vector({
-	        visible: true,
-	    	source: new ol.source.Vector({
-	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:recorrido&srs=EPSG:32721&outputFormat=application/json',
-	        	format: new ol.format.GeoJSON()
-	    	})
-		}),
-	layerWFS2    
-	];	
 	
 	var interaction;
 	
@@ -203,8 +205,6 @@
 	    source: layerWFS2.getSource()
 	});
 
-	/****************************************************************************************************/
-	/* CAMBIANDO LAYERS: LAYERS POR LAYERS:LAYERS2 SE VISUALIZAN LOS RECORRIDOS / VISEBERSA LAS PARADAS */
 	
 	map = new ol.Map({
 	    layers: layers,
@@ -313,7 +313,7 @@
 	            });
 	            break;
 
-	        case 'btnPoint':
+	        case 'btnAddParada':
 	        	var nombreParada = document.getElementById("nombre-parada").value;
 	            interaction = new ol.interaction.Draw({
 	                type: 'Point',
@@ -327,7 +327,7 @@
 	            });
 	            break;
 
-	        case 'btnLine':
+	        case 'btnAddRecorrido':
 	        	var nombreRecorrido = document.getElementById("nombre-recorrido").value;
 	            interaction = new ol.interaction.Draw({
 	                type: 'LineString',
@@ -341,25 +341,22 @@
 	            });
 	            break;
 
-	        case 'btnArea':
-	            interaction = new ol.interaction.Draw({
-	                type: 'Polygon',
-	                source: layerWFS.getSource()
-	            });
-	            interaction.on('drawend', function (e) {
-	            	//pertenece(e.feature);
-	                
+	        case 'btnDeleteParada':
+	            interaction = new ol.interaction.Select();
+	            interaction.getFeatures().on('add', function (e) {
+	                transactWFS('delete', e.target.item(0));
+	                layerWFS.getSource().removeFeature(e.target.item(0));
+	                interactionSelectPointerMove.getFeatures().clear();
+	                interaction.getFeatures().clear();
 	            });
 	            map.addInteraction(interaction);
 	            break;
 
-	        case 'btnDelete':
+	        case 'btnDeleteRecorrido':
 	            interaction = new ol.interaction.Select();
 	            interaction.getFeatures().on('add', function (e) {
-	            //    layerWFS.getSource().removeFeature(e.target.item(0));
-	            	//console.log(e.target.item(0).getId() + 'COSO');
-	                transactWFS('delete', e.target.item(0));
-	                layerWFS.getSource().removeFeature(e.target.item(0));
+	                transactWFS2('delete', e.target.item(0));
+	                layerWFS2.getSource().removeFeature(e.target.item(0));
 	                interactionSelectPointerMove.getFeatures().clear();
 	                interaction.getFeatures().clear();
 	            });

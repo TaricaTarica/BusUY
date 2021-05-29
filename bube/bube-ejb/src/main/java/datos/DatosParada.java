@@ -31,13 +31,9 @@ public class DatosParada implements DatosParadaLocal {
 	public void modificarParada(Parada parada) {
 		Parada toUpdate = em.find(Parada.class, parada.getGid());
 		toUpdate.setNombre(parada.getNombre());
-		toUpdate.setUbicacion(parada.getUbicacion());
-		toUpdate.setX(parada.getX());
-		toUpdate.setY(parada.getY());
 		toUpdate.setGeom(parada.getGeom());
-		toUpdate.setHora(parada.getHora());
-		toUpdate.setMin(parada.getMin());
 		toUpdate.setEstado(parada.getEstado());
+		toUpdate.setFechaMod(parada.getFechaMod());
 		em.refresh(toUpdate);
 	}
 

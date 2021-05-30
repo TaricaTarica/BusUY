@@ -2,7 +2,6 @@ package datos;
 
 import javax.ejb.Local;
 
-import datatypes.DTLinea;
 import entities.Linea;
 
 @Local

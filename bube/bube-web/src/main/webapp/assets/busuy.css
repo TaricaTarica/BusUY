@@ -12,6 +12,7 @@
 }
 .collapsible-body{
 	padding: 0px !important;
+	min-height: 150px;
 }
 .collapsible-body .input-field{
 	margin-top: 1.5rem !important;

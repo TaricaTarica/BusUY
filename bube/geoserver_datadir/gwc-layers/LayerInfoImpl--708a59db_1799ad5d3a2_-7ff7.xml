@@ -9,10 +9,26 @@
   </mimeFormats>
   <gridSubsets>
     <gridSubset>
-      <gridSetName>EPSG:4326</gridSetName>
+      <gridSetName>EPSG:900913</gridSetName>
+      <extent>
+        <coords>
+          <double>-6281116.448247101</double>
+          <double>-4155156.710138071</double>
+          <double>-6237280.2663924955</double>
+          <double>-4123217.4112650882</double>
+        </coords>
+      </extent>
     </gridSubset>
     <gridSubset>
-      <gridSetName>EPSG:900913</gridSetName>
+      <gridSetName>EPSG:4326</gridSetName>
+      <extent>
+        <coords>
+          <double>-56.42422906794894</double>
+          <double>-34.93577548181591</double>
+          <double>-56.030441946374594</double>
+          <double>-34.70022674465744</double>
+        </coords>
+      </extent>
     </gridSubset>
   </gridSubsets>
   <metaWidthHeight>
@@ -25,8 +41,10 @@
     <styleParameterFilter>
       <key>STYLES</key>
       <defaultValue></defaultValue>
-      <availableStyles class="sorted-set"/>
-      <defaultStyle>line</defaultStyle>
+      <availableStyles class="sorted-set">
+        <string>busUy:busUyLinea</string>
+      </availableStyles>
+      <defaultStyle>busUy:busUyNombre_Calles</defaultStyle>
     </styleParameterFilter>
   </parameterFilters>
   <gutter>0</gutter>

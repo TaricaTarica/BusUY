@@ -3,15 +3,21 @@
   <id>LayerInfoImpl--708a59db:1799ad5d3a2:-7ff7</id>
   <type>VECTOR</type>
   <defaultStyle>
-    <id>StyleInfoImpl-6e8a8f86:1798bd63307:-7ffd</id>
+    <id>StyleInfoImpl--741d3321:179c23e71ed:-7fed</id>
   </defaultStyle>
+  <styles class="linked-hash-set">
+    <style>
+      <id>StyleInfoImpl-1d10aa5f:1798bf5a71c:-7feb</id>
+    </style>
+  </styles>
   <resource class="featureType">
     <id>FeatureTypeInfoImpl--708a59db:1799ad5d3a2:-7ff8</id>
   </resource>
+  <queryable>false</queryable>
   <attribution>
     <logoWidth>0</logoWidth>
     <logoHeight>0</logoHeight>
   </attribution>
   <dateCreated>2021-05-23 20:12:57.692 UTC</dateCreated>
-  <dateModified>2021-05-23 23:59:39.450 UTC</dateModified>
+  <dateModified>2021-05-31 12:07:43.39 UTC</dateModified>
 </layer>

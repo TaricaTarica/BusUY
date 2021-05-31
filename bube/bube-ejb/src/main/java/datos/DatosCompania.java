@@ -1,5 +1,6 @@
 package datos;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.LocalBean;
@@ -42,6 +43,11 @@ public class DatosCompania implements DatosCompaniaLocal {
     	return em.find(Compania.class, id);
     }
     public List<Compania> listarCompanias(){
-    	return em.createNamedQuery("Compania.obtenerCompanias", Compania.class).getResultList();
+    	List <Compania> lista = new ArrayList <Compania>();
+		for (Object obj : em.createQuery("Select c from Compania c").getResultList()) {
+			Compania c = (Compania) obj;
+			lista.add(c);
+		}
+    	return lista;
     }
 }

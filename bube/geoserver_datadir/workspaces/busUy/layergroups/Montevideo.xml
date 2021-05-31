@@ -20,9 +20,6 @@
       <id>LayerInfoImpl--708a59db:1799ad5d3a2:-7fef</id>
     </published>
     <published type="layer">
-      <id>LayerInfoImpl--708a59db:1799ad5d3a2:-7fed</id>
-    </published>
-    <published type="layer">
       <id>LayerInfoImpl--708a59db:1799ad5d3a2:-7ff5</id>
     </published>
   </publishables>
@@ -34,9 +31,6 @@
       <id>StyleInfoImpl-6e8a8f86:1798bd63307:-7ffe</id>
     </style>
     <style/>
-    <style>
-      <id>StyleInfoImpl-6e8a8f86:1798bd63307:-7ffd</id>
-    </style>
   </styles>
   <bounds>
     <minx>551815.7836773719</minx>
@@ -50,5 +44,5 @@
     <logoHeight>0</logoHeight>
   </attribution>
   <dateCreated>2021-05-23 20:20:19.353 UTC</dateCreated>
-  <dateModified>2021-05-31 12:27:26.445 UTC</dateModified>
+  <dateModified>2021-05-31 21:03:18.885 UTC</dateModified>
 </layerGroup>

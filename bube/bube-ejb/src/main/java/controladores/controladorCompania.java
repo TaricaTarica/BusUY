@@ -1,5 +1,8 @@
 package controladores;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
@@ -46,6 +49,14 @@ public class controladorCompania implements controladorCompaniaRemote {
     	else {
     		return null;
     	}
+    }
+    public List<DTCompania> listarCompanias(){
+    	List<Compania> companias = dcl.listarCompanias();
+    	List<DTCompania> retorno = new ArrayList<>();
+    	for(Compania c: companias){
+    		retorno.add(new DTCompania(c));
+    	}
+    	return retorno;
     }
 
 }

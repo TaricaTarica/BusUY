@@ -1,10 +1,11 @@
 package datos;
 
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
 
 import entities.Compania;
 
@@ -39,5 +40,8 @@ public class DatosCompania implements DatosCompaniaLocal {
 
     public Compania buscarCompania(int id) {
     	return em.find(Compania.class, id);
+    }
+    public List<Compania> listarCompanias(){
+    	return em.createNamedQuery("Compania.obtenerCompanias", Compania.class).getResultList();
     }
 }

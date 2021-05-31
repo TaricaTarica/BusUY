@@ -1,5 +1,6 @@
 package entities;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -23,6 +24,8 @@ public class Linea {
 	private String codigo;
 	private String origen;
 	private String destino;
+	private Boolean desvio;
+	private LocalDate fechaMod;
 	@Lob @Basic(fetch=FetchType.LAZY)
     @Column(name = "geom", columnDefinition = "geometry(linestring)")
 	private String geom;
@@ -30,8 +33,6 @@ public class Linea {
 	@ManyToOne
 	private Compania compania;
 	
-	@OneToMany(mappedBy="linea",cascade=CascadeType.ALL,orphanRemoval=true)
-	private List<Recorrido> recorridos = new ArrayList<>();
 	
 	@OneToMany(mappedBy="parada",cascade=CascadeType.ALL,orphanRemoval=true) 
 	private List<LineaParada> lineaParada = new ArrayList<>();
@@ -43,16 +44,18 @@ public class Linea {
 		super();
 	}
 
-	
-	public Linea(int gid, String codigo, String origen, String destino, String geom) {
+	public Linea(int gid, String codigo, String origen, String destino, Boolean desvio, LocalDate fechaMod, String geom,
+			Compania compania) {
 		super();
 		this.gid = gid;
 		this.codigo = codigo;
 		this.origen = origen;
 		this.destino = destino;
+		this.desvio = desvio;
+		this.fechaMod = fechaMod;
 		this.geom = geom;
+		this.compania = compania;
 	}
-
 
 	//Se crea un objeto Linea a partir de un Data Type
 	public Linea(DTLinea linea) {
@@ -61,8 +64,10 @@ public class Linea {
 		this.origen = linea.getOrigen();
 		this.destino = linea.getDestino();
 		this.geom = linea.getGeom();
+		this.fechaMod = linea.getFechaMod();
+		this.desvio = linea.getDesvio();
+		this.compania = new Compania(linea.getCompania());
 	}
-
 
 	public int getGid() {
 		return gid;
@@ -123,16 +128,21 @@ public class Linea {
 		this.compania = compania;
 	}
 
-
-	public List<Recorrido> getRecorridos() {
-		return recorridos;
+	public Boolean getDesvio() {
+		return desvio;
 	}
 
-
-	public void setRecorridos(List<Recorrido> recorridos) {
-		this.recorridos = recorridos;
+	public void setDesvio(Boolean desvio) {
+		this.desvio = desvio;
 	}
 
+	public LocalDate getFechaMod() {
+		return fechaMod;
+	}
+
+	public void setFechaMod(LocalDate fechaMod) {
+		this.fechaMod = fechaMod;
+	}
 
 	public List<LineaParada> getLineaParada() {
 		return lineaParada;

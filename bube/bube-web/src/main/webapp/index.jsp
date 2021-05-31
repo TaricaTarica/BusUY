@@ -118,7 +118,7 @@
 
     var formatGML2 = new ol.format.GML3({
     	featureNS: 'busUy',
-        featureType: 'recorrido',
+        featureType: 'linea',
         srsName: 'EPSG:32721'
     });
 
@@ -176,7 +176,7 @@
 		new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
-	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:recorrido&srs=EPSG:32721&outputFormat=application/json',
+	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}),
@@ -336,7 +336,7 @@
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
 	            	e.feature.set('geom', e.feature.getGeometry()); 
-                	e.feature.set('nombre', nombreRecorrido);
+                	e.feature.set('codigo', nombreRecorrido);
 	                transactWFS2('insert', e.feature);
 	            });
 	            break;

@@ -6,7 +6,7 @@
 	<%@include file="head.jsp"%>
 </head>
 <body>
-	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 	<script>
@@ -16,14 +16,6 @@
 		    	  accordion: false
 		    });
 		  });
-	  $(document).ready(function(){
-	    $.get('${pageContext.request.contextPath}/ListarCompanias', function(companiasJson){
-	    	$.each(companiasJson, function(index, compania) {
-	    		console.log(compania.nombre);
-		    	});
-    	});
-	  });
-    	
 	</script>
 	<%@include file="navbar.jsp"%>
 	
@@ -126,7 +118,7 @@
 
     var formatGML2 = new ol.format.GML3({
     	featureNS: 'busUy',
-        featureType: 'linea',
+        featureType: 'recorrido',
         srsName: 'EPSG:32721'
     });
 
@@ -184,7 +176,7 @@
 		new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
-	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
+	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:recorrido&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}),
@@ -344,7 +336,7 @@
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
 	            	e.feature.set('geom', e.feature.getGeometry()); 
-                	e.feature.set('codigo', nombreRecorrido);
+                	e.feature.set('nombre', nombreRecorrido);
 	                transactWFS2('insert', e.feature);
 	            });
 	            break;

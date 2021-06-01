@@ -18,7 +18,7 @@
         </se:Rule>
         <se:Rule>
           <se:MinScaleDenominator>0</se:MinScaleDenominator>
-          <se:MaxScaleDenominator>9000</se:MaxScaleDenominator>
+          <se:MaxScaleDenominator>9500</se:MaxScaleDenominator>
           <se:TextSymbolizer>
             <se:Label>
               <ogc:PropertyName>nom_calle</ogc:PropertyName>

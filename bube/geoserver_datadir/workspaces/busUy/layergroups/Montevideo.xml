@@ -17,6 +17,9 @@
       <id>LayerInfoImpl--708a59db:1799ad5d3a2:-7ff7</id>
     </published>
     <published type="layer">
+      <id>LayerInfoImpl--7c6067ed:179c94cc2a4:-7ff8</id>
+    </published>
+    <published type="layer">
       <id>LayerInfoImpl--708a59db:1799ad5d3a2:-7fef</id>
     </published>
     <published type="layer">
@@ -24,6 +27,7 @@
     </published>
   </publishables>
   <styles>
+    <style/>
     <style/>
     <style/>
     <style/>
@@ -44,5 +48,5 @@
     <logoHeight>0</logoHeight>
   </attribution>
   <dateCreated>2021-05-23 20:20:19.353 UTC</dateCreated>
-  <dateModified>2021-05-31 21:03:18.885 UTC</dateModified>
+  <dateModified>2021-06-01 22:16:05.456 UTC</dateModified>
 </layerGroup>

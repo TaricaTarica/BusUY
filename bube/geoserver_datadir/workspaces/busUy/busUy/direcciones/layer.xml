@@ -1,0 +1,17 @@
+<layer>
+  <name>direcciones</name>
+  <id>LayerInfoImpl--7c6067ed:179c94cc2a4:-7ff8</id>
+  <type>VECTOR</type>
+  <defaultStyle>
+    <id>StyleInfoImpl--7c6067ed:179c94cc2a4:-7ff1</id>
+  </defaultStyle>
+  <resource class="featureType">
+    <id>FeatureTypeInfoImpl--7c6067ed:179c94cc2a4:-7ff9</id>
+  </resource>
+  <attribution>
+    <logoWidth>0</logoWidth>
+    <logoHeight>0</logoHeight>
+  </attribution>
+  <dateCreated>2021-06-01 21:41:40.966 UTC</dateCreated>
+  <dateModified>2021-06-01 22:16:55.429 UTC</dateModified>
+</layer>

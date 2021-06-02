@@ -54,3 +54,6 @@ input[type=password]:not(.browser-default):focus:not([readonly])+label{
     height: 100%;
     flex-direction: column;
 }
+.collapsible .mh{
+	min-height: 360px !important;
+}

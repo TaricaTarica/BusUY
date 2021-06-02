@@ -4,6 +4,7 @@
 <html>
 <head>
 	<%@include file="head.jsp"%>
+	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
@@ -16,6 +17,20 @@
 		    	  accordion: false
 		    });
 		  });
+	  $(document).ready(function(){
+		    $('select').formSelect();
+		  });
+
+	  $(document).ready(function(){
+		    $.get('${pageContext.request.contextPath}/ListarCompanias', function(companiasJson){
+		    	$.each(companiasJson, function(index, compania) {
+		    		$('#compania-linea').append($('<option>').val(compania.id).text(compania.nombre));
+		    		$('select').formSelect();
+		    		
+			    });
+			});
+		    
+		});
 	</script>
 	<%@include file="navbar.jsp"%>
 	
@@ -38,13 +53,37 @@
 			      </div>
 			    </li>
 			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">map</i>Agregar Recorrido</div>
-			      <div class="collapsible-body">
+			      <div class="collapsible-header"><i class="teal-text material-icons">map</i>Agregar Linea</div>
+			      <div class="collapsible-body mh">
 				  	<div class="input-field col s12">
-				      <input name = "nombre-recorrido" id="nombre-recorrido" type="text">
-				      <label class="active" for="nombre-recorrido">Nombre recorrido</label>
-				      <div class="right">
-				      	<button id="btnAddRecorrido" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+				      <input name = "codigo-linea" id="codigo-linea" type="text">
+				      <label class="active" for="codigo-linea">Codigo</label>
+				    </div>
+				    <div class="input-field col s12">
+				    	<p>
+					      <label>
+					        <input id="desvio-linea" type="checkbox" />
+					        <span>¿Desvío?</span>
+					      </label>
+					    </p>
+				    </div>
+				    <div class="input-field col s6">
+				    	<input name = "origen-linea" id="origen-linea" type="text">
+				      	<label class="active" for="origen-linea">Origen</label>
+				    </div>
+				    <div class="input-field col s6">
+				    	<input name = "destino-linea" id="destino-linea" type="text">
+				      	<label class="active" for="destino-linea">Destino</label>
+				    </div>
+				    <div class="input-field col s12">
+					    <select id="compania-linea">
+					      <option value="" disabled selected>Elegir compañia</option>
+					    </select>
+					    <label>Compañia</label>
+				    </div>
+				    <div class="input-field col s12">
+				    	<div class="right">
+				      	<button id="btnAddLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 						  <i class="material-icons">edit</i>
 					  	</button>
 				      </div>
@@ -122,7 +161,7 @@
 
     var formatGML2 = new ol.format.GML3({
     	featureNS: 'busUy',
-        featureType: 'recorrido',
+        featureType: 'linea',
         srsName: 'EPSG:32721'
     });
 
@@ -180,7 +219,7 @@
 		new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
-	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:recorrido&srs=EPSG:32721&outputFormat=application/json',
+	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}),
@@ -331,16 +370,32 @@
 	            });
 	            break;
 
-	        case 'btnAddRecorrido':
-	        	var nombreRecorrido = document.getElementById("nombre-recorrido").value;
-	            interaction = new ol.interaction.Draw({
+	        case 'btnAddLinea':
+	        	var fechaActual = new Date();
+		        
+	        	var codigoLinea = document.getElementById("codigo-linea").value;
+	        	var desvioLinea = $('#desvio-linea').val();
+	        	var origenLinea = document.getElementById("origen-linea").value;
+	        	var destinoLinea = document.getElementById("destino-linea").value;
+	        	var companiaLinea = $('#compania-linea').find(":selected").val();
+	        	var fechaModLinea = fechaActual.toLocaleDateString("en-US");
+	        	
+
+	        	console.log(desvioLinea);
+	        	
+	        	interaction = new ol.interaction.Draw({
 	                type: 'LineString',
 	                source: layerWFS2.getSource()
 	            });
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
 	            	e.feature.set('geom', e.feature.getGeometry()); 
-                	e.feature.set('nombre', nombreRecorrido);
+                	e.feature.set('codigo', codigoLinea);
+                	e.feature.set('destino', destinoLinea);
+                	e.feature.set('origen', origenLinea);
+                	e.feature.set('compania_id', companiaLinea);
+                	//e.feature.set('desvio', desvioLinea);
+                	//e.feature.set('fechamod', fechaModLinea);
 	                transactWFS2('insert', e.feature);
 	            });
 	            break;
@@ -416,6 +471,5 @@
         }
     }
 </script>
- 
 </body>
 </html>

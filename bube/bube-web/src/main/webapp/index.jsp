@@ -95,6 +95,10 @@
     	<div class="col s9">
 			<div id="map"></div>
 		</div>
+		<div>
+			<input id="direccionId" type="text"/>
+			<button onclick="buscarDireccion()" ></button>
+		</div>
     </div>
 	
 	
@@ -377,6 +381,40 @@
 	            break;
 	    }
 	});
+	var draw;
+	function buscarDireccion() {
+    	var direccion = document.getElementById('direccionId');
+        var direccionVal = direccion.value;
+        if (direccionVal !=='') { 
+        	var fill = new ol.style.Fill({
+        		   color: '#eb05d8'
+        		 });
+        	 var stroke = new ol.style.Stroke({
+        		   color: '#3399CC',
+        		   width: 1.25
+        		 });
+        	 
+        	var image = new ol.layer.Image({
+                visible: true, 
+                source: new ol.source.ImageWMS({
+                    url: 'http://localhost:8080/geoserver/busUy/wms?service=WMS&version=1.1.0&request=GetMap&layers=busUy%3Amanzanas&bbox=553617.1875%2C6134394.5%2C589042.5625%2C6158890.0&srs=EPSG%3A32721&styles=&format=image%2Fpng&CQL_FILTER=carpeta_ca=' + direccionVal,
+                    params: {'LAYERS': 'busUy:manzanas'},
+                    serverType: 'geoserver',
+                    crossOrigin: 'anonymous'
+                }),
+                style: new ol.style.Circle({
+                    fill: fill,
+                    stroke: stroke,
+                    radius: 5
+              	}),
+              	projection: new OpenLayers.Projection("EPSG:32721"),
+                opacity: 0.5
+            });
+        	map.addLayer(image);        	
+        	
+        	   		       
+        }
+    }
 </script>
  
 </body>

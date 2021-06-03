@@ -84,7 +84,7 @@
 				    <div class="input-field col s12">
 				    	<div class="right">
 				      	<button id="btnAddLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-						  <i class="material-icons">edit</i>
+						  <i class="material-icons">control_point</i>
 					  	</button>
 				      </div>
 				    </div>
@@ -97,7 +97,7 @@
 					<p>Seleccione las paradas a eliminar luego de presionar el botón</p>
 				      <div class="right">
 				      	<button id="btnDeleteParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-						  <i class="material-icons">remove_circle</i>
+						  <i class="material-icons">delete</i>
 					  	</button>
 				      </div>
 				    </div>
@@ -116,6 +116,24 @@
 				    </div>
 			      </div>
 			    </li>
+				<li>
+					<div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Buscar Direccion</div>
+			      		<div class="collapsible-body">
+			      			<div class="input-field col s12">
+								<input name = "dir_id" id="dirId" type="text">
+								<label class="active" for="dir_id">Nombre de la calle</label>
+							<div class="input-field col s12">
+								<input name = "num_p" id ="numP" type="text"/> 
+								<label class="active" for="num_p">Nro de puerta</label>
+							</div>	 
+				     		<div class="right">
+				      			<button onclick="buscarDir()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+						  			<i class="material-icons">search</i>
+					  			</button> 
+				      		</div>
+				   		 </div>
+			     	</div>
+				</li>
 			  </ul>
 				
 
@@ -136,24 +154,22 @@
 		</div>
 
 		
-			<!-- <div>
-				<input id="direccionId" type="text"/>
-				<button onclick="buscarDireccion()" ></button>
-			</div> -->
+		<div>
+			<input id="direccionId" type="text"/>
+			<button onclick="buscarDireccion()" ></button>
+		</div> 
 		
 			
-			<div>
-				<!-- <input id="dirId" type="text"/> -->
-				<input name = "dir_id" id="dirId" type="text">
-				<label class="active" for="dir_id">Nombre de la calle</label>			
-				<!-- <input id="numP" type="text"/> -->				
-			</div>
+		<!-- <div> 			
+			<input name = "dir_id" id="dirId" type="text">
+			<label class="active" for="dir_id">Nombre de la calle</label>									
+		</div>
 
-			<div>
-				<input name = "num_p" id ="numP" type="text"/> 
-				<label class="active" for="num_p">Nro de puerta</label>
-				<button onclick="buscarDir()" ></button>
-			</div>
+		<div>
+			<input name = "num_p" id ="numP" type="text"/> 
+			<label class="active" for="num_p">Nro de puerta</label>
+			<button onclick="buscarDir()" ></button>
+		</div> -->
 
 			
 		
@@ -452,6 +468,29 @@
 	            });
 	            map.addInteraction(interaction);
 	            break;
+		 	case 'btnBuscarDir':
+				var direccion_dir = document.getElementById('dirId').value;
+        		var numeroPuerta = document.getElementById('numP').value;
+
+				var image = new ol.layer.Image({
+                visible: true, 
+                source: new ol.source.ImageWMS({
+					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&CQL_FILTER=nom_calle like' + direccion_dir + 'and num_puerta=' + numeroPuerta,
+					params: {'LAYERS': 'busUy:direcciones'},
+                    serverType: 'geoserver',
+                    crossOrigin: 'anonymous'
+                }),
+                style: new ol.style.Circle({
+                    fill: fill,
+                    stroke: stroke,
+                    radius: 10
+              	}),
+              	projection: new OpenLayers.Projection("EPSG:32721"),
+                opacity: 0.0
+            	});
+        		map.addLayer(image);  
+
+				break;
 
 	        default:
 	            break;

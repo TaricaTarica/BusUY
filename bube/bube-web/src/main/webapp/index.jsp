@@ -95,10 +95,31 @@
     	<div class="col s9">
 			<div id="map"></div>
 		</div>
-		<div>
-			<input id="direccionId" type="text"/>
-			<button onclick="buscarDireccion()" ></button>
-		</div>
+
+		
+			<!-- <div>
+				<input id="direccionId" type="text"/>
+				<button onclick="buscarDireccion()" ></button>
+			</div> -->
+		
+			
+			<div>
+				<!-- <input id="dirId" type="text"/> -->
+				<input name = "dir_id" id="dirId" type="text">
+				<label class="active" for="dir_id">Nombre de la calle</label>			
+				<!-- <input id="numP" type="text"/> -->				
+			</div>
+
+			<div>
+				<input name = "num_p" id ="numP" type="text"/> 
+				<label class="active" for="num_p">Nro de puerta</label>
+				<button onclick="buscarDir()" ></button>
+			</div>
+
+			
+		
+		
+	
     </div>
 	
 	
@@ -122,7 +143,7 @@
 
     var formatGML2 = new ol.format.GML3({
     	featureNS: 'busUy',
-        featureType: 'recorrido',
+        featureType: 'linea',
         srsName: 'EPSG:32721'
     });
 
@@ -180,7 +201,7 @@
 		new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
-	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:recorrido&srs=EPSG:32721&outputFormat=application/json',
+	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}),
@@ -409,6 +430,41 @@
               	}),
               	projection: new OpenLayers.Projection("EPSG:32721"),
                 opacity: 0.5
+            });
+        	map.addLayer(image);        	
+        	
+        	   		       
+        }
+    }
+	
+	function buscarDir() {
+
+    	var direccion_dir = document.getElementById('dirId').value;
+        var numeroPuerta = document.getElementById('numP').value;
+	    if (direccion_dir !=='') { 
+        	var fill = new ol.style.Fill({
+        		   color: '#000000'
+        		 });
+        	 var stroke = new ol.style.Stroke({
+        		   color: '#000000',
+        		   width: 10.25
+        		 });
+        	 
+        	var image = new ol.layer.Image({
+                visible: true, 
+                source: new ol.source.ImageWMS({
+					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&CQL_FILTER=nom_calle like' + direccion_dir + 'and num_puerta=' + numeroPuerta,
+					params: {'LAYERS': 'busUy:direcciones'},
+                    serverType: 'geoserver',
+                    crossOrigin: 'anonymous'
+                }),
+                style: new ol.style.Circle({
+                    fill: fill,
+                    stroke: stroke,
+                    radius: 10
+              	}),
+              	projection: new OpenLayers.Projection("EPSG:32721"),
+                opacity: 0.0
             });
         	map.addLayer(image);        	
         	

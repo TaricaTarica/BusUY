@@ -547,18 +547,19 @@
         	var image = new ol.layer.Image({
                 visible: true, 
                 source: new ol.source.ImageWMS({
-					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&CQL_FILTER=nom_calle like' + direccion_dir + 'and num_puerta=' + numeroPuerta,
+					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&styles=busUyPunto&srs=EPSG%3A3857&format=image%2Fpng&CQL_FILTER=nom_calle like' + direccion_dir + 'and num_puerta=' + numeroPuerta,
 					params: {'LAYERS': 'busUy:direcciones'},
                     serverType: 'geoserver',
-                    crossOrigin: 'anonymous'
+                    crossOrigin: 'anonymous',
+					ratio: 10
                 }),
                 style: new ol.style.Circle({
                     fill: fill,
                     stroke: stroke,
-                    radius: 10
+                    //radius: 10
               	}),
               	projection: new OpenLayers.Projection("EPSG:32721"),
-                opacity: 0.0
+                opacity: 0.5
             });
         	map.addLayer(image);        	
         	

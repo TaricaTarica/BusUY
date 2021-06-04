@@ -62,7 +62,7 @@
 				    <div class="input-field col s12">
 				    	<p>
 					      <label>
-					        <input id="desvio-linea" type="checkbox" />
+					        <input id="desvio-linea" value="true" type="checkbox" />
 					        <span>¿Desvío?</span>
 					      </label>
 					    </p>
@@ -408,17 +408,24 @@
 	            break;
 
 	        case 'btnAddLinea':
-	        	var fechaActual = new Date();
+	        	const fechaActual = new Date().toISOString();
 		        
 	        	var codigoLinea = document.getElementById("codigo-linea").value;
-	        	var desvioLinea = $('#desvio-linea').val();
+	        	var desvioLinea = $('#desvio-linea:checked').val();
 	        	var origenLinea = document.getElementById("origen-linea").value;
 	        	var destinoLinea = document.getElementById("destino-linea").value;
 	        	var companiaLinea = $('#compania-linea').find(":selected").val();
-	        	var fechaModLinea = fechaActual.toLocaleDateString("en-US");
-	        	
+
+	        	if (desvioLinea == null){
+	        	    desvioLinea = false;
+	        	}
+	        	else{
+					desvioLinea = true;
+		        }
+
 
 	        	console.log(desvioLinea);
+	        	console.log(fechaActual);
 	        	
 	        	interaction = new ol.interaction.Draw({
 	                type: 'LineString',
@@ -431,8 +438,8 @@
                 	e.feature.set('destino', destinoLinea);
                 	e.feature.set('origen', origenLinea);
                 	e.feature.set('compania_id', companiaLinea);
-                	//e.feature.set('desvio', desvioLinea);
-                	//e.feature.set('fechamod', fechaModLinea);
+                	e.feature.set('desvio', desvioLinea);
+                	e.feature.set('fechamod', fechaActual);
 	                transactWFS2('insert', e.feature);
 	            });
 	            break;

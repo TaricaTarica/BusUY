@@ -120,12 +120,7 @@
 		      	<!-- <span>Lorem ipsum dolor sit amet.</span>
 		      	<button id="btnArea" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
 				  <i class="material-icons">signal_cellular_null</i>
-				</button>
-				
-				<button id="btnInfo" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-				  <i class="material-icons">info</i>
-				</button> -->
-				<!-- <div id="infoCont"></div> -->
+				</button>-->
 			</ul>
 			<%}else{%>
 				<ul class="collapsible">
@@ -183,6 +178,22 @@
 							</div>
 						</div>
 					</li>	
+					</li>
+					<li>
+			      <div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Información de Linea</div>
+			      <div class="collapsible-body">
+			      	<div class="input-field col s12">
+					<div id="infoCont">
+						<p>Presione el botón y luego seleccione una recorrido en el mapa</p>
+					</div>
+				      <div class="right">
+				      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+						  <i class="material-icons">info</i>
+					  	</button>
+				      </div>
+				    </div>
+			      </div>
+			    </li>	
 				</ul>		
 			<%}%>
 			
@@ -507,12 +518,23 @@
 	            map.addInteraction(interaction);
 	            break;
 
-	        case 'btnInfo':
+	        case 'btnInfoLinea':
 	            interaction = new ol.interaction.Select();
 	            interaction.getFeatures().on('add', function (e) {
 	            //todo
+	            	var textInfoLinea = document.getElementById('textInfoLinea');
+	            	textInfoLinea
 	                var info = document.getElementById('infoCont');
-	                info.innerHTML = e.target.item(0).getId();
+	                info.innerHTML = "Datos de la linea seleccionada:" + '<br>';
+	                info.innerHTML += "Linea: " + e.target.item(0).get('compania_id') + '<br>';
+	                info.innerHTML += "Codigo: " + e.target.item(0).get('codigo') + '<br>';
+	                info.innerHTML += "Origen: " + e.target.item(0).get('origen') + '<br>';
+	                info.innerHTML += "Destion: " + e.target.item(0).get('destino') + '<br>';
+	                if (e.target.item(0).get('desvio')){
+	                	info.innerHTML += "Recorrido con desvios por obras"
+			        } else {
+			        	info.innerHTML += "Recorrido sin variaciones"
+					}
 	            });
 	            map.addInteraction(interaction);
 	            break;

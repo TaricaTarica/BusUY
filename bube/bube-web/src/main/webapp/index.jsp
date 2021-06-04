@@ -115,27 +115,7 @@
 				      </div>
 				    </div>
 			      </div>
-			    </li>
-				<li>
-					<div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Buscar Direccion</div>
-			      		<div class="collapsible-body">
-			      			<div class="input-field col s12">
-								<input name = "dir_id" id="dirId" type="text">
-								<label class="active" for="dir_id">Nombre de la calle</label>
-							<div class="input-field col s12">
-								<input name = "num_p" id ="numP" type="text"/> 
-								<label class="active" for="num_p">Nro de puerta</label>
-							</div>	 
-				     		<div class="right">
-				      			<button onclick="buscarDir()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-						  			<i class="material-icons">search</i>
-					  			</button> 
-				      		</div>
-				   		 </div>
-			     	</div>
-				</li>
-			  </ul>
-				
+			    </li>				
 
 		      	<!-- <span>Lorem ipsum dolor sit amet.</span>
 		      	<button id="btnArea" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
@@ -146,7 +126,32 @@
 				  <i class="material-icons">info</i>
 				</button> -->
 				<!-- <div id="infoCont"></div> -->
-			<%} %>
+			</ul>
+			<%}else{%>
+				<ul class="collapsible">
+					<li>
+						<div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Buscar Direccion</div>
+							<div class="collapsible-body">
+								<div class="input-field col s12">
+									<input name = "dir_id" id="dirId" type="text">
+									<label class="active" for="dir_id">Nombre de la calle</label>
+								<div class="input-field col s12">
+									<input name = "num_p" id ="numP" type="text"/> 
+									<label class="active" for="num_p">Nro de puerta</label>
+								</div>	 
+								<div class="right">
+									<button onclick="buscarDir()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+										<i class="material-icons">search</i>
+									</button> 
+								</div>
+							</div>
+						</div>
+					</li>	
+				</ul>		
+			<%}%>
+			
+		
+
 			
 		</div>
     	<div class="col s9">
@@ -566,9 +571,17 @@
                     //radius: 10
               	}),
               	projection: new OpenLayers.Projection("EPSG:32721"),
-                opacity: 0.5
+                opacity: 1,
+				name:'dir_search'
             });
-        	map.addLayer(image);        	
+			map.getLayers().getArray()
+			.filter(layer => layer.get('name') === 'dir_search')
+			.forEach(layer => map.removeLayer(layer));
+  			
+        	map.addLayer(image);  
+			console.log(
+			map.getLayers().getArray()
+			);      	
         	
         	   		       
         }

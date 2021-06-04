@@ -146,6 +146,42 @@
 								</div>
 							</div>
 						</div>
+					</li>
+					<li>
+						<div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Buscar Intersección</div>
+							<div class="collapsible-body">
+								<div class="input-field col s12">
+									<input name = "calle1" id="calle1" type="text">
+									<label class="active" for="calle1">Nombre de la calle 1</label>
+								<div class="input-field col s12">
+									<input name = "calle2" id="calle2" type="text">
+									<label class="active" for="calle2">Nombre de la calle 2</label>
+								</div>	 
+								<div class="right">
+									<button onclick="buscarCruce()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+										<i class="material-icons">search</i>
+									</button> 
+								</div>
+							</div>
+						</div>
+					</li>
+					<li>
+						<div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Buscar un recorrido</div>
+							<div class="collapsible-body">
+								<div class="input-field col s12">
+									<input name = "destino_s" id="destino" type="text">
+									<label class="active" for="destino_s">Destino</label>
+								<div class="input-field col s12">
+									<input name = "nrolinea_s" id ="nrolinea" type="text"/> 
+									<label class="active" for="nrolinea_s">Nro de linea</label>
+								</div>	 
+								<div class="right">
+									<button onclick="buscarRecorrido()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+										<i class="material-icons">search</i>
+									</button> 
+								</div>
+							</div>
+						</div>
 					</li>	
 				</ul>		
 			<%}%>
@@ -159,10 +195,10 @@
 		</div>
 
 		
-		<div>
+		<!-- <div>
 			<input id="direccionId" type="text"/>
 			<button onclick="buscarDireccion()" ></button>
-		</div> 
+		</div>  -->
 		
 			
 		<!-- <div> 			
@@ -258,13 +294,13 @@
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}),
-		new ol.layer.Vector({
+		/* new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
-		}),
+		}), */
 	layerWFS    
 	];	
 	
@@ -586,7 +622,53 @@
         	
         	   		       
         }
-    }
+	}
+
+	function buscarRecorrido() {
+
+		var destino = document.getElementById('destino').value;
+		var codigo = document.getElementById('nrolinea').value;
+
+		if (destino !=='') { 
+			var fill = new ol.style.Fill({
+				color: '#000000'
+				});
+			var stroke = new ol.style.Stroke({
+				color: '#000000',
+				width: 10.25
+				});
+			
+			var image = new ol.layer.Image({
+				visible: true, 
+				source: new ol.source.ImageWMS({
+					//url: 'http://localhost:8080/geoserver/busUy/wms?SERVICE=WMS&VERSION=1.1.0&REQUEST=GetMap&FORMAT=image%2Fpng&TRANSPARENT=true&STYLES=busUyLinea&LAYERS=busUy%3Alinea&CQL_FILTER=destino%20like%20%27' + destino + '%27%20and%20codigo%20like%20%27' + codigo +'%27&SRS=EPSG%3A32721&WIDTH=768&HEIGHT=419',
+					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Alinea&styles=lineaNegra&srs=EPSG%3A3857&format=image%2Fpng&CQL_FILTER=destino like %27' + destino + '%27 and codigo like %27' + nrolinea + '%27',
+					params: {'LAYERS': 'busUy:linea'},
+					serverType: 'geoserver',
+					crossOrigin: 'anonymous',
+					ratio: 10
+				}),
+				style: new ol.style.Circle({
+					fill: fill,
+					stroke: stroke,
+					//radius: 10
+				}),
+				projection: new OpenLayers.Projection("EPSG:32721"),
+				opacity: 1,
+				name:'recorrido_search'
+			});
+			map.getLayers().getArray()
+			.filter(layer => layer.get('name') === 'recorrido_search')
+			.forEach(layer => map.removeLayer(layer));
+			
+			map.addLayer(image);  
+			console.log(
+			map.getLayers().getArray()
+			);
+			
+							
+		}
+	}
 </script>
 </body>
 </html>

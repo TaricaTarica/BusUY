@@ -173,7 +173,7 @@
 		<div>
 			<input name = "num_p" id ="numP" type="text"/> 
 			<label class="active" for="num_p">Nro de puerta</label>
-			<button onclick="buscarDir()" ></button>
+			<button onclick="buscarDir()" ></button>dd
 		</div> -->
 
 			

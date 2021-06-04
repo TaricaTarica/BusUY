@@ -547,6 +547,7 @@
 
     	var direccion_dir = document.getElementById('dirId').value;
         var numeroPuerta = document.getElementById('numP').value;
+		
 	    if (direccion_dir !=='') { 
         	var fill = new ol.style.Fill({
         		   color: '#000000'
@@ -559,7 +560,7 @@
         	var image = new ol.layer.Image({
                 visible: true, 
                 source: new ol.source.ImageWMS({
-					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&styles=busUyPunto&srs=EPSG%3A3857&format=image%2Fpng&CQL_FILTER=nom_calle like' + direccion_dir + 'and num_puerta=' + numeroPuerta,
+					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&styles=busUyPunto&srs=EPSG%3A3857&format=image%2Fpng&CQL_FILTER=nom_calle like %27' + direccion_dir + '%27 and num_puerta=' + numeroPuerta,
 					params: {'LAYERS': 'busUy:direcciones'},
                     serverType: 'geoserver',
                     crossOrigin: 'anonymous',

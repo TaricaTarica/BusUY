@@ -5,6 +5,7 @@
 <head>
 	<%@include file="head.jsp"%>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
@@ -94,7 +95,7 @@
 			      <div class="collapsible-header"><i class="teal-text material-icons">location_off</i>Eliminar Paradas</div>
 			      <div class="collapsible-body">
 			      	<div class="input-field col s12">
-					<p>Seleccione las paradas a eliminar luego de presionar el botón</p>
+					<p>Presion el botón y luego seleccione la parada que desea eliminar</p>
 				      <div class="right">
 				      	<button id="btnDeleteParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 						  <i class="material-icons">delete</i>
@@ -104,10 +105,10 @@
 			      </div>
 			    </li>
 			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Eliminar Recorrido</div>
+			      <div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Eliminar una línea</div>
 			      <div class="collapsible-body">
 			      	<div class="input-field col s12">
-					<p>Seleccione los recorridos a eliminar luego de presionar el botón</p>
+					<p>Presione el botón y luego seleccione el recorrido en el mapa para eliminar la línea de bus</p>
 				      <div class="right">
 				      	<button id="btnDeleteRecorrido" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 						  <i class="material-icons">delete</i>
@@ -143,7 +144,7 @@
 						</div>
 					</li>
 					<li>
-						<div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Buscar Intersección</div>
+						<div class="collapsible-header"><i class="teal-text material-icons">add</i>Buscar Intersección</div>
 							<div class="collapsible-body">
 								<div class="input-field col s12">
 									<input name = "calle1" id="calle_1" type="text">
@@ -178,22 +179,51 @@
 							</div>
 						</div>
 					</li>	
-					</li>
 					<li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Información de Linea</div>
-			      <div class="collapsible-body">
-			      	<div class="input-field col s12">
-					<div id="infoCont">
-						<p>Presione el botón y luego seleccione una recorrido en el mapa</p>
-					</div>
-				      <div class="right">
-				      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-						  <i class="material-icons">info</i>
-					  	</button>
+				      <div class="collapsible-header"><i class="teal-text material-icons">info</i>Información de Linea</div>
+				      <div class="collapsible-body">
+				      	<div class="input-field col s12">
+						<div id="infoLinea">
+							<p>Presione el botón y luego seleccione una recorrido en el mapa</p>
+						</div>
+					      <div class="right">
+					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+							  <i class="material-icons">info</i>
+						  	</button>
+					      </div>
+					    </div>
 				      </div>
-				    </div>
-			      </div>
-			    </li>	
+				    </li>
+					<li>
+				      <div class="collapsible-header"><i class="teal-text material-icons">access_time</i>Horarios por parada</div>
+				      <div class="collapsible-body">
+				      	<div class="input-field col s12">
+						<div id="infoLinea">
+							<p>Presione el botón y luego seleccione una parada para ver los horarios</p>
+						</div>
+					      <div class="right">
+					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+							  <i class="material-icons">info</i>
+						  	</button>
+					      </div>
+					    </div>
+				      </div>
+				    </li>
+				    <li>
+				      <div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver lineas en una parada</div>
+				      <div class="collapsible-body">
+				      	<div class="input-field col s12">
+						<div id="infoLinea">
+							<p>Presione el botón y luego seleccione una parada para ver las lineas que pasan</p>
+						</div>
+					      <div class="right">
+					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+							  <i class="material-icons">info</i>
+						  	</button>
+					      </div>
+					    </div>
+				      </div>
+				    </li>	
 				</ul>		
 			<%}%>
 			
@@ -305,13 +335,13 @@
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}),
-		/* new ol.layer.Vector({
+		 new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
-		}), */
+		}),
 	layerWFS    
 	];	
 	
@@ -521,19 +551,28 @@
 	        case 'btnInfoLinea':
 	            interaction = new ol.interaction.Select();
 	            interaction.getFeatures().on('add', function (e) {
-	            //todo
-	            	var textInfoLinea = document.getElementById('textInfoLinea');
-	            	textInfoLinea
-	                var info = document.getElementById('infoCont');
-	                info.innerHTML = "Datos de la linea seleccionada:" + '<br>';
-	                info.innerHTML += "Linea: " + e.target.item(0).get('compania_id') + '<br>';
-	                info.innerHTML += "Codigo: " + e.target.item(0).get('codigo') + '<br>';
-	                info.innerHTML += "Origen: " + e.target.item(0).get('origen') + '<br>';
-	                info.innerHTML += "Destion: " + e.target.item(0).get('destino') + '<br>';
-	                if (e.target.item(0).get('desvio')){
-	                	info.innerHTML += "Recorrido con desvios por obras"
-			        } else {
-			        	info.innerHTML += "Recorrido sin variaciones"
+	            	var info = document.getElementById('infoLinea');
+		            if (e.target.item(0).c.includes("linea")) {
+		            	$.ajax({
+		                    type : "GET",
+		                    data : {},
+		                    url : "/bube-web/BuscarCompania?id=" + e.target.item(0).get('compania_id'),
+		                    success: function(data){
+		                            var nombreCompania = data.nombre;
+		                            info.innerHTML = "Datos de la linea seleccionada:" + '<br>';
+		        	                info.innerHTML += "Compania: " + nombreCompania + '<br>';
+		        	                info.innerHTML += "Codigo: " + e.target.item(0).get('codigo') + '<br>';
+		        	                info.innerHTML += "Origen: " + e.target.item(0).get('origen') + '<br>';
+		        	                info.innerHTML += "Destion: " + e.target.item(0).get('destino') + '<br>';
+		        	                if (e.target.item(0).get('desvio')){
+		        	                	info.innerHTML += "Recorrido con desvios por obras"
+		        			        } else {
+		        			        	info.innerHTML += "Recorrido sin variaciones"
+		        					}
+		                   }
+		                });
+				    } else {
+				    	info.innerHTML = "Seleccione una recorrido en el mapa";
 					}
 	            });
 	            map.addInteraction(interaction);

@@ -17,7 +17,7 @@ import datatypes.DTCompania;
 /**
  * Servlet implementation class BuscarCompania
  */
-@WebServlet("/BuscarCompania/{id}")
+@WebServlet("/BuscarCompania")
 public class BuscarCompania extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
@@ -41,9 +41,6 @@ public class BuscarCompania extends HttpServlet {
 	    response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");
 	    response.getWriter().write(json);
-		
-		// TODO Auto-generated method stub
-		response.getWriter().append("Served at: ").append(request.getContextPath());
 	}
 
 	/**

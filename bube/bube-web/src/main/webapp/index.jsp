@@ -146,10 +146,10 @@
 						<div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Buscar Intersección</div>
 							<div class="collapsible-body">
 								<div class="input-field col s12">
-									<input name = "calle1" id="calle1" type="text">
+									<input name = "calle1" id="calle_1" type="text">
 									<label class="active" for="calle1">Nombre de la calle 1</label>
 								<div class="input-field col s12">
-									<input name = "calle2" id="calle2" type="text">
+									<input name = "calle2" id="calle_2" type="text">
 									<label class="active" for="calle2">Nombre de la calle 2</label>
 								</div>	 
 								<div class="right">
@@ -567,7 +567,7 @@
 	    }
 	});
 	var draw;
-	function buscarDireccion() {
+	/* function buscarDireccion() {
     	var direccion = document.getElementById('direccionId');
         var direccionVal = direccion.value;
         if (direccionVal !=='') { 
@@ -599,7 +599,7 @@
         	
         	   		       
         }
-    }
+    } */
 	
 	function buscarDir() {
 
@@ -646,6 +646,49 @@
         }
 	}
 
+	function buscarCruce() {
+
+		var calle_1 = document.getElementById('calle_1').value;
+		var calle_2 = document.getElementById('calle_2').value;
+
+		if (direccion_dir !=='') { 
+			var fill = new ol.style.Fill({
+				color: '#000000'
+				});
+			var stroke = new ol.style.Stroke({
+				color: '#000000',
+				width: 10.25
+				});
+			
+			var image = new ol.layer.Image({
+				visible: true, 
+				source: new ol.source.ImageWMS({
+					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Aejes&styles=busUyPunto&srs=EPSG%3A3857&format=image%2Fpng&CQL_FILTER=nom_calle like %27' + direccion_dir + '%27 and num_puerta=' + numeroPuerta,
+					params: {'LAYERS': 'busUy:ejes'},
+					serverType: 'geoserver',
+					crossOrigin: 'anonymous',
+					ratio: 10
+				}),
+				style: new ol.style.Circle({
+					fill: fill,
+					stroke: stroke,
+					//radius: 10
+				}),
+				projection: new OpenLayers.Projection("EPSG:32721"),
+				opacity: 1,
+				name:'dir_search'
+			});
+			map.getLayers().getArray()
+			.filter(layer => layer.get('name') === 'dir_search')
+			.forEach(layer => map.removeLayer(layer));
+			
+			map.addLayer(image);  
+			console.log(
+			map.getLayers().getArray()
+			);      							
+		}
+	}
+
 	function buscarRecorrido() {
 
 		var destino = document.getElementById('destino').value;
@@ -663,16 +706,14 @@
 
             map.addLayer(vector);
 			vectorLayer.getSource().removeFeature(vector);			
-		/*
-			map.getLayers().getArray()
+		
+			map.getLayers().getArray()/*
 			.filter(layer => layer.get('name') === 'recorrido_search')
 			.forEach(layer => map.removeLayer(layer));
-			
+			*/
 			console.log(
 			map.getLayers().getArray()
-			); */
-			
-							
+			); 							
 		}
 	}
 </script>

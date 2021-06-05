@@ -552,25 +552,28 @@
 	            interaction = new ol.interaction.Select();
 	            interaction.getFeatures().on('add', function (e) {
 	            	var info = document.getElementById('infoLinea');
-	            	$.ajax({
-	                    type : "GET",
-	                    data : {},
-	                    url : "/bube-web/BuscarCompania?id=" + e.target.item(0).get('compania_id'),
-	                    success: function(data){
-	                            var nombreCompania = data.nombre;
-	                            info.innerHTML = "Datos de la linea seleccionada:" + '<br>';
-	        	                info.innerHTML += "Compania: " + nombreCompania + '<br>';
-	        	                info.innerHTML += "Codigo: " + e.target.item(0).get('codigo') + '<br>';
-	        	                info.innerHTML += "Origen: " + e.target.item(0).get('origen') + '<br>';
-	        	                info.innerHTML += "Destion: " + e.target.item(0).get('destino') + '<br>';
-	        	                if (e.target.item(0).get('desvio')){
-	        	                	info.innerHTML += "Recorrido con desvios por obras"
-	        			        } else {
-	        			        	info.innerHTML += "Recorrido sin variaciones"
-	        					}
-	                   }
-	                });
-	                
+		            if (e.target.item(0).c.includes("linea")) {
+		            	$.ajax({
+		                    type : "GET",
+		                    data : {},
+		                    url : "/bube-web/BuscarCompania?id=" + e.target.item(0).get('compania_id'),
+		                    success: function(data){
+		                            var nombreCompania = data.nombre;
+		                            info.innerHTML = "Datos de la linea seleccionada:" + '<br>';
+		        	                info.innerHTML += "Compania: " + nombreCompania + '<br>';
+		        	                info.innerHTML += "Codigo: " + e.target.item(0).get('codigo') + '<br>';
+		        	                info.innerHTML += "Origen: " + e.target.item(0).get('origen') + '<br>';
+		        	                info.innerHTML += "Destion: " + e.target.item(0).get('destino') + '<br>';
+		        	                if (e.target.item(0).get('desvio')){
+		        	                	info.innerHTML += "Recorrido con desvios por obras"
+		        			        } else {
+		        			        	info.innerHTML += "Recorrido sin variaciones"
+		        					}
+		                   }
+		                });
+				    } else {
+				    	info.innerHTML = "Seleccione una recorrido en el mapa";
+					}
 	            });
 	            map.addInteraction(interaction);
 	            break;

@@ -218,7 +218,7 @@
 						</div>
 					      <div class="right">
 					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-							  <i class="material-icons">info</i>
+							  <i class="material-icons">add_location</i>
 						  	</button>
 					      </div>
 					    </div>
@@ -236,12 +236,11 @@
 		</div>
 
 		
-		<!-- <div>
-			<input id="direccionId" type="text"/>
-			<button onclick="buscarDireccion()" ></button>
-		</div>  -->
-		
-			
+		<div>
+			<button onclick="localizar()"><i class="teal-text material-icons">edit_location</i>
+			</button>	
+		</div> 
+
 		<!-- <div> 			
 			<input name = "dir_id" id="dirId" type="text">
 			<label class="active" for="dir_id">Nombre de la calle</label>									
@@ -335,13 +334,13 @@
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}),
-		 new ol.layer.Vector({
+		/*  new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
-		}),
+		}), */
 	layerWFS    
 	];	
 	
@@ -639,6 +638,18 @@
         	   		       
         }
     } */
+
+	function localizar(){
+		if(navigator.geolocation){
+			var success = function(position){
+				var latitud = position.coords.latitude,
+				longitud = position.coords.longitude;
+			}
+			navigator.geolocation.getCurrentPosition(success, function(msg){
+				console.error( msg );
+			});
+		}
+	}
 	
 	function buscarDir() {
 

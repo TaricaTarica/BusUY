@@ -1,5 +1,8 @@
 package datos;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
@@ -39,6 +42,27 @@ public class DatosLinea implements DatosLineaLocal {
     
     public Linea buscarLinea(int gid) {
     	return em.find(Linea.class, gid);
+    }
+    public List<Linea> listarLineas(){
+    	List <Linea> lista = new ArrayList <Linea>();
+		for (Object obj : em.createQuery("Select l from Linea l").getResultList()) {
+			Linea l = (Linea) obj;
+			lista.add(l);
+		}
+    	return lista;
+    }
+    
+    public List<Linea> listarLineaCompania(int id){
+    	List<Linea> lineas = this.listarLineas();
+    	List<Linea> retorno = new ArrayList<>();
+    	if(!lineas.isEmpty()) {
+    		for(Linea l: lineas) {
+        		if(l.getCompania().getId() == id) {
+        			retorno.add(l);
+        		}
+        	}
+    	}
+    	return retorno;
     }
 
 

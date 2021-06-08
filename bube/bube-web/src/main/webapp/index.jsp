@@ -223,7 +223,22 @@
 					      </div>
 					    </div>
 				      </div>
-				    </li>	
+				    </li>
+					<li>
+						<div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver paradas habilitadas-deshabilitadas</div>
+						<div class="collapsible-body">
+							<div class="input-field col s12">
+						  <div id="infoParada">
+							  <!-- <p>Presione el botón para cambiar de habilitada a deshabilitada</p> -->
+						  </div>
+							<div class="right">
+								<button id="btnParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+								<i class="material-icons">info</i>
+								</button>
+							</div>
+						  </div>
+						</div>
+					  </li>	
 				</ul>		
 			<%}%>
 			
@@ -327,13 +342,13 @@
 	        }),
 	        opacity: 0.5
 	    }),
-	    new ol.layer.Vector({
+	  /*   new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
-		}),
+		}), */
 		/*  new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
@@ -766,6 +781,62 @@
 			); 							
 		}
 	}
+	function localizar(){
+		if(navigator.geolocation){
+			var success = function(position){
+				var latitud = position.coords.latitude,
+				longitud = position.coords.longitude;
+			}
+			navigator.geolocation.getCurrentPosition(success, function(msg){
+				console.error( msg );
+			});
+		}
+	}
+	var btn = document.getElementById('btnParada'),
+		estado = '',
+	//	div = document.getElementById('infoParada'),
+		eParada = 0;
+
+	function cambiarEstado(){
+		if (eParada == 0){
+			estado = 'a';
+			document.getElementById('infoParada').innerHTML = '<p><strong>Paradas habilitadas</strong></p>';
+			eParada = 1;			
+		}
+		else{
+			estado = 'd';
+			document.getElementById('infoParada').innerHTML = '<p><strong>Paradas des-habilitadas</strong></p>';
+			eParada = 0;
+		}
+		verEstadoParada(estado);	
+	}
+
+	function verEstadoParada(estado) {		
+    	if (estado !=='') { 
+			var vector = new ol.layer.Vector({
+				visible: true,
+                source: new ol.source.Vector({                  
+                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&CQL_FILTER=estado like %27' + estado + '%27',
+					format: new ol.format.GeoJSON()
+                }),			
+            });
+			
+            map.addLayer(vector);
+			map.getLayers().getArray()
+			.filter(layer => layer.get('name') === 'parada_search')
+			.forEach(layer => map.removeLayer(layer));
+			
+			map.addLayer(image);  
+			console.log(
+			map.getLayers().getArray()
+			);
+			
+			//);      	
+        	
+        	   		       
+        }
+	}
+	btn.addEventListener('click',cambiarEstado,true)
 </script>
 </body>
 </html>

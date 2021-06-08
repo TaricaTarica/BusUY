@@ -491,6 +491,7 @@
 
 	        case 'btnAddParada':
 	        	var nombreParada = document.getElementById("nombre-parada").value;
+				var estado = 'habilitada';
 	            interaction = new ol.interaction.Draw({
 	                type: 'Point',
 	                source: layerWFS.getSource()
@@ -499,6 +500,7 @@
 	            interaction.on('drawend', function (e) {
 	            		e.feature.set('geom', e.feature.getGeometry()); 
 	                	e.feature.set('nombre', nombreParada);
+						e.feature.set('estado',estado);
 	                    transactWFS('insert', e.feature); 
 	            });
 	            break;
@@ -799,12 +801,12 @@
 
 	function cambiarEstado(){
 		if (eParada == 0){
-			estado = 'a';
+			estado = 'habilitada';
 			document.getElementById('infoParada').innerHTML = '<p><strong>Paradas habilitadas</strong></p>';
 			eParada = 1;			
 		}
 		else{
-			estado = 'd';
+			estado = 'deshabilitada';
 			document.getElementById('infoParada').innerHTML = '<p><strong>Paradas des-habilitadas</strong></p>';
 			eParada = 0;
 		}

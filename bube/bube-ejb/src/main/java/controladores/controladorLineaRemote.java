@@ -5,6 +5,7 @@ import java.util.List;
 import javax.ejb.Remote;
 
 import datatypes.DTLinea;
+import datatypes.DTLineaSimple;
 
 @Remote
 public interface controladorLineaRemote {
@@ -17,5 +18,5 @@ public interface controladorLineaRemote {
 	
 	public DTLinea buscarLinea(int gid);
 
-	public List<DTLinea> listarLineaCompania(int id);
+	public List<DTLineaSimple> listarLineaCompania(int id);
 }

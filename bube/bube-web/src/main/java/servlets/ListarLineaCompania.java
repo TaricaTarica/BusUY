@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.google.gson.Gson;
 
 import controladores.controladorLineaRemote;
-import datatypes.DTLinea;
+import datatypes.DTLineaSimple;
 
 /**
  * Servlet implementation class ListarLineaCompania
@@ -37,7 +37,7 @@ public class ListarLineaCompania extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		List<DTLinea> lineas = clr.listarLineaCompania(Integer.valueOf(request.getParameter("id")));
+		List<DTLineaSimple> lineas = clr.listarLineaCompania(Integer.valueOf(request.getParameter("id")));
 		String json = new Gson().toJson(lineas);
 	    response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");

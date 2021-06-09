@@ -1,6 +1,5 @@
 package controladores;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -8,6 +7,7 @@ import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 
 import datatypes.DTLinea;
+import datatypes.DTLineaSimple;
 import datos.DatosLineaLocal;
 import entities.Linea;
 
@@ -49,15 +49,8 @@ public class controladorLinea implements controladorLineaRemote {
     	}
     }
     
-    public List<DTLinea> listarLineaCompania(int id){
-    	List<Linea> lineas = dll.listarLineaCompania(id);
-    	List<DTLinea> retorno = new ArrayList<>();
-    	if(!lineas.isEmpty()) {
-    		for(Linea l: lineas) {
-    			retorno.add(new DTLinea(l));
-    		}
-    	}
-    	return retorno;
+    public List<DTLineaSimple> listarLineaCompania(int id){
+    	return  dll.listarLineaCompania(id);
     }
 
 }

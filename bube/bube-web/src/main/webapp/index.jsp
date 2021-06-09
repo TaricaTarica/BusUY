@@ -26,12 +26,17 @@
 		    $.get('${pageContext.request.contextPath}/ListarCompanias', function(companiasJson){
 		    	$.each(companiasJson, function(index, compania) {
 		    		$('#compania-linea').append($('<option>').val(compania.id).text(compania.nombre));
+		    		$('#compania-buscar').append($('<option>').val(compania.id).text(compania.nombre));
 		    		$('select').formSelect();
 		    		
 			    });
 			});
 		    
 		});
+	  document.addEventListener('DOMContentLoaded', function() {
+		    var elems = document.querySelectorAll('.modal');
+		    var instances = M.Modal.init(elems);
+		  });
 	</script>
 	<%@include file="navbar.jsp"%>
 	
@@ -238,7 +243,21 @@
 							</div>
 						  </div>
 						</div>
-					  </li>	
+					  </li>
+					  <li>
+						<div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver línas de una compañía</div>
+						<div class="collapsible-body">
+							<div class="input-field col s8">
+						    	<select id="compania-buscar">
+						      		<option value="" disabled selected>Elegir compañia</option>
+						    	</select>
+					    		<label>Compañia</label>
+				    		</div>
+							<div class="input-field col s3">
+								  <a id="buscar-modal-init" class="white-text orange darken-4 btn modal-trigger" href="#compania-buscar-modal">Ver líneas</a>	
+						 	</div>
+						</div>
+					  </li>		
 				</ul>		
 			<%}%>
 			
@@ -272,6 +291,17 @@
 		
 	
     </div>
+    
+    <!-- BUSCAR LINEA DE COMPANIA MODAL -->
+    <div id="compania-buscar-modal" class="modal">
+    <div class="modal-content">
+      <h4>Modal Header</h4>
+      <p>A bunch of text</p>
+    </div>
+    <div class="modal-footer">
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+    </div>
+  	</div>
 	
 	
 	<script type="text/javascript">
@@ -839,6 +869,22 @@
         }
 	}
 	btn.addEventListener('click',cambiarEstado,true)
+	
+	$(document).ready(function(){
+		$(function(){
+		    $('#buscar-modal-init').click(function() {
+		        alert("Hello");
+		        /*console.log
+		        $.ajax({
+                    type : "GET",
+                    data : {},
+                    url : "/bube-web/BuscarCompania?id=" + e.target.item(0).get('compania_id'),
+                    success: function(data){
+		    		};
+				});*/
+			});
+		});
+	});
 </script>
 </body>
 </html>

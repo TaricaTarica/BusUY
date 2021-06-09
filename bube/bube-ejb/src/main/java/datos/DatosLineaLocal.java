@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import datatypes.DTLineaSimple;
 import entities.Linea;
 
 @Local
@@ -17,7 +18,7 @@ public interface DatosLineaLocal {
 	
 	public Linea buscarLinea(int gid);
 	
-	public List<Linea> listarLineas();
+	public List<DTLineaSimple> listarLineas();
 	
-	List<Linea> listarLineaCompania(int id);
+	List<DTLineaSimple> listarLineaCompania(int id);
 }

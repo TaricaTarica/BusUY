@@ -295,11 +295,23 @@
     <!-- BUSCAR LINEA DE COMPANIA MODAL -->
     <div id="compania-buscar-modal" class="modal">
     <div class="modal-content">
-      <h4>Modal Header</h4>
-      <p>A bunch of text</p>
+	  	<div id="compania-buscar-titulo">
+	  	</div>
+	    <table class="striped highlight centered">
+	    	<thead>
+	       		<tr>
+	           		<th>Codigo</th>
+	          		<th>Origen</th>
+	          		<th>Destino</th>
+	          		<th>Desvío</th>
+	      		</tr>
+	    	</thead>
+	    	<tbody id="compania-buscar-tabla">
+	    	</tbody>
+	    </table>
     </div>
     <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Agree</a>
+      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
     </div>
   	</div>
 	
@@ -873,15 +885,29 @@
 	$(document).ready(function(){
 		$(function(){
 		    $('#buscar-modal-init').click(function() {
-		        alert("Hello");
-		        /*console.log
+		    	var compania_id = $('#compania-buscar').find(":selected").val();
+		    	var compania_nombre = $("#compania-buscar option:selected").html();
+		    	var titulo = document.getElementById("compania-buscar-titulo");
+		    	var tabla = document.getElementById("compania-buscar-tabla");
 		        $.ajax({
                     type : "GET",
                     data : {},
-                    url : "/bube-web/BuscarCompania?id=" + e.target.item(0).get('compania_id'),
+                    url : "/bube-web/ListarLineaCompania?id=" + compania_id,
                     success: function(data){
-		    		};
-				});*/
+                        titulo.innerHTML = "<h4> Líneas de " + compania_nombre + "</h4>";
+                        
+                        $.each(data, function(index, d) {	
+                        	if(d.desvio == true){
+                        		tabla.innerHTML += "<td>" + d.codigo + "</td><td>" +d.origen + "</td><td>" +d.destino + "</td><td>Si</td>";  
+                            }
+                        	else{
+                        		tabla.innerHTML += "<td>" + d.codigo + "</td><td>" +d.origen + "</td><td>" +d.destino + "</td><td>No</td>";  
+                        		
+                            }
+        			    });
+                        
+            		}
+				});
 			});
 		});
 	});

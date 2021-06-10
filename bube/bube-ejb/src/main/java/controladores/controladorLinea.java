@@ -35,7 +35,7 @@ public class controladorLinea implements controladorLineaRemote {
     
     public void eliminarLinea(DTLinea linea) {
     	Linea newLinea = new Linea(linea);
-    	dll.altaLinea(newLinea);
+    	dll.eliminarLinea(newLinea);
     }
     
     public DTLinea buscarLinea(int gid) {

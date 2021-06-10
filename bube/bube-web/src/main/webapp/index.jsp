@@ -585,7 +585,7 @@
 		        			        } else {
 		        			        	info.innerHTML += "Recorrido sin variaciones"
 		        					}
-		                   }
+		                   }//
 		                });
 				    } else {
 				    	info.innerHTML = "Seleccione una recorrido en el mapa";

@@ -6,6 +6,8 @@ import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import datatypes.DTLineaParada;
+
 @Entity
 @IdClass(LineaParadaID.class)
 public class LineaParada {
@@ -45,6 +47,14 @@ public class LineaParada {
 		this.hora = hora;
 		this.minuto = minuto;
 		this.habilitada = habilitada;
+	}
+	
+	public LineaParada (DTLineaParada dtLineaParada){
+		this.parada = new Parada(dtLineaParada.getParada());
+		this.linea = new Linea(dtLineaParada.getLinea());
+		this.hora = dtLineaParada.getHora();
+		this.minuto = dtLineaParada.getMinuto();
+		this.habilitada = dtLineaParada.isHabilitada();
 	}
 
 	public Parada getParada() {

@@ -38,6 +38,7 @@ public class DatosLinea implements DatosLineaLocal {
     	toUpdate.setOrigen(linea.getOrigen());
     	toUpdate.setDestino(linea.getDestino());
     	toUpdate.setGeom(linea.getGeom());
+    	em.refresh(toUpdate);
     }
     
     public void eliminarLinea(Linea linea) {

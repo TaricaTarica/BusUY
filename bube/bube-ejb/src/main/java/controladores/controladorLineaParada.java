@@ -1,9 +1,12 @@
 package controladores;
 
+import java.util.List;
+
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
 import datatypes.DTLineaParada;
+import datatypes.DTLineaSimple;
 import datos.DatosLineaParadaLocal;
 
 import entities.LineaParada;
@@ -37,6 +40,11 @@ public class controladorLineaParada implements controladorLineaParadaRemote {
     public void eliminarLineaParada(DTLineaParada dtLineaParada) {
     	LineaParada newLineaParada = new LineaParada(dtLineaParada);
     	dlpl.eliminarLineaParada(newLineaParada);
+    }
+    
+    public List<DTLineaSimple> getLineasForParada(int idParada){
+    	List<DTLineaSimple> listaLineas = dlpl.getLineasForParada(idParada);
+    	return listaLineas;
     }
     
 }

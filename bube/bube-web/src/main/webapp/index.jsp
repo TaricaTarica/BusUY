@@ -26,12 +26,18 @@
 		    $.get('${pageContext.request.contextPath}/ListarCompanias', function(companiasJson){
 		    	$.each(companiasJson, function(index, compania) {
 		    		$('#compania-linea').append($('<option>').val(compania.id).text(compania.nombre));
+		    		$('#compania-buscar').append($('<option>').val(compania.id).text(compania.nombre));
 		    		$('select').formSelect();
 		    		
 			    });
 			});
 		    
 		});
+
+	  document.addEventListener('DOMContentLoaded', function() {
+          var elems = document.querySelectorAll('.modal');
+          var instances = M.Modal.init(elems);
+        });
 	</script>
 	<%@include file="navbar.jsp"%>
 	
@@ -213,11 +219,11 @@
 				      <div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver lineas en una parada</div>
 				      <div class="collapsible-body">
 				      	<div class="input-field col s12">
-						<div id="infoLinea">
+						<div id="verLineasParada">
 							<p>Presione el botón y luego seleccione una parada para ver las lineas que pasan</p>
 						</div>
 					      <div class="right">
-					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+					      	<button id="btnVerLineasParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 							  <i class="material-icons">add_location</i>
 						  	</button>
 					      </div>
@@ -255,9 +261,28 @@
 							</div>
 						  </div>
 						</div>
-					  </li>	
-				</ul>		
-			<%}%>
+					  </li>
+					<li>
+						<div class="collapsible-header">
+							<i class="teal-text material-icons">directions_bus</i>Ver línas de una compañía
+						</div>
+						<div class="collapsible-body">
+							<div class="input-field col s8">
+								<select id="compania-buscar">
+									<option value="" disabled selected>Elegir compañia</option>
+								</select> <label>Compañia</label>
+							</div>
+							<div class="input-field col s3">
+								<a id="buscar-modal-init"
+									class="white-text orange darken-4 btn modal-trigger"
+									href="#compania-buscar-modal">Ver líneas</a>
+							</div>
+						</div>
+					</li>
+			</ul>		
+			<%
+						}
+					%>
 			
 		
 
@@ -283,14 +308,32 @@
 			<label class="active" for="num_p">Nro de puerta</label>
 			<button onclick="buscarDir()" ></button>dd
 		</div> -->
-
-			
-		
-		
 	
     </div>
-	
-	
+
+	<!-- BUSCAR LINEA DE COMPANIA MODAL -->
+	<div id="compania-buscar-modal" class="modal">
+		<div class="modal-content">
+			<div id="compania-buscar-titulo"></div>
+			<table class="striped highlight centered">
+				<thead>
+					<tr>
+						<th>Codigo</th>
+						<th>Origen</th>
+						<th>Destino</th>
+						<th>Desvío</th>
+					</tr>
+				</thead>
+				<tbody id="compania-buscar-tabla">
+				</tbody>
+			</table>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+		</div>
+	</div>
+
+
 	<script type="text/javascript">
 
 	var map;
@@ -359,7 +402,7 @@
 	        }),
 	        opacity: 0.5
 	    }),
-	  /*  new ol.layer.Vector({
+	    new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json',
@@ -372,7 +415,7 @@
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
-		}), */
+		}),
 	layerWFS    
 	];	
 	
@@ -610,6 +653,35 @@
 	            });
 	            map.addInteraction(interaction);
 	            break;
+	        case 'btnVerLineasParada':
+/* 	            interaction = new ol.interaction.Select();
+	            interaction.getFeatures().on('add', function (e) {
+	            	var lineasP = document.getElementById('verLineasParada');
+		            if (e.target.item(0).c.includes("parada")) {
+		            	$.ajax({
+		                    type : "GET",
+		                    data : {},
+		                    url : "/bube-web/GetLineasForParada?id=" + e.target.item(0).get('parada_id'),
+		                    success: function(data){
+		                            var nombreCompania = data.nombre;
+		                            lineasP.innerHTML = "Lineas:" + '<br>';
+		                            lineasP.innerHTML += "Compania: " + nombreCompania + '<br>';
+		                            lineasP.innerHTML += "Codigo: " + e.target.item(0).get('codigo') + '<br>';
+		                            lineasP.innerHTML += "Origen: " + e.target.item(0).get('origen') + '<br>';
+		                            lineasP.innerHTML += "Destion: " + e.target.item(0).get('destino') + '<br>';
+		        	                if (e.target.item(0).get('desvio')){
+		        	                	lineasP.innerHTML += "Recorrido con desvios por obras"
+		        			        } else {
+		        			        	lineasP.innerHTML += "Recorrido sin variaciones"
+		        					}
+		                   }//
+		                });
+				    } else {
+				    	lineasP.innerHTML = "Seleccione una recorrido en el mapa";
+					}
+	            });
+	            map.addInteraction(interaction);
+	            break; */
 		 	case 'btnBuscarDir':
 				var direccion_dir = document.getElementById('dirId').value;
         		var numeroPuerta = document.getElementById('numP').value;
@@ -880,6 +952,35 @@
 			
 		}
 	}
+	$(document).ready(function(){
+        $(function(){
+            $('#buscar-modal-init').click(function() {
+                var compania_id = $('#compania-buscar').find(":selected").val();
+                var compania_nombre = $("#compania-buscar option:selected").html();
+                var titulo = document.getElementById("compania-buscar-titulo");
+                var tabla = document.getElementById("compania-buscar-tabla");
+                $.ajax({
+                    type : "GET",
+                    data : {},
+                    url : "/bube-web/ListarLineaCompania?id=" + compania_id,
+                    success: function(data){
+                        titulo.innerHTML = "<h4> Líneas de " + compania_nombre + "</h4>";
+						tabla.innerHTML = "";
+                        $.each(data, function(index, d) {
+                            if(d.desvio == true){
+                                tabla.innerHTML += "<td>" + d.codigo + "</td><td>" +d.origen + "</td><td>" +d.destino + "</td><td>Si</td>";
+                            }
+                            else{
+                                tabla.innerHTML += "<td>" + d.codigo + "</td><td>" +d.origen + "</td><td>" +d.destino + "</td><td>No</td>";
+
+                            }
+                        });
+
+                    }
+                });
+            });
+        });
+    });
 </script>
 </body>
 </html>

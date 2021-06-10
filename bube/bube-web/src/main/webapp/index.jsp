@@ -856,15 +856,28 @@
 		var distancia = document.getElementById('distancia').value;
 		var dis = distancia/1000;
     	if (distancia !=='') { 
-			var vector = new ol.layer.Vector({
+			map.getLayers().getArray()
+			.filter(layer => layer.get('className') === 'vector')
+			.forEach(layer => map.removeLayer(layer));
+			var vectorP = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
                     url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint(-6263300.32312%20-4135892.57609)%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
 					format: new ol.format.GeoJSON()					
                 }),	
-				className: 'test',						
-            });			
-            map.addLayer(vector);
+				className: 'vector',						
+            });	
+			var vectorL = new ol.layer.Vector({
+				visible: true,
+                source: new ol.source.Vector({                  
+                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint(-6263300.32312%20-4135892.57609)%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
+					format: new ol.format.GeoJSON()					
+                }),	
+				className: 'vector',						
+            });
+            map.addLayer(vectorP);
+			map.addLayer(vectorL);
+			
 		}
 	}
 </script>

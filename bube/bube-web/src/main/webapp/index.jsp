@@ -239,6 +239,23 @@
 						  </div>
 						</div>
 					  </li>	
+					  <li>
+						<div class="collapsible-header"><i class="teal-text material-icons">info</i>Ver paradas y recorridos cercanos</div>
+						<div class="collapsible-body">
+							<div class="input-field col s12">
+								<input name = "distancia" id="distancia" type="text">
+								<label class="distancia" for="distancia">Distancia (en mts)</label>
+						  <!-- <div id="infoParada">
+							  <p>Presione el botón para cambiar de habilitada a deshabilitada</p>
+						  </div> -->
+							<div class="right">
+								<button onclick="RecPar()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+								<i class="material-icons">info</i>
+								</button>
+							</div>
+						  </div>
+						</div>
+					  </li>	
 				</ul>		
 			<%}%>
 			
@@ -342,20 +359,20 @@
 	        }),
 	        opacity: 0.5
 	    }),
-	  /*   new ol.layer.Vector({
+	  /*  new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
-		}), */
+		}), 
 		 new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
-		}),
+		}), */
 	layerWFS    
 	];	
 	
@@ -830,14 +847,26 @@
             map.addLayer(vector);			
 			console.log(
 			map.getLayers().getArray()
-			);
-			
-			//);      	
-        	
-        	   		       
+			); 		       
         }
 	}
 	btn.addEventListener('click',cambiarEstado,true)
+
+	function RecPar() {		
+		var distancia = document.getElementById('distancia').value;
+		var dis = distancia/1000;
+    	if (distancia !=='') { 
+			var vector = new ol.layer.Vector({
+				visible: true,
+                source: new ol.source.Vector({                  
+                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint(-6263300.32312%20-4135892.57609)%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
+					format: new ol.format.GeoJSON()					
+                }),	
+				className: 'test',						
+            });			
+            map.addLayer(vector);
+		}
+	}
 </script>
 </body>
 </html>

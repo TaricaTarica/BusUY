@@ -7,6 +7,8 @@ public class LineaParadaID implements Serializable{
 	
 	private int parada;
 	private int linea;
+	private int hora;
+	private int minuto;
 	
 	public LineaParadaID() {
 		super();
@@ -29,6 +31,22 @@ public class LineaParadaID implements Serializable{
 		this.linea = linea;
 	}
 	
+	public int getHora() {
+		return hora;
+	}
+
+	public void setHora(int hora) {
+		this.hora = hora;
+	}
+
+	public int getMin() {
+		return minuto;
+	}
+
+	public void setMin(int minuto) {
+		this.minuto = minuto;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;

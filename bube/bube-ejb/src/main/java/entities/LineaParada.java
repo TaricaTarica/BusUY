@@ -9,6 +9,7 @@ import javax.persistence.ManyToOne;
 @Entity
 @IdClass(LineaParadaID.class)
 public class LineaParada {
+
 	@Id
 	@ManyToOne
 	@JoinColumn(
@@ -16,7 +17,6 @@ public class LineaParada {
 			updatable=false
 	)
 	private Parada parada;
-	
 	@Id
 	@ManyToOne
 	@JoinColumn(
@@ -25,8 +25,10 @@ public class LineaParada {
 	)
 	private Linea linea;
 
+	@Id
 	private int hora;
 	
+	@Id
 	private int minuto;
 	
 	private boolean habilitada;

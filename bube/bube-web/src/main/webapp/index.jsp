@@ -26,17 +26,12 @@
 		    $.get('${pageContext.request.contextPath}/ListarCompanias', function(companiasJson){
 		    	$.each(companiasJson, function(index, compania) {
 		    		$('#compania-linea').append($('<option>').val(compania.id).text(compania.nombre));
-		    		$('#compania-buscar').append($('<option>').val(compania.id).text(compania.nombre));
 		    		$('select').formSelect();
 		    		
 			    });
 			});
 		    
 		});
-	  document.addEventListener('DOMContentLoaded', function() {
-		    var elems = document.querySelectorAll('.modal');
-		    var instances = M.Modal.init(elems);
-		  });
 	</script>
 	<%@include file="navbar.jsp"%>
 	
@@ -243,21 +238,7 @@
 							</div>
 						  </div>
 						</div>
-					  </li>
-					  <li>
-						<div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver línas de una compañía</div>
-						<div class="collapsible-body">
-							<div class="input-field col s8">
-						    	<select id="compania-buscar">
-						      		<option value="" disabled selected>Elegir compañia</option>
-						    	</select>
-					    		<label>Compañia</label>
-				    		</div>
-							<div class="input-field col s3">
-								  <a id="buscar-modal-init" class="white-text orange darken-4 btn modal-trigger" href="#compania-buscar-modal">Ver líneas</a>	
-						 	</div>
-						</div>
-					  </li>		
+					  </li>	
 				</ul>		
 			<%}%>
 			
@@ -291,29 +272,6 @@
 		
 	
     </div>
-    
-    <!-- BUSCAR LINEA DE COMPANIA MODAL -->
-    <div id="compania-buscar-modal" class="modal">
-    <div class="modal-content">
-	  	<div id="compania-buscar-titulo">
-	  	</div>
-	    <table class="striped highlight centered">
-	    	<thead>
-	       		<tr>
-	           		<th>Codigo</th>
-	          		<th>Origen</th>
-	          		<th>Destino</th>
-	          		<th>Desvío</th>
-	      		</tr>
-	    	</thead>
-	    	<tbody id="compania-buscar-tabla">
-	    	</tbody>
-	    </table>
-    </div>
-    <div class="modal-footer">
-      <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
-    </div>
-  	</div>
 	
 	
 	<script type="text/javascript">
@@ -391,13 +349,13 @@
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}), */
-		/*  new ol.layer.Vector({
+		 new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
-		}), */
+		}),
 	layerWFS    
 	];	
 	
@@ -857,20 +815,19 @@
 
 	function verEstadoParada(estado) {		
     	if (estado !=='') { 
+			map.getLayers().getArray()
+			.filter(layer => layer.get('className') === 'test')
+			.forEach(layer => map.removeLayer(layer));
 			var vector = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
-                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&CQL_FILTER=estado like %27' + estado + '%27',
-					format: new ol.format.GeoJSON()
-                }),			
+                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=estado like %27' + estado + '%27',
+					format: new ol.format.GeoJSON()					
+                }),	
+				className: 'test',						
             });
 			
-            map.addLayer(vector);
-			map.getLayers().getArray()
-			.filter(layer => layer.get('name') === 'parada_search')
-			.forEach(layer => map.removeLayer(layer));
-			
-			map.addLayer(image);  
+            map.addLayer(vector);			
 			console.log(
 			map.getLayers().getArray()
 			);
@@ -881,36 +838,6 @@
         }
 	}
 	btn.addEventListener('click',cambiarEstado,true)
-	
-	$(document).ready(function(){
-		$(function(){
-		    $('#buscar-modal-init').click(function() {
-		    	var compania_id = $('#compania-buscar').find(":selected").val();
-		    	var compania_nombre = $("#compania-buscar option:selected").html();
-		    	var titulo = document.getElementById("compania-buscar-titulo");
-		    	var tabla = document.getElementById("compania-buscar-tabla");
-		        $.ajax({
-                    type : "GET",
-                    data : {},
-                    url : "/bube-web/ListarLineaCompania?id=" + compania_id,
-                    success: function(data){
-                        titulo.innerHTML = "<h4> Líneas de " + compania_nombre + "</h4>";
-                        
-                        $.each(data, function(index, d) {	
-                        	if(d.desvio == true){
-                        		tabla.innerHTML += "<td>" + d.codigo + "</td><td>" +d.origen + "</td><td>" +d.destino + "</td><td>Si</td>";  
-                            }
-                        	else{
-                        		tabla.innerHTML += "<td>" + d.codigo + "</td><td>" +d.origen + "</td><td>" +d.destino + "</td><td>No</td>";  
-                        		
-                            }
-        			    });
-                        
-            		}
-				});
-			});
-		});
-	});
 </script>
 </body>
 </html>

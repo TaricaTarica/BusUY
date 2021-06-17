@@ -6,6 +6,7 @@
 	<%@include file="head.jsp"%>
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+	<link rel="stylesheet" href="assets/busuy.css" />
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
@@ -42,7 +43,7 @@
 	<%@include file="navbar.jsp"%>
 	
 	<div class="row">
-		<div class="col s3">
+		<div class="col s12 m3 l3">
 			<%if(sesion.getAttribute("administrador") != null){ %>
 			 <ul class="collapsible">
 			    <li>
@@ -51,10 +52,12 @@
 			      	<div class="input-field col s12">
 				      <input name = "nombre-parada" id="nombre-parada" type="text">
 				      <label class="active" for="nombre-parada">Nombre parada</label>
-				      <div class="right">
-				      	<button id="btnAddParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-						  <i class="material-icons">control_point</i>
-					  	</button>
+				      <div class="input-field col s12">
+					      <div class="right">
+					      	<button id="btnAddParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+							  <i class="material-icons">control_point</i>
+						  	</button>
+					      </div>
 				      </div>
 				    </div>
 			      </div>
@@ -112,7 +115,7 @@
 			    </li>
 			    <li>
 			      <div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Eliminar una línea</div>
-			      <div class="collapsible-body">
+			      <div id="eliminar-linea-container" class="collapsible-body">
 			      	<div class="input-field col s12">
 					<p>Presione el botón y luego seleccione el recorrido en el mapa para eliminar la línea de bus</p>
 				      <div class="right">
@@ -133,14 +136,16 @@
 				<ul class="collapsible">
 					<li>
 						<div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Buscar Direccion</div>
-							<div class="collapsible-body">
-								<div class="input-field col s12">
-									<input name = "dir_id" id="dirId" type="text">
-									<label class="active" for="dir_id">Nombre de la calle</label>
-								<div class="input-field col s12">
-									<input name = "num_p" id ="numP" type="text"/> 
-									<label class="active" for="num_p">Nro de puerta</label>
-								</div>	 
+						<div class="collapsible-body">
+							<div class="input-field col s12 m12 l6">
+								<input name = "dir_id" id="dirId" type="text">
+								<label class="active" for="dir_id">Nombre de la calle</label>
+							</div>
+							<div class="input-field col s12 m12 l6">
+								<input name = "num_p" id ="numP" type="text"/> 
+								<label class="active" for="num_p">Nro de puerta</label>
+							</div>
+							<div class="input-field col s12">	 
 								<div class="right">
 									<button onclick="buscarDir()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 										<i class="material-icons">search</i>
@@ -151,14 +156,16 @@
 					</li>
 					<li>
 						<div class="collapsible-header"><i class="teal-text material-icons">add</i>Buscar Intersección</div>
-							<div class="collapsible-body">
-								<div class="input-field col s12">
-									<input name = "calle1" id="calle_1" type="text">
-									<label class="active" for="calle1">Nombre de la calle 1</label>
-								<div class="input-field col s12">
-									<input name = "calle2" id="calle_2" type="text">
-									<label class="active" for="calle2">Nombre de la calle 2</label>
-								</div>	 
+						<div class="collapsible-body">
+							<div class="input-field col s12 m12 l6">
+								<input name = "calle1" id="calle_1" type="text">
+								<label class="active" for="calle1">Nombre de la calle 1</label>
+							</div>
+							<div class="input-field col s12 m12 l6">
+								<input name = "calle2" id="calle_2" type="text">
+								<label class="active" for="calle2">Nombre de la calle 2</label>
+							</div>
+							<div class="input-field col s12">	 
 								<div class="right">
 									<button onclick="buscarCruce()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 										<i class="material-icons">search</i>
@@ -169,14 +176,16 @@
 					</li>
 					<li>
 						<div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Buscar un recorrido</div>
-							<div class="collapsible-body">
-								<div class="input-field col s12">
-									<input name = "destino_s" id="destino" type="text">
-									<label class="active" for="destino_s">Destino</label>
-								<div class="input-field col s12">
-									<input name = "nrolinea_s" id ="codigo" type="text"/> 
-									<label class="active" for="nrolinea_s">Nro de linea</label>
-								</div>	 
+						<div class="collapsible-body">
+							<div class="input-field col s12 m12 l6">
+								<input name = "destino_s" id="destino" type="text">
+								<label class="active" for="destino_s">Destino</label>
+							</div>
+							<div class="input-field col s12 m12 l6">
+								<input name = "nrolinea_s" id ="codigo" type="text"/> 
+								<label class="active" for="nrolinea_s">Nro de linea</label>
+							</div>
+							<div class="input-field col s12">	 
 								<div class="right">
 									<button onclick="buscarRecorrido()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 										<i class="material-icons">search</i>
@@ -188,25 +197,25 @@
 					<li>
 				      <div class="collapsible-header"><i class="teal-text material-icons">info</i>Información de Linea</div>
 				      <div class="collapsible-body">
-				      	<div class="input-field col s12">
-						<div id="infoLinea">
-							<p>Presione el botón y luego seleccione una recorrido en el mapa</p>
+						<div class="input-field col s12" id="infoLinea">
+							<p>Presione el botón y luego seleccione un recorrido en el mapa</p>
 						</div>
+						<div class="input-field col s12" id="infoLinea">
 					      <div class="right">
 					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 							  <i class="material-icons">info</i>
 						  	</button>
 					      </div>
+					     </div>
 					    </div>
-				      </div>
 				    </li>
 					<li>
 				      <div class="collapsible-header"><i class="teal-text material-icons">access_time</i>Horarios por parada</div>
 				      <div class="collapsible-body">
-				      	<div class="input-field col s12">
-						<div id="infoLinea">
+						<div class="input-field col s12" id="infoLinea">
 							<p>Presione el botón y luego seleccione una parada para ver los horarios</p>
 						</div>
+						<div class="input-field col s12" id="infoLinea">
 					      <div class="right">
 					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 							  <i class="material-icons">info</i>
@@ -218,10 +227,10 @@
 				    <li>
 				      <div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver lineas en una parada</div>
 				      <div class="collapsible-body">
-				      	<div class="input-field col s12">
-						<div id="verLineasParada">
+						<div class="input-field col s12" id="verLineasParada">
 							<p>Presione el botón y luego seleccione una parada para ver las lineas que pasan</p>
 						</div>
+						<div class="input-field col s12" id="verLineasParada">
 					      <div class="right">
 					      	<button id="btnVerLineasParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 							  <i class="material-icons">add_location</i>
@@ -233,16 +242,16 @@
 					<li>
 						<div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver paradas habilitadas-deshabilitadas</div>
 						<div class="collapsible-body">
-							<div class="input-field col s12">
-						  <div id="infoParada">
+						  <div class="input-field col s12" id="infoParada">
 							  <!-- <p>Presione el botón para cambiar de habilitada a deshabilitada</p> -->
 						  </div>
+						  <div class="input-field col s12" id="infoParada">
 							<div class="right">
 								<button id="btnParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 								<i class="material-icons">info</i>
 								</button>
 							</div>
-						  </div>
+						   </div>
 						</div>
 					  </li>	
 					  <li>
@@ -254,25 +263,27 @@
 						  <!-- <div id="infoParada">
 							  <p>Presione el botón para cambiar de habilitada a deshabilitada</p>
 						  </div> -->
-							<div class="right">
-								<button onclick="RecPar()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-								<i class="material-icons">info</i>
-								</button>
+						  	</div>
+						  	<div class="input-field col s12">
+								<div class="right">
+									<button onclick="RecPar()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">info</i>
+									</button>
+								</div>
 							</div>
 						  </div>
-						</div>
 					  </li>
 					<li>
 						<div class="collapsible-header">
-							<i class="teal-text material-icons">directions_bus</i>Ver línas de una compañía
+							<i class="teal-text material-icons">directions_bus</i>Ver líneas de una compañía
 						</div>
 						<div class="collapsible-body">
-							<div class="input-field col s8">
+							<div class="input-field col s12 m12 l7">
 								<select id="compania-buscar">
 									<option value="" disabled selected>Elegir compañia</option>
 								</select> <label>Compañia</label>
 							</div>
-							<div class="input-field col s3">
+							<div class="input-field col m12 s12 l3">
 								<a id="buscar-modal-init"
 									class="white-text orange darken-4 btn modal-trigger"
 									href="#compania-buscar-modal">Ver líneas</a>
@@ -288,12 +299,12 @@
 
 			
 		</div>
-    	<div class="col s9">
+    	<div id="map-container" class="col s12 m9 l9">
 			<div id="map"></div>
 		</div>
 
 		
-		<div>
+		<div id="localizar-container">
 			<button onclick="localizar()"><i class="teal-text material-icons">edit_location</i>
 			</button>	
 		</div> 
@@ -312,7 +323,7 @@
     </div>
 
 	<!-- BUSCAR LINEA DE COMPANIA MODAL -->
-	<div id="compania-buscar-modal" class="modal">
+	<div id="compania-buscar-modal" class="modal mh">
 		<div class="modal-content">
 			<div id="compania-buscar-titulo"></div>
 			<table class="striped highlight centered">
@@ -966,6 +977,9 @@
                     success: function(data){
                         titulo.innerHTML = "<h4> Líneas de " + compania_nombre + "</h4>";
 						tabla.innerHTML = "";
+						if(data != null){
+							
+						}
                         $.each(data, function(index, d) {
                             if(d.desvio == true){
                                 tabla.innerHTML += "<td>" + d.codigo + "</td><td>" +d.origen + "</td><td>" +d.destino + "</td><td>Si</td>";

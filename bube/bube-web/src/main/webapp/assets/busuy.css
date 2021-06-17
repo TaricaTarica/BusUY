@@ -2,21 +2,49 @@
 	font-size: 50px !important;
 	margin-right: 5px;
 }
+
 .brand-logo{
 	font-size: 36px !important;
 	text-transform: lowercase;
 	text-decoration: none !important;
 }
+
 .row .col.s3{
 	max-width: 35%;
 }
-.collapsible-body{
+
+.active .collapsible-body{
 	padding: 0px !important;
-	min-height: 150px;
+	min-height: unset;
 }
+
+.collapsible li:last-child .collapsible-body{
+	min-height: 6rem !important;
+}
+.collapsible li:last-child #eliminar-linea-container{
+	min-height: 10rem !important;
+}
+@media(max-width: 990px){
+	.collapsible li:last-child .collapsible-body{
+	min-height: 11rem !important;
+	}
+}
+@media(max-width: 550px){
+	.row{
+		display: grid;
+	}
+	#map-container{
+		order: -1;
+	}
+	#localizar-container{
+		order: -2
+	}
+}
+
 .collapsible-body .input-field{
 	margin-top: 1.5rem !important;
 }
+
 material-icons:hover,
 nav ul a:hover{
 	text-decoration: none !important;
@@ -42,10 +70,12 @@ input.valid[type=password]:not(.browser-default){
     -webkit-box-shadow: 0 1px 0 0 #e65100 !important;
     box-shadow: 0 1px 0 0 #e65100 !important;
 }
+
 input[type=text]:not(.browser-default):focus:not([readonly])+label,
 input[type=password]:not(.browser-default):focus:not([readonly])+label{
 	color: #e65100 !important;
 }
+
 .body-login .container{
 	max-width: 60%;
     margin: 0 auto;
@@ -54,6 +84,9 @@ input[type=password]:not(.browser-default):focus:not([readonly])+label{
     height: 100%;
     flex-direction: column;
 }
-.collapsible .mh{
-	min-height: 460px !important;
+
+.collapsible .mh,
+.mh{
+	min-height: unset !important;
+	height: fit-content;
 }

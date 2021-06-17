@@ -15,6 +15,8 @@ public class DTLineaSimple implements Serializable{
 	private Boolean desvio;
 	private LocalDate fechaMod;
 	private int id_compania;
+	private String nombre_compania;
+	
 	public DTLineaSimple() {
 		super();
 		// TODO Auto-generated constructor stub
@@ -73,5 +75,12 @@ public class DTLineaSimple implements Serializable{
 	public void setId_compania(int id_compania) {
 		this.id_compania = id_compania;
 	}
-	
+
+	public String getNombre_compania() {
+		return nombre_compania;
+	}
+
+	public void setNombre_compania(String nombre_compania) {
+		this.nombre_compania = nombre_compania;
+	}
 }

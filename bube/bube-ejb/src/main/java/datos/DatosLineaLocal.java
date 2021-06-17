@@ -16,7 +16,7 @@ public interface DatosLineaLocal {
 	
 	public void eliminarLinea(Linea linea);
 	
-	public Linea buscarLinea(int gid);
+	public DTLineaSimple buscarLinea(int gid);
 	
 	public List<DTLineaSimple> listarLineas();
 	

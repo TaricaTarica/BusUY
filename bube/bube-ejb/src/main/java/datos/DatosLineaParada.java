@@ -3,10 +3,12 @@ package datos;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Singleton;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 
 import datatypes.DTLineaSimple;
 import entities.LineaParada;
@@ -20,6 +22,12 @@ public class DatosLineaParada implements DatosLineaParadaLocal {
 
 	@PersistenceContext(name = "bubePersistenceUnit")
     private EntityManager em;
+	
+	@EJB
+    DatosLineaLocal dll;
+	
+	@EJB
+	DatosCompaniaLocal dcl;
     /**
      * Default constructor. 
      */
@@ -48,16 +56,16 @@ public class DatosLineaParada implements DatosLineaParadaLocal {
 	}
     
 	public List<DTLineaSimple> getLineasForParada(int idParada){
-		List<LineaParada> findLineas = em.createQuery("SELECT lp FROM LineaPArada lp WHERE lp.parada.gid == :idparada", LineaParada.class)
-				.setParameter("idparada", idParada).getResultList();
+		Query q = em.createNativeQuery("SELECT lp.linea_gid FROM lineaparada lp WHERE lp.parada_gid = :idparada")
+				.setParameter("idparada", idParada);
+		List<Object> findLineas = q.getResultList();
 		List<DTLineaSimple> listLineas = new ArrayList<DTLineaSimple>();
-		for (LineaParada lp: findLineas){
-			DTLineaSimple dtLinea = new DTLineaSimple();
-			dtLinea.setCodigo(lp.getLinea().getCodigo());
-			dtLinea.setOrigen(lp.getLinea().getOrigen());
-			dtLinea.setDestino(lp.getLinea().getDestino());
-			dtLinea.setId_compania(lp.getLinea().getCompania().getId());
-			listLineas.add(dtLinea);
+		for (Object o: findLineas){
+			System.out.println("Entro");
+			int gid = (int) o;
+			DTLineaSimple lp = dll.buscarLinea(gid);
+			lp.setNombre_compania(dcl.buscarCompania(lp.getId_compania()).getNombre());
+			listLineas.add(lp);
 		}
 		return listLineas;
 	}

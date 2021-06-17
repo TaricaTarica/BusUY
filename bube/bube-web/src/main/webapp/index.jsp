@@ -670,43 +670,44 @@
 		        			        } else {
 		        			        	info.innerHTML += "Recorrido sin variaciones"
 		        					}
-		                   }//
+		                   }
 		                });
 				    } else {
-				    	info.innerHTML = "Seleccione una recorrido en el mapa";
+				    	info.innerHTML = "Seleccione un recorrido en el mapa";
 					}
 	            });
 	            map.addInteraction(interaction);
 	            break;
 	        case 'btnVerLineasParada':
-/* 	            interaction = new ol.interaction.Select();
+ 	            interaction = new ol.interaction.Select();
 	            interaction.getFeatures().on('add', function (e) {
 	            	var lineasP = document.getElementById('verLineasParada');
+	            	var id = e.target.item(0).c.split(".");
 		            if (e.target.item(0).c.includes("parada")) {
 		            	$.ajax({
 		                    type : "GET",
 		                    data : {},
-		                    url : "/bube-web/GetLineasForParada?id=" + e.target.item(0).get('parada_id'),
+		                    url : "/bube-web/GetLineasForParada?gid=" + id[1],
 		                    success: function(data){
-		                            var nombreCompania = data.nombre;
-		                            lineasP.innerHTML = "Lineas:" + '<br>';
-		                            lineasP.innerHTML += "Compania: " + nombreCompania + '<br>';
-		                            lineasP.innerHTML += "Codigo: " + e.target.item(0).get('codigo') + '<br>';
-		                            lineasP.innerHTML += "Origen: " + e.target.item(0).get('origen') + '<br>';
-		                            lineasP.innerHTML += "Destion: " + e.target.item(0).get('destino') + '<br>';
-		        	                if (e.target.item(0).get('desvio')){
-		        	                	lineasP.innerHTML += "Recorrido con desvios por obras"
-		        			        } else {
-		        			        	lineasP.innerHTML += "Recorrido sin variaciones"
-		        					}
-		                   }//
+	                            lineasP.innerHTML = "Lineas:" + '<br>';
+			                    	for (var i=0 ; i< data.length ; i++){
+			                            var compania = data[i].nombre_compania;
+			                            var lineaCodigo = data[i].codigo;
+			                            var lineaOrigen = data[i].origen;
+			                            var lineaDestino = data[i].destino;
+			                            lineasP.innerHTML += "Compania: " + compania + '<br>';
+			                            lineasP.innerHTML += "Codigo: " + lineaCodigo + '<br>';
+			                            lineasP.innerHTML += "Origen: " + lineaOrigen + '<br>';
+			                            lineasP.innerHTML += "Destion: " + lineaDestino + '<br>';
+				                    }
+		                   }
 		                });
 				    } else {
-				    	lineasP.innerHTML = "Seleccione una recorrido en el mapa";
+				    	lineasP.innerHTML = "Seleccione una parada en el mapa";
 					}
 	            });
 	            map.addInteraction(interaction);
-	            break; */
+	            break; 
 		 	case 'btnBuscarDir':
 				var direccion_dir = document.getElementById('dirId').value;
         		var numeroPuerta = document.getElementById('numP').value;

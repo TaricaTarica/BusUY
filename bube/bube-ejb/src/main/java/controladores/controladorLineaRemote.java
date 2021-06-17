@@ -16,7 +16,7 @@ public interface controladorLineaRemote {
 	
 	public void eliminarLinea(DTLinea linea);
 	
-	public DTLinea buscarLinea(int gid);
+	public DTLineaSimple buscarLinea(int gid);
 
 	public List<DTLineaSimple> listarLineaCompania(int id);
 }

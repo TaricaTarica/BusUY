@@ -45,9 +45,20 @@ public class DatosLinea implements DatosLineaLocal {
     	em.remove(linea);
     }
     
-    public Linea buscarLinea(int gid) {
-    	return em.find(Linea.class, gid);
+    public DTLineaSimple buscarLinea(int gid) {
+    	Query q= em.createNativeQuery("SELECT l.gid, l.codigo, l.origen, l.destino, l.desvio, l.fechamod, l.compania_id"
+    			+ " FROM Linea l WHERE l.gid = :gid").setParameter("gid", gid);
+    	Object[] o =  (Object[]) q.getSingleResult();
+    	int id = (int) o[0];
+		String codigo = (String) o[1];
+		String origen = (String) o[2];
+		String destino = (String) o[3];
+		boolean desvio = (boolean) o[4];
+		LocalDate fechamod = ((Date) o[5]).toLocalDate();
+		int id_compania = (int) o[6];
+    	return new DTLineaSimple(id,codigo, origen, destino, desvio, fechamod,id_compania);
     }
+    
     public List<DTLineaSimple> listarLineas(){
     	List <DTLineaSimple> lista = new ArrayList <DTLineaSimple>();
     	Query q = em.createNativeQuery("SELECT l.gid, l.codigo, l.origen, l.destino, l.desvio, l.fechamod, l.compania_id"

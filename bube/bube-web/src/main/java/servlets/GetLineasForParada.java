@@ -37,7 +37,7 @@ public class GetLineasForParada extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		List<DTLineaSimple> lineas = clpr.getLineasForParada(Integer.valueOf(request.getParameter("idParada")));
+		List<DTLineaSimple> lineas = clpr.getLineasForParada(Integer.valueOf(request.getParameter("gid")));
 		String json = new Gson().toJson(lineas);
 	    response.setContentType("application/json");
 	    response.setCharacterEncoding("UTF-8");

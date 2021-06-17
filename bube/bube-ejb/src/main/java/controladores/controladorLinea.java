@@ -38,11 +38,10 @@ public class controladorLinea implements controladorLineaRemote {
     	dll.eliminarLinea(newLinea);
     }
     
-    public DTLinea buscarLinea(int gid) {
-    	Linea linea = dll.buscarLinea(gid);
+    public DTLineaSimple buscarLinea(int gid) {
+    	DTLineaSimple linea = dll.buscarLinea(gid);;
     	if(linea != null) {
-    		DTLinea dtLinea = new DTLinea(linea);
-    		return dtLinea;
+    		return linea;
     	}
     	else {
     		return null;

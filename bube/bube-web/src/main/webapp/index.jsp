@@ -7,6 +7,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="assets/busuy.css" />
+	<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 </head>
 <body>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
@@ -290,6 +291,18 @@
 							</div>
 						</div>
 					</li>
+					<li>
+						<div class="collapsible-header">
+							<i class="teal-text material-icons">info</i>Lineas en un poligono
+						</div>
+						<div class="collapsible-body">
+							<div class="right">
+								<button id="btnArea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+								<i class="material-icons">info</i>
+								</button>
+							</div>
+						</div>
+					</li>
 			</ul>		
 			<%
 						}
@@ -349,6 +362,7 @@
 
 	var map;
 	var coord;
+	var coordenadasUser;
 	proj4.defs('EPSG:32721', '+proj=utm + zone=21 + south + datum=WGS84 + units=m + no_defs');
 	//ol.proj.proj4.register(proj4);
 	
@@ -421,7 +435,7 @@
 	    	})
 		}), 
 		 new ol.layer.Vector({
-	        visible: true,
+	        visible: false,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
@@ -716,11 +730,75 @@
         		map.addLayer(image);  
 
 				break;
+		 	case 'btnArea':
+		 		interaction = new ol.interaction.Draw({
+	                type: 'Polygon',
+	                source: layerWFS2.getSource()
+	            });
+		 		map.addInteraction(interaction);
+	            interaction.on('drawend', function (e) {
+	             	var geom = e.feature.getGeometry().transform('EPSG:3857', 'EPSG:32721');
+	             	//pertenece(geom);
+	             	console.log(geom.getCoordinates());
+	             	var fill = new ol.style.Fill({
+	         		   color: '#000000'
+	         		 });
+	             	var stroke = new ol.style.Stroke({
+	         		   color: '#3399CC',
+	         		   width: 1.25
+	         		 });
+	            	var image = new ol.layer.Image({
+	                visible: true, 
+	                source: new ol.source.ImageWMS({
+						url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Alinea&srs=EPSG:32721&CQL_FILTER=DWITHIN(geom%2CSRID=32721;POLYGON((576212.0092879354 6145605.999291176,578522.673845531 6142120.6495206645,575001.5174303966 6137209.332153993,576212.0092879354 6145605.999291176))%2C1%2Ckilometers)',// ' + geom.getCoordinates().join(",") + '))%2C0.5%2Ckilometers)',						
+	                }),
+	                style: new ol.style.Circle({
+	                    fill: fill,
+	                    stroke: stroke,
+	                    radius: 10
+	              	}),
+	              	projection: new OpenLayers.Projection("EPSG:32721"),
+	                opacity: 1
+	            	});
+	        		map.addLayer(image); 
+	            
+	            });
+		 		break;
 
 	        default:
 	            break;
 	    }
 	});
+	
+	function pertenece(geomArea) {
+		var format = new ol.format.GeoJSON();
+		var lineas;
+		fetch(
+				'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy%3Alinea&srs=EPSG:32721&outputFormat=application/json')
+				.then(function(response) {
+					return response.json();
+				}).then(function(json) {
+					lineas = format.readFeatures(json);
+					//   var street = features[0];
+					
+					for (var i = 0; i < lineas.length; i++) {
+						var linea = lineas[i];
+						var polygon = turf.polygon(geomArea.getCoordinates(), { name: 'poly1' });
+						console.log(linea.getGeometry().getType());
+						
+						var featureProperties = linea.getProperties();
+						var clone = new ol.Feature(featureProperties);
+	                    clone.setGeometry(linea.getGeometry());
+	                    var line = turf.linestring(clone.getGeometry().getCoordinates(), { name: 'line1'});
+	                    //clone.setGeometryType(linea.getGeometry().getType());
+						if (!turf.booleanDisjoint(polygon, line)) {					
+							console.log('TEST');
+						}
+					}
+					layerWFS2.getSource().clear();
+					layerWFS2.getSource().refresh();
+				});
+	}
 	var draw;
 	/* function buscarDireccion() {
     	var direccion = document.getElementById('direccionId');
@@ -888,6 +966,7 @@
 			var success = function(position){
 				var latitud = position.coords.latitude,
 				longitud = position.coords.longitude;
+				coordenadasUser = ol.proj.transform([latitud, longitud], 'EPSG:4326', 'EPSG:32721');
 			}
 			navigator.geolocation.getCurrentPosition(success, function(msg){
 				console.error( msg );

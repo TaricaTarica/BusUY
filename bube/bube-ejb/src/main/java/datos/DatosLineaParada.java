@@ -59,16 +59,15 @@ public class DatosLineaParada implements DatosLineaParadaLocal {
 	}
     
 	public List<DTLineaSimple> getLineasForParada(int idParada){
-		Query q = em.createNativeQuery("SELECT lp.linea_gid FROM lineaparada lp WHERE lp.parada_gid = :idparada")
+		Query q = em.createNativeQuery("SELECT DISTINCT (lp.linea_gid) FROM lineaparada lp WHERE lp.parada_gid = :idparada")
 				.setParameter("idparada", idParada);
 		List<Object> findLineas = q.getResultList();
 		List<DTLineaSimple> listLineas = new ArrayList<DTLineaSimple>();
 		for (Object o: findLineas){
-			System.out.println("Entro");
 			int gid = (int) o;
-			DTLineaSimple lp = dll.buscarLinea(gid);
-			lp.setNombre_compania(dcl.buscarCompania(lp.getId_compania()).getNombre());
-			listLineas.add(lp);
+			DTLineaSimple linea = dll.buscarLinea(gid);
+			linea.setNombre_compania(dcl.buscarCompania(linea.getId_compania()).getNombre());
+			listLineas.add(linea);
 		}
 		return listLineas;
 	}

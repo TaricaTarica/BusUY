@@ -229,7 +229,7 @@
 				      <div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver lineas en una parada</div>
 				      <div class="collapsible-body">
 						<div class="input-field col s12" id="verLineasParada">
-							<p>Presione el botón y luego seleccione una parada para ver las lineas que pasan</p>
+							<p>Presione el botón y luego seleccione una parada para ver las lineas</p>
 						</div>
 						<div class="input-field col s12" id="verLineasParada">
 					      <div class="right">
@@ -305,8 +305,8 @@
 					</li>
 			</ul>		
 			<%
-						}
-					%>
+				}
+			%>
 			
 		
 
@@ -698,7 +698,7 @@
 			                            lineasP.innerHTML += "Compania: " + compania + '<br>';
 			                            lineasP.innerHTML += "Codigo: " + lineaCodigo + '<br>';
 			                            lineasP.innerHTML += "Origen: " + lineaOrigen + '<br>';
-			                            lineasP.innerHTML += "Destion: " + lineaDestino + '<br>';
+			                            lineasP.innerHTML += "Destino: " + lineaDestino + '<br>';
 				                    }
 		                   }
 		                });

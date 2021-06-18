@@ -201,7 +201,7 @@
 						<div class="input-field col s12" id="infoLinea">
 							<p>Presione el botón y luego seleccione un recorrido en el mapa</p>
 						</div>
-						<div class="input-field col s12" id="infoLinea">
+						<div class="input-field col s12">
 					      <div class="right">
 					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 							  <i class="material-icons">info</i>
@@ -213,10 +213,10 @@
 					<li>
 				      <div class="collapsible-header"><i class="teal-text material-icons">access_time</i>Horarios por parada</div>
 				      <div class="collapsible-body">
-						<div class="input-field col s12" id="infoLinea">
+						<div class="input-field col s12 l6" id="infoLinea">
 							<p>Presione el botón y luego seleccione una parada para ver los horarios</p>
 						</div>
-						<div class="input-field col s12" id="infoLinea">
+						<div class="input-field col s12 l6">
 					      <div class="right">
 					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 							  <i class="material-icons">info</i>
@@ -228,15 +228,19 @@
 				    <li>
 				      <div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver lineas en una parada</div>
 				      <div class="collapsible-body">
-						<div class="input-field col s12" id="verLineasParada">
-							<p>Presione el botón y luego seleccione una parada para ver las lineas</p>
+						<div class="input-field col m12 l6" id="verLineasParada">
+							<p>Presione el botón y luego seleccione una parada</p>
 						</div>
-						<div class="input-field col s12" id="verLineasParada">
-					      <div class="right">
-					      	<button id="btnVerLineasParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-							  <i class="material-icons">add_location</i>
-						  	</button>
-					      </div>
+						<div class="input-field col m12 l6">
+							<a id="ver-lineas-init"
+							class="white-text orange darken-4 btn modal-trigger"
+							href="#ver-lineas-modal" style="display:none;" >Ver líneas</a>
+							<input id="paradaIdModal" type="text" style="display:none;" disabled>
+						    <div class="right">  
+						      	<button id="btnVerLineasParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+								  <i class="material-icons">add_location</i>
+							  	</button>
+						    </div>
 					    </div>
 				      </div>
 				    </li>
@@ -356,6 +360,28 @@
 			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
 		</div>
 	</div>
+	
+		<!-- VER LINEA DE PARADA MODAL -->
+	<div id="ver-lineas-modal" class="modal mh">
+		<div class="modal-content">
+			<div id="ver-lineas-titulo"></div>
+			<table class="striped highlight centered">
+				<thead>
+					<tr>
+						<th>Compañia</th>
+						<th>Codigo</th>
+						<th>Origen</th>
+						<th>Destino</th>
+					</tr>
+				</thead>
+				<tbody id="ver-lineas-tabla">
+				</tbody>
+			</table>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+		</div>
+	</div>
 
 
 	<script type="text/javascript">
@@ -435,7 +461,7 @@
 	    	})
 		}), 
 		 new ol.layer.Vector({
-	        visible: false,
+	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
@@ -681,29 +707,16 @@
 	        case 'btnVerLineasParada':
  	            interaction = new ol.interaction.Select();
 	            interaction.getFeatures().on('add', function (e) {
-	            	var lineasP = document.getElementById('verLineasParada');
-	            	var id = e.target.item(0).c.split(".");
-		            if (e.target.item(0).c.includes("parada")) {
-		            	$.ajax({
-		                    type : "GET",
-		                    data : {},
-		                    url : "/bube-web/GetLineasForParada?gid=" + id[1],
-		                    success: function(data){
-	                            lineasP.innerHTML = "Lineas:" + '<br>';
-			                    	for (var i=0 ; i< data.length ; i++){
-			                            var compania = data[i].nombre_compania;
-			                            var lineaCodigo = data[i].codigo;
-			                            var lineaOrigen = data[i].origen;
-			                            var lineaDestino = data[i].destino;
-			                            lineasP.innerHTML += "Compania: " + compania + '<br>';
-			                            lineasP.innerHTML += "Codigo: " + lineaCodigo + '<br>';
-			                            lineasP.innerHTML += "Origen: " + lineaOrigen + '<br>';
-			                            lineasP.innerHTML += "Destino: " + lineaDestino + '<br>';
-				                    }
-		                   }
-		                });
+	           		if (e.target.item(0).c.includes("parada")) {
+	           			var lineasP = document.getElementById('verLineasParada');
+		            	var id = e.target.item(0).c.split(".");
+	           			document.getElementById('paradaIdModal').value = id;
+		            	lineasP.innerHTML = "<strong>Parada seleccionada: </strong>" + e.target.item(0).get('nombre');
+		            	document.getElementById('ver-lineas-init').style.display = '';
 				    } else {
-				    	lineasP.innerHTML = "Seleccione una parada en el mapa";
+				    	var lineasP = document.getElementById('verLineasParada');
+				    	lineasP.innerHTML = "Presione el botón y luego seleccione una parada";
+				    	document.getElementById('ver-lineas-init').style.display = 'none';
 					}
 	            });
 	            map.addInteraction(interaction);
@@ -1068,6 +1081,36 @@
                                 tabla.innerHTML += "<td>" + d.codigo + "</td><td>" +d.origen + "</td><td>" +d.destino + "</td><td>No</td>";
 
                             }
+                        });
+
+                    }
+                });
+            });
+        });
+    });
+    
+	$(document).ready(function(){
+        $(function(){
+            $('#ver-lineas-init').click(function() {
+                var id= document.getElementById("paradaIdModal").value;
+                var titulo = document.getElementById("ver-lineas-titulo");
+                var tabla = document.getElementById("ver-lineas-tabla");
+                console.log(id);
+                var id = id.split(",");
+                console.log(id[1]);
+                $.ajax({
+                    type : "GET",
+                    data : {},
+                    url : "/bube-web/GetLineasForParada?gid=" + id[1],
+                    success: function(data){
+                        titulo.innerHTML = "<h4> Líneas de la parada </h4>";
+						tabla.innerHTML = "";
+						if(data != null){
+							
+						}
+                        $.each(data, function(index, d) {
+                            tabla.innerHTML += "<td>" + d.nombre_compania + "</td><td>" + d.codigo + "</td><td>" +d.origen + "</td><td>" +d.destino;
+
                         });
 
                     }

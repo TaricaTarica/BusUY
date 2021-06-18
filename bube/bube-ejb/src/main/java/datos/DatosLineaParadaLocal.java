@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.ejb.Local;
 
+import datatypes.DTHorario;
 import datatypes.DTLineaSimple;
 import entities.LineaParada;
 
@@ -16,5 +17,7 @@ public interface DatosLineaParadaLocal {
 	public void eliminarLineaParada(LineaParada lineaParada);
 	
 	public List<DTLineaSimple> getLineasForParada(int idParada);
+	
+	public List<DTHorario> getHorariosLineaParada(int idParada, int idLinea);
 	
 }

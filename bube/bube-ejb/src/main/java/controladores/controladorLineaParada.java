@@ -5,6 +5,8 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.LocalBean;
 import javax.ejb.Stateless;
+
+import datatypes.DTHorario;
 import datatypes.DTLineaParada;
 import datatypes.DTLineaSimple;
 import datos.DatosLineaParadaLocal;
@@ -45,6 +47,10 @@ public class controladorLineaParada implements controladorLineaParadaRemote {
     public List<DTLineaSimple> getLineasForParada(int idParada){
     	List<DTLineaSimple> listaLineas = dlpl.getLineasForParada(idParada);
     	return listaLineas;
+    }
+    
+    public List<DTHorario> getHorariosLineaParada(int idParada, int idLinea){
+    	return dlpl.getHorariosLineaParada(idParada, idLinea);
     }
     
 }

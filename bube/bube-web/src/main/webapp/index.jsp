@@ -307,6 +307,31 @@
 							</div>
 						</div>
 					</li>
+					<li>
+				      <div class="collapsible-header"><i class="teal-text material-icons">info</i>Recorridos y paradas que han cambiado</div>
+				      <div class="collapsible-body">
+				      	<div class="input-field col s12">
+						<div id="infoLinea">
+							<p>Seleccione recorrido o parada para ver cual a cambiado en las últimas 24 horas</p>
+						</div>
+						<form action="#">
+						      <label>
+						        <input name="group1" type="radio" checked />
+						        <span>Recorrido</span>
+						      </label>
+						      <label>
+						        <input name="group1" type="radio" />
+						        <span>Parada</span>
+						      </label>
+						</form>
+					      <div class="right">
+					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+							  <i class="material-icons">info</i>
+						  	</button>
+					      </div>
+					    </div>
+				      </div>
+				    </li>
 			</ul>		
 			<%
 				}

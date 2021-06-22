@@ -7,6 +7,7 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="assets/busuy.css" />
+	<script type="text/javascript" src="assets/proj4.js" ></script>
 	<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
 </head>
 <body>
@@ -414,10 +415,11 @@
 	var map;
 	var coord;
 	var coordenadasUser;
-	proj4.defs('EPSG:32721', '+proj=utm + zone=21 + south + datum=WGS84 + units=m + no_defs');
-	//ol.proj.proj4.register(proj4);
-	
-	//var pronos = ol.proj.get('EPSG:32721');
+    if (!proj4.defs("EPSG:32721")){
+        proj4.defs("EPSG:32721","+proj=utm +zone=21 +south +ellps=WGS84 +datum=WGS84 +units=m +no_defs");    
+    }    
+    
+    var pronos = ol.proj.get('EPSG:32721');
 	
 	
 	var formatWFS = new ol.format.WFS();
@@ -528,9 +530,9 @@
 	    ],
 	    target: 'map',
 	    view: new ol.View({
-	    	//projection: pronos,
-	        center: ol.proj.fromLonLat([-56.18816, -34.90328]),
-	        zoom: 11
+            projection: "EPSG:32721",
+            center: [577018.6005431287, 6140276.016949373],
+            zoom: 12
 	        })
 	});
 
@@ -634,7 +636,9 @@
 	            });
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
-	            		e.feature.set('geom', e.feature.getGeometry()); 
+	                    var geom = e.feature.getGeometry().transform('EPSG:3857', 'EPSG:32721');
+	                    //e.feature.set('geom', e.feature.getGeometry()); 
+	                    e.feature.set('geom', geom);
 	                	e.feature.set('nombre', nombreParada);
 						e.feature.set('estado',estado);
 	                    transactWFS('insert', e.feature); 
@@ -667,7 +671,9 @@
 	            });
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
-	            	e.feature.set('geom', e.feature.getGeometry()); 
+                    var geom = e.feature.getGeometry().transform('EPSG:3857', 'EPSG:32721');
+                    e.feature.set('geom', geom);
+                    //e.feature.set('geom', e.feature.getGeometry()); 
                 	e.feature.set('codigo', codigoLinea);
                 	e.feature.set('destino', destinoLinea);
                 	e.feature.set('origen', origenLinea);
@@ -753,7 +759,7 @@
 				var image = new ol.layer.Image({
                 visible: true, 
                 source: new ol.source.ImageWMS({
-					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&CQL_FILTER=nom_calle like' + direccion_dir + 'and num_puerta=' + numeroPuerta,
+					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&srs=EPSG:32721&CQL_FILTER=nom_calle like' + direccion_dir + 'and num_puerta=' + numeroPuerta,
 					params: {'LAYERS': 'busUy:direcciones'},
                     serverType: 'geoserver',
                     crossOrigin: 'anonymous'
@@ -902,7 +908,7 @@
         	var image = new ol.layer.Image({
                 visible: true, 
                 source: new ol.source.ImageWMS({
-					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&styles=busUyPunto&srs=EPSG%3A3857&format=image%2Fpng&CQL_FILTER=nom_calle like %27' + direccion_dir + '%27 and num_puerta=' + numeroPuerta,
+					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&styles=busUyPunto&srs=EPSG%3A32721&format=image%2Fpng&CQL_FILTER=nom_calle like %27' + direccion_dir + '%27 and num_puerta=' + numeroPuerta,
 					params: {'LAYERS': 'busUy:direcciones'},
                     serverType: 'geoserver',
                     crossOrigin: 'anonymous',

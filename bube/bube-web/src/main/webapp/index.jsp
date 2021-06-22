@@ -935,42 +935,65 @@
 		var calle_1 = document.getElementById('calle_1').value;
 		var calle_2 = document.getElementById('calle_2').value;
 
-		if (direccion_dir !=='') { 
-			var fill = new ol.style.Fill({
-				color: '#000000'
-				});
-			var stroke = new ol.style.Stroke({
-				color: '#000000',
-				width: 10.25
-				});
-			
-			var image = new ol.layer.Image({
-				visible: true, 
-				source: new ol.source.ImageWMS({
-					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Aejes&styles=busUyPunto&srs=EPSG%3A3857&format=image%2Fpng&CQL_FILTER=nom_calle like %27' + direccion_dir + '%27 and num_puerta=' + numeroPuerta,
-					params: {'LAYERS': 'busUy:ejes'},
-					serverType: 'geoserver',
-					crossOrigin: 'anonymous',
-					ratio: 10
-				}),
-				style: new ol.style.Circle({
-					fill: fill,
-					stroke: stroke,
-					//radius: 10
-				}),
-				projection: new OpenLayers.Projection("EPSG:32721"),
-				opacity: 1,
-				name:'dir_search'
-			});
-			map.getLayers().getArray()
-			.filter(layer => layer.get('name') === 'dir_search')
-			.forEach(layer => map.removeLayer(layer));
-			
-			map.addLayer(image);  
-			console.log(
-			map.getLayers().getArray()
-			);      							
-		}
+		endpoint = "http://localhost:8080/bube-web/rest/buscar-cruce-calles/" + calle_1 + "/" + calle_2;
+
+	    $.ajax({
+	        url: endpoint,
+	        cache: false,
+	        success: function (html) {
+	        	const obj = JSON.parse(html);
+	
+	        	const x = obj.coordinates[0];
+	        	const y = obj.coordinates[1];
+
+	        	console.log(obj.coordinates)
+	        	
+	        	
+				/*
+	        	  const features = [];
+			      features.push(new ol.Feature({
+			          geometry: new ol.geom.Point(ol.proj.fromLonLat([
+			            y, x
+			          ]))
+			        }));
+				
+	        	const layer = new ol.layer.Vector({
+	                source: new ol.source.Vector({
+	                    features: features
+	                }),
+	                style: new ol.style.Style({
+	                    image: new ol.style.Circle({
+	                        radius: 5000,
+	                        stroke: new ol.style.Stroke({
+	                            color:'#000'
+	                        }),
+	                        fill: new ol.style.Fill({
+	                            color:'#000'
+	                        })
+	                    })
+	                })
+	            })
+
+	            layer.addFeatures(features);
+
+	        	map.addLayer(layer); */
+	        	
+    			/*
+       	      	const searchLayer = new ol.layer.Vector({
+		        source: vector,
+		        style: new ol.style.Style({
+		          image: new ol.style.Circle({
+		            radius: 2,
+		            fill: new ol.style.Fill({color: 'red'})
+		          })
+		        	})
+		      	});
+
+       	     	//map.addLayer(searchLayer); */
+	        	
+	    	    	        	
+	        }
+	    })
 	}
 
 	function buscarRecorrido() {

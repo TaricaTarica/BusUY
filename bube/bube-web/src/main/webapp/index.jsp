@@ -1080,7 +1080,7 @@
 			); 		       
         }
 	}
-	btn.addEventListener('click',cambiarEstado,true)
+	//btn.addEventListener('click',cambiarEstado,true)
 
 	function RecPar() {		
 		var distancia = document.getElementById('distancia').value;

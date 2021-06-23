@@ -407,8 +407,7 @@
 		<div class="modal-footer">
 			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
 		</div>
-	</div>
-
+	</div>	
 
 	<script type="text/javascript">
 
@@ -935,13 +934,29 @@
         	   		       
         }
 	}
+	
+	function removeCruce() {
+		map.getLayers().forEach(layer => {
+			  if (layer.get('name') && layer.get('name') == 'cruceLayer'){
+				  console.log(layer.get('name'))
+			      map.removeLayer(layer)
+			  }
+			});
+	}
 
 	function buscarCruce() {
 
+		this.removeCruce();
+		
+		
 		var calle_1 = document.getElementById('calle_1').value;
 		var calle_2 = document.getElementById('calle_2').value;
+		var c1 = calle_1.toUpperCase();
+		var c2 = calle_2.toUpperCase();
+		console.log(c1);
+		console.log(c2);
 
-		endpoint = "http://localhost:8080/bube-web/rest/buscar-cruce-calles/" + calle_1 + "/" + calle_2;
+		endpoint = "http://localhost:8080/bube-web/rest/buscar-cruce-calles/" + c1 + "/" + c2;
 
 	    $.ajax({
 	        url: endpoint,
@@ -953,50 +968,41 @@
 	        	const y = obj.coordinates[1];
 
 	        	console.log(obj.coordinates)
-	        	
-	        	
-				/*
-	        	  const features = [];
-			      features.push(new ol.Feature({
-			          geometry: new ol.geom.Point(ol.proj.fromLonLat([
-			            y, x
-			          ]))
-			        }));
-				
-	        	const layer = new ol.layer.Vector({
-	                source: new ol.source.Vector({
-	                    features: features
-	                }),
-	                style: new ol.style.Style({
-	                    image: new ol.style.Circle({
-	                        radius: 5000,
-	                        stroke: new ol.style.Stroke({
-	                            color:'#000'
-	                        }),
-	                        fill: new ol.style.Fill({
-	                            color:'#000'
-	                        })
-	                    })
-	                })
-	            })
 
-	            layer.addFeatures(features);
+	        	var iconFeature = new ol.Feature({
+	        	    geometry: new ol.geom.Point([x, y]),
+	        	    name: 'nombre',
+	        	    population: 4000,
+	        	    rainfall: 500
+	            });
 
-	        	map.addLayer(layer); */
-	        	
-    			/*
-       	      	const searchLayer = new ol.layer.Vector({
-		        source: vector,
-		        style: new ol.style.Style({
-		          image: new ol.style.Circle({
-		            radius: 2,
-		            fill: new ol.style.Fill({color: 'red'})
-		          })
-		        	})
-		      	});
+	            var iconStyle = new ol.style.Style({
+	        	    image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({
+	        		    anchor: [0.5, 46],
+	        		    anchorXUnits: 'fraction',
+	        		    anchorYUnits: 'pixels',
+	        		    opacity: 1,
+	        		    src: 'https://i.ibb.co/3Fhg3gD/point.png'
+	        	    }))
+	            });
+	            iconFeature.setStyle(iconStyle);
 
-       	     	//map.addLayer(searchLayer); */
-	        	
+	            var vectorSource = new ol.source.Vector({
+	        			features: [iconFeature]
+	            });
+	           	console.log("VectorSource: ",vectorSource);
+
+	            //vectorSource.addFeature(iconFeature);
+
+	            var cruceLayer = new ol.layer.Vector({
+	        	    source: vectorSource,
+	        	    name: "cruceLayer"
+	            });
+
+	        	console.log("vectorLayer ", cruceLayer);
+	            map.addLayer(cruceLayer)
+	            //map.removeLayer(cruceLayer);
+	            
 	    	    	        	
 	        }
 	    })

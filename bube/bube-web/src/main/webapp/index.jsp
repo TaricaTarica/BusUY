@@ -53,7 +53,7 @@
 			<%if(sesion.getAttribute("administrador") != null){ %>
 			 <ul class="collapsible">
 			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Agregar Paradas</div>
+			      <div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Agregar Parada</div>
 			      <div class="collapsible-body">
 			      	<div class="input-field col s12">
 				      <input name = "nombre-parada" id="nombre-parada" type="text">
@@ -107,7 +107,7 @@
 			      </div>
 			    </li>
 			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">location_off</i>Eliminar Paradas</div>
+			      <div class="collapsible-header"><i class="teal-text material-icons">location_off</i>Eliminar Parada</div>
 			      <div class="collapsible-body">
 			      	<div class="input-field col s12">
 					<p>Presion el botón y luego seleccione la parada que desea eliminar</p>
@@ -135,7 +135,7 @@
 			<%}else{%>
 				<ul class="collapsible">
 					<li>
-						<div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Buscar Direccion</div>
+						<div class="collapsible-header"><i class="teal-text material-icons">search</i>Buscar Direccion</div>
 						<div class="collapsible-body">
 							<div class="input-field col s12 m12 l6">
 								<input name = "dir_id" id="dirId" type="text">
@@ -175,7 +175,7 @@
 						</div>
 					</li>
 					<li>
-						<div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Buscar un recorrido</div>
+						<div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Buscar un recorrido</div>
 						<div class="collapsible-body">
 							<div class="input-field col s12 m12 l6">
 								<input name = "destino_s" id="destino" type="text">
@@ -212,25 +212,36 @@
 					<li>
 				      <div class="collapsible-header"><i class="teal-text material-icons">access_time</i>Horarios por parada</div>
 				      <div class="collapsible-body">
-						<div class="input-field col s12 l6" id="infoLinea">
+						<div class="input-field col s12" id="verHorarios">
 							<p>Presione el botón y luego seleccione una parada para ver los horarios</p>
 						</div>
-						<div class="input-field col s12 l6">
-					      <div class="right">
-					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-							  <i class="material-icons">info</i>
-						  	</button>
-					      </div>
-					    </div>
+						<div class="input-field col s12">	
+							<div id="lineasHorario" style="display:none;">
+								<select id="lineasDestino">
+									<option value="" disabled selected>Elegir Linea</option>
+								</select> <label>Lineas</label>
+						    </div>
+						    <div>
+						    <a id="ver-horarios-init"
+								class="white-text orange darken-4 btn modal-trigger"
+								href="#ver-horarios-modal" style="display:none;" >Ver Horarios</a>
+								<input id="horariosIdModal" type="text" style="display:none;" disabled>
+						    </div>
+						 	<div class="right">
+							    <button id="btnVerHorarios" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">info</i>
+								</button>
+						    </div>
+					    </div>	
 				      </div>
 				    </li>
 				    <li>
-				      <div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver lineas en una parada</div>
+				      <div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver líneas en una parada</div>
 				      <div class="collapsible-body">
-						<div class="input-field col m12 l6" id="verLineasParada">
+						<div class="input-field col s12" id="verLineasParada">
 							<p>Presione el botón y luego seleccione una parada</p>
 						</div>
-						<div class="input-field col m12 l6">
+						<div class="input-field col s12">
 							<a id="ver-lineas-init"
 							class="white-text orange darken-4 btn modal-trigger"
 							href="#ver-lineas-modal" style="display:none;" >Ver líneas</a>
@@ -244,7 +255,7 @@
 				      </div>
 				    </li>
 					<li>
-						<div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver paradas habilitadas-deshabilitadas</div>
+						<div class="collapsible-header"><i class="teal-text material-icons">place</i>Ver paradas habilitadas-deshabilitadas</div>
 						<div class="collapsible-body">
 						  <div class="input-field col s12" id="infoParada">
 							  <!-- <p>Presione el botón para cambiar de habilitada a deshabilitada</p> -->
@@ -259,7 +270,7 @@
 						</div>
 					  </li>	
 					  <li>
-						<div class="collapsible-header"><i class="teal-text material-icons">info</i>Ver paradas y recorridos cercanos</div>
+						<div class="collapsible-header"><i class="teal-text material-icons">near_me</i>Ver paradas y recorridos cercanos</div>
 						<div class="collapsible-body">
 							<div class="input-field col s12">
 								<input name = "distancia" id="distancia" type="text">
@@ -279,15 +290,15 @@
 					  </li>
 					<li>
 						<div class="collapsible-header">
-							<i class="teal-text material-icons">directions_bus</i>Ver líneas de una compañía
+							<i class="teal-text material-icons">remove_red_eye</i>Ver líneas de una compañía
 						</div>
 						<div class="collapsible-body">
-							<div class="input-field col s12 m12 l7">
+							<div class="input-field col s12">
 								<select id="compania-buscar">
 									<option value="" disabled selected>Elegir compañia</option>
 								</select> <label>Compañia</label>
 							</div>
-							<div class="input-field col m12 s12 l3">
+							<div class="input-field col m12">
 								<a id="buscar-modal-init"
 									class="white-text orange darken-4 btn modal-trigger"
 									href="#compania-buscar-modal">Ver líneas</a>
@@ -296,18 +307,20 @@
 					</li>
 					<li>
 						<div class="collapsible-header">
-							<i class="teal-text material-icons">info</i>Lineas en un poligono
+							<i class="teal-text material-icons">pageview</i>Ver líneas dentro de una zona
 						</div>
 						<div class="collapsible-body">
-							<div class="right">
-								<button id="btnArea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-								<i class="material-icons">info</i>
-								</button>
+							<div class="input-field col s12">
+								<div class="right">
+									<button id="btnArea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">info</i>
+									</button>
+								</div>
 							</div>
 						</div>
 					</li>
 					<li>
-				      <div class="collapsible-header"><i class="teal-text material-icons">info</i>Recorridos y paradas que han cambiado</div>
+				      <div class="collapsible-header"><i class="teal-text material-icons">cached</i>Recorridos y paradas que han cambiado</div>
 				      <div class="collapsible-body">
 				      	<div class="input-field col s12">
 						<div id="infoLinea">
@@ -332,7 +345,7 @@
 				      </div>
 				    </li>
 					<li>
-						<div class="collapsible-header"><i class="teal-text material-icons">info</i>Mapa de calor de paradas</div>
+						<div class="collapsible-header"><i class="teal-text material-icons">flare</i>Mapa de calor de paradas</div>
 						<div class="collapsible-body">							
 						  	<div class="input-field col s12">
 								<div class="right">
@@ -411,6 +424,26 @@
 					</tr>
 				</thead>
 				<tbody id="ver-lineas-tabla">
+				</tbody>
+			</table>
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+		</div>
+	</div>
+	
+		<!-- VER HORARIOS DE PARADA MODAL -->
+	<div id="ver-horarios-modal" class="modal mh">
+		<div class="modal-content">
+			<div id="ver-horarios-titulo"></div>
+			<table class="striped highlight centered">
+				<thead>
+					<tr>
+						<th>Hora</th>
+						<th>Minuto</th>
+					</tr>
+				</thead>
+				<tbody id="ver-horarios-tabla">
 				</tbody>
 			</table>
 		</div>
@@ -772,6 +805,32 @@
 				    	lineasP.innerHTML = "Presione el botón y luego seleccione una parada";
 				    	document.getElementById('ver-lineas-init').style.display = 'none';
 					}
+	            });
+	            map.addInteraction(interaction);
+	            break;
+	        case 'btnVerHorarios':
+	        	var horarios = document.getElementById('lineasDestino').set;
+	        	interaction = new ol.interaction.Select();
+	            interaction.getFeatures().on('add', function (e) {
+	           		if (e.target.item(0).c.includes("parada")) {
+		            	var id = e.target.item(0).c.split(".");
+		            	var horarios = document.getElementById('verHorarios');
+		            	horarios.innerHTML = "<strong>Parada seleccionada: </strong>" + e.target.item(0).get('nombre');
+		            	document.getElementById('horariosIdModal').value = id;
+		            	var idLinea = $('#lineasDestino').find(":selected").val();
+		            	document.getElementById('lineasHorario').style.display = '';
+						document.getElementById('ver-horarios-init').style.display = '';
+					    $.get('${pageContext.request.contextPath}/GetLineasForParada?gid=' + id[1], function(lineasJson){
+					    	$.each(lineasJson, function(index, linea) {
+					    		$('#lineasDestino').append($('<option>').val(linea.gid).text(linea.codigo + " " + linea.destino));
+					    		$('select').formSelect();
+						    });
+						});
+	           		} else {
+				    	var horarios = document.getElementById('verHorarios');
+				    	horarios.innerHTML = "Presione el botón y luego seleccione una parada para ver los horarios";
+				    	document.getElementById('ver-horarios-init').style.display = 'none';
+		           	}
 	            });
 	            map.addInteraction(interaction);
 	            break;
@@ -1200,6 +1259,34 @@
 						}
                         $.each(data, function(index, d) {
                             tabla.innerHTML += "<td>" + d.nombre_compania + "</td><td>" + d.codigo + "</td><td>" +d.origen + "</td><td>" +d.destino;
+
+                        });
+
+                    }
+                });
+            });
+        });
+    });
+
+	$(document).ready(function(){
+        $(function(){
+            $('#ver-horarios-init').click(function() {
+                var id= document.getElementById("horariosIdModal").value;
+                var titulo = document.getElementById("ver-horarios-titulo");
+                var tabla = document.getElementById("ver-horarios-tabla");
+                var id = id.split(",");
+                var idLinea = $('#lineasDestino').find(":selected").val();
+                $.ajax({
+                    type : "GET",
+                    data : {},
+                    url : "/bube-web/GetHorariosLineaParada?gidP=" + id[1] + "&gidL=" + idLinea,
+                    success: function(data){
+                        titulo.innerHTML = "<h4> Horarios de la parada </h4>";
+						if(data != null){
+							
+						}
+                        $.each(data, function(index, d) {
+                            tabla.innerHTML += "<td>" + d.hora+ "</td><td>" + d.min;
 
                         });
 

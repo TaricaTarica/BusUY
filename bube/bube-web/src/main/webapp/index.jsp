@@ -8,9 +8,13 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
 	<link rel="stylesheet" href="assets/busuy.css" />
 	<script type="text/javascript" src="assets/proj4.js" ></script>
-	<script src='https://npmcdn.com/@turf/turf/turf.min.js'></script>
+	<script src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js'></script>
+
 </head>
 <body>
+<script>
+    //var bbox = turf.bbox(features);
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
@@ -127,12 +131,6 @@
 				      </div>
 				    </div>
 			      </div>
-			    </li>				
-
-		      	<!-- <span>Lorem ipsum dolor sit amet.</span>
-		      	<button id="btnArea" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored">
-				  <i class="material-icons">signal_cellular_null</i>
-				</button>-->
 			</ul>
 			<%}else{%>
 				<ul class="collapsible">
@@ -487,7 +485,7 @@
 	    	})
 		}), 
 		 new ol.layer.Vector({
-	        visible: true,
+	        visible: false,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
@@ -635,9 +633,7 @@
 	            });
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
-	                   // var geom = e.feature.getGeometry().transform('EPSG:3857', 'EPSG:32721');
-	                    e.feature.set('geom', e.feature.getGeometry()); 
-	                    //e.feature.set('geom', geom);
+	                    e.feature.set('geom', e.feature.getGeometry());
 	                	e.feature.set('nombre', nombreParada);
 						e.feature.set('estado',estado);
 	                    transactWFS('insert', e.feature); 
@@ -670,8 +666,6 @@
 	            });
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
-                    /* var geom = e.feature.getGeometry().transform('EPSG:3857', 'EPSG:32721');
-                    e.feature.set('geom', geom); */
                     e.feature.set('geom', e.feature.getGeometry()); 
                 	e.feature.set('codigo', codigoLinea);
                 	e.feature.set('destino', destinoLinea);
@@ -682,7 +676,6 @@
 	                transactWFS2('insert', e.feature);
 	            });
 	            break;
-
 	        case 'btnDeleteParada':
 	            interaction = new ol.interaction.Select();
 	            interaction.getFeatures().on('add', function (e) {
@@ -709,8 +702,27 @@
 	            interaction = new ol.interaction.Select();
 	            interaction.getFeatures().on('add', function (e) {
 	            	var info = document.getElementById('infoLinea');
-		            if (e.target.item(0).c.includes("linea")) {
+		            if (e.target.item(0).c != undefined && e.target.item(0).c.includes("linea") ) {
 		            	$.ajax({
+		                    type : "GET",
+		                    data : {},
+		                    url : "/bube-web/BuscarCompania?id=" + e.target.item(0).get('compania_id'),
+		                    success: function(data){
+		                            var nombreCompania = data.nombre;
+		                            info.innerHTML = "Datos de la linea seleccionada:" + '<br>';
+		        	                info.innerHTML += "Compania: " + nombreCompania + '<br>';
+		        	                info.innerHTML += "Codigo: " + e.target.item(0).get('codigo') + '<br>';
+		        	                info.innerHTML += "Origen: " + e.target.item(0).get('origen') + '<br>';
+		        	                info.innerHTML += "Destion: " + e.target.item(0).get('destino') + '<br>';
+		        	                if (e.target.item(0).get('desvio')){
+		        	                	info.innerHTML += "Recorrido con desvios por obras"
+		        			        } else {
+		        			        	info.innerHTML += "Recorrido sin variaciones"
+		        					}
+		                   }
+		                });
+				    } else if (e.target.item(0).N != undefined) {
+				    	$.ajax({
 		                    type : "GET",
 		                    data : {},
 		                    url : "/bube-web/BuscarCompania?id=" + e.target.item(0).get('compania_id'),
@@ -750,7 +762,7 @@
 					}
 	            });
 	            map.addInteraction(interaction);
-	            break; 
+	            break;
 		 	case 'btnBuscarDir':
 				var direccion_dir = document.getElementById('dirId').value;
         		var numeroPuerta = document.getElementById('numP').value;
@@ -781,30 +793,8 @@
 	            });
 		 		map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
-	             	var geom = e.feature.getGeometry().transform('EPSG:3857', 'EPSG:32721');
-	             	//pertenece(geom);
-	             	console.log(geom.getCoordinates());
-	             	var fill = new ol.style.Fill({
-	         		   color: '#000000'
-	         		 });
-	             	var stroke = new ol.style.Stroke({
-	         		   color: '#3399CC',
-	         		   width: 1.25
-	         		 });
-	            	var image = new ol.layer.Image({
-	                visible: true, 
-	                source: new ol.source.ImageWMS({
-						url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Alinea&srs=EPSG:32721&CQL_FILTER=DWITHIN(geom%2CSRID=32721;POLYGON((576212.0092879354 6145605.999291176,578522.673845531 6142120.6495206645,575001.5174303966 6137209.332153993,576212.0092879354 6145605.999291176))%2C1%2Ckilometers)',// ' + geom.getCoordinates().join(",") + '))%2C0.5%2Ckilometers)',						
-	                }),
-	                style: new ol.style.Circle({
-	                    fill: fill,
-	                    stroke: stroke,
-	                    radius: 10
-	              	}),
-	              	projection: new OpenLayers.Projection("EPSG:32721"),
-	                opacity: 1
-	            	});
-	        		map.addLayer(image); 
+	             	var geom = e.feature.getGeometry();
+	             	pertenece(geom); 
 	            
 	            });
 		 		break;
@@ -823,24 +813,38 @@
 					return response.json();
 				}).then(function(json) {
 					lineas = format.readFeatures(json);
-					//   var street = features[0];
-					
+					var lineasEncontradas = [];
 					for (var i = 0; i < lineas.length; i++) {
 						var linea = lineas[i];
 						var polygon = turf.polygon(geomArea.getCoordinates(), { name: 'poly1' });
-						console.log(linea.getGeometry().getType());
 						
 						var featureProperties = linea.getProperties();
-						var clone = new ol.Feature(featureProperties);
-	                    clone.setGeometry(linea.getGeometry());
-	                    var line = turf.linestring(clone.getGeometry().getCoordinates(), { name: 'line1'});
-	                    //clone.setGeometryType(linea.getGeometry().getType());
-						if (!turf.booleanDisjoint(polygon, line)) {					
-							console.log('TEST');
-						}
+	                    var line = turf.lineString(linea.getGeometry().getCoordinates(), {name: 'line 1', distance: 145});
+						if (turf.booleanIntersects(polygon, line)) {					
+							lineasEncontradas.push(line);
+							var previewLine = new ol.Feature({
+								  geometry: linea.getGeometry(),
+								  destino: linea.get("destino"),
+								  codigo: linea.get("codigo"),
+								  origen: linea.get("origen"),
+								  compania_id: linea.get("compania_id")
+								});
+								var previewVector = new ol.layer.Vector({
+								  source: new ol.source.Vector({
+								    features: [previewLine],
+								  }),
+								  style: new ol.style.Style({
+								    stroke: new ol.style.Stroke({
+								      color: '#009688',
+								      width: 2,
+								    }),
+								  }),
+								});								
+							map.addLayer(previewVector);							
+						}					
 					}
 					layerWFS2.getSource().clear();
-					layerWFS2.getSource().refresh();
+			        layerWFS2.getSource().refresh();
 				});
 	}
 	var draw;

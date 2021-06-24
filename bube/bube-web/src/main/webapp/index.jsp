@@ -635,9 +635,9 @@
 	            });
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
-	                    var geom = e.feature.getGeometry().transform('EPSG:3857', 'EPSG:32721');
-	                    //e.feature.set('geom', e.feature.getGeometry()); 
-	                    e.feature.set('geom', geom);
+	                   // var geom = e.feature.getGeometry().transform('EPSG:3857', 'EPSG:32721');
+	                    e.feature.set('geom', e.feature.getGeometry()); 
+	                    //e.feature.set('geom', geom);
 	                	e.feature.set('nombre', nombreParada);
 						e.feature.set('estado',estado);
 	                    transactWFS('insert', e.feature); 
@@ -670,9 +670,9 @@
 	            });
 	            map.addInteraction(interaction);
 	            interaction.on('drawend', function (e) {
-                    var geom = e.feature.getGeometry().transform('EPSG:3857', 'EPSG:32721');
-                    e.feature.set('geom', geom);
-                    //e.feature.set('geom', e.feature.getGeometry()); 
+                    /* var geom = e.feature.getGeometry().transform('EPSG:3857', 'EPSG:32721');
+                    e.feature.set('geom', geom); */
+                    e.feature.set('geom', e.feature.getGeometry()); 
                 	e.feature.set('codigo', codigoLinea);
                 	e.feature.set('destino', destinoLinea);
                 	e.feature.set('origen', origenLinea);

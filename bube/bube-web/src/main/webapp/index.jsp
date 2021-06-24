@@ -333,6 +333,18 @@
 					    </div>
 				      </div>
 				    </li>
+					<li>
+						<div class="collapsible-header"><i class="teal-text material-icons">info</i>Mapa de calor de paradas</div>
+						<div class="collapsible-body">							
+						  	<div class="input-field col s12">
+								<div class="right">
+									<button onclick="MapaCalor()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">info</i>
+									</button>
+								</div>
+							</div>
+						  </div>
+					  </li>
 			</ul>		
 			<%
 				}
@@ -1116,6 +1128,20 @@
 			
 		}
 	}
+
+	function MapaCalor() {	
+		var heatmap = new ol.layer.Heatmap({
+			source: new ol.source.Vector({
+				projection : 'EPSG:4326',
+				url: 'http://localhost:8080/geoserver/wfs?request=GetFeature&typeName=busUy:parada&maxFeatures=100&outputFormat=application%2Fjson',
+				format: new ol.format.GeoJSON()
+			}),
+			opacity: 0.6,
+			radius: 15,			
+        });	
+		map.addLayer(heatmap);		 	
+	}	
+	
 	$(document).ready(function(){
         $(function(){
             $('#buscar-modal-init').click(function() {

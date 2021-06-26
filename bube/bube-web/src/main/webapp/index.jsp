@@ -819,8 +819,6 @@
 	            	interaction.getFeatures().on('add', function (e) {
 			            	var info = document.getElementById('editParada');
 							paradahorario=e.target.item(0);                    
-							info.innerHTML += "Codigo: " + paradahorario.get('gid') + '<br>';
-							info.innerHTML += "Codigo2: " + e.target.item(0).get('nombre') + '<br>';
 							var parada_id = paradahorario.getId().split(".")[1];
 		
 							$(document).ready(function(){

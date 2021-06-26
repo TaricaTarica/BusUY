@@ -58,4 +58,17 @@ public class controladorLineaParada implements controladorLineaParadaRemote {
     	return res;
     }
     
+	public List<DTLineaSimple> getLineasNoAsociadasParada(int idParada){
+		List<DTLineaSimple> listaLineas = dlpl.getLineasNoAsociadasParada(idParada);
+    	return listaLineas;
+	}
+	
+    public boolean borrarLineaParada(int idparada, int idlinea) {
+    	boolean res= dlpl.borrarLineaParada(idparada, idlinea);
+    	return res;
+    }
+
+	
+
+    
 }

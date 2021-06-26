@@ -22,5 +22,9 @@ public interface controladorLineaParadaRemote {
 	public List<DTHorario> getHorariosLineaParada(int idParada, int idLinea);
 	
     public boolean agregarHorario(int idparada, int idlinea, int hora, int minuto);
+    
+	public List<DTLineaSimple> getLineasNoAsociadasParada(int idParada);
+    
+    public boolean borrarLineaParada(int idparada, int idlinea);
 
 }

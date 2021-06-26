@@ -168,11 +168,12 @@
 							  <i class="material-icons">send</i>
 						  	</button>
 				      </div>
-				      <div class="left">
-							<a id="agregar-linea"
-							   class="white-text orange darken-4 btn modal-trigger"
-							   href="#agregar-linea-modal">Agregar linea</a>		
-					  </div>
+				      <div class="right">
+						    <a id="modificar-lineaparada"
+								class="white-text orange darken-4 btn modal-trigger"
+								href="#modificar-lineaparada-modal" >Modificar Lineas</a>
+						    </div>
+					  
 				    </div>
 			      </div>
 			    </li>  
@@ -489,37 +490,31 @@
 		</div>
 	</div>
 	
-		<!-- VER HORARIOS DE PARADA MODAL -->
-	<div id="ver-horarios-modal" class="modal mh">
+		<!-- MODIFICAR LINEAPARADA MODAL -->
+	<div id="modificar-lineaparada-modal" class="modal mh">
 		<div class="modal-content">
-			<div id="ver-horarios-titulo"></div>
-			<table class="striped highlight centered">
-				<thead>
-					<tr>
-						<th>Hora</th>
-						<th>Minuto</th>
-					</tr>
-				</thead>
-				<tbody id="ver-horarios-tabla">
-				</tbody>
-			</table>
+			<div id="modificar-lineaparada-titulo"></div>
+			
+			<div>
+				<div class="left">
+				    <select id="modificar-lineaparada-agregar">
+				      <option value="" disabled selected>Elegir linea para agregar</option>
+				    </select>
+			    </div>
+			    <div class="right">
+				    <select id="modificar-lineaparada-borrar">
+				      <option value="" disabled selected>Elegir linea para borrar</option>
+				    </select>
+			    </div>
+			</div>	
 		</div>
 		<div class="modal-footer">
+			<a id="agregar-lineaparada" class="modal-close waves-effect waves-green btn-flat">Agregar</a>
+			<a id="borrar-lineaparada" class="modal-close waves-effect waves-green btn-flat">Borrar</a>
 			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
 		</div>
 	</div>	
 	
-			<!-- VER HORARIOS DE PARADA MODAL -->
-	<div id="editar-horarios-modal" class="modal mh">
-		<div class="modal-content">
-			<div id="editar-horarios-titulo"></div>
-			
-			
-		</div>
-		<div class="modal-footer">
-			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
-		</div>
-	</div>	
 	
 
 	<script type="text/javascript">
@@ -831,7 +826,33 @@
 								});
 								    
 							});
-		
+
+							$(document).ready(function(){
+								$.get('${pageContext.request.contextPath}/LineasNoAsociadasParada?gid=' + parada_id, function(dataLineas){
+								    $.each(dataLineas, function(index, linea) {
+								    	$('#modificar-lineaparada-agregar').append($('<option>').val(linea.gid).text(linea.codigo));
+								    	$('select').formSelect();
+								    		
+									});
+								});
+								    
+							});
+
+							$(document).ready(function(){
+								$.get('${pageContext.request.contextPath}/GetLineasForParada?gid=' + parada_id, function(dataLineas){
+								    $.each(dataLineas, function(index, linea) {
+								    	$('#modificar-lineaparada-borrar').append($('<option>').val(linea.gid).text(linea.codigo));
+								    	$('select').formSelect();
+								    		
+									});
+								});
+								    
+							});
+									
+
+
+							
+				            
 		
 							$('#btnGrabarHorario').click(function(){
 								
@@ -854,9 +875,38 @@
 										}	
 									
 									});
-								$("horario-minutos").val('');
-								$("horario-hora").val('');
-								})
+								});
+
+
+							$('#agregar-lineaparada').click(function(){
+								
+								var lineaHorario = $('#modificar-lineaparada-agregar').find(":selected").val();
+								$.ajax({
+									type : "POST",
+									url : "/bube-web/GrabarHorarios",
+									data : {idparada: parada_id, idlinea: lineaHorario, hora: 0, minuto: 0},
+									success : function(data){
+										alert('Linea agregada con exito!');
+										}	
+									
+									});
+								});
+
+							$('#borrar-lineaparada').click(function(){
+								
+								var lineaHorario = $('#modificar-lineaparada-borrar').find(":selected").val();
+								$.ajax({
+									type : "POST",
+									url : "/bube-web/BorrarLineaDeParada",
+									data : {idparada: parada_id, idlinea: lineaHorario},
+									success : function(data){
+										alert('Linea borrada con exito!');
+										}	
+									
+									});
+								});
+							
+							
 	            });
 	        	map.addInteraction(interaction);
 	            break;
@@ -1440,6 +1490,8 @@
             });
         });
     });
+
+    
 </script>
 </body>
 </html>

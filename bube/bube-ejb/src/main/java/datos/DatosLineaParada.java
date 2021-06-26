@@ -104,6 +104,33 @@ public class DatosLineaParada implements DatosLineaParadaLocal {
 		 }
 	}
 
+	public boolean borrarLineaParada(int idparada, int idlinea) {
+
+		 try{		
+	         em.createNativeQuery("DELETE FROM lineaparada WHERE linea_gid= :d AND parada_gid= :e")
+	                 .setParameter("d", idlinea)
+	                 .setParameter("e", idparada).executeUpdate();
+			 return true;
+		 }catch(Exception  x){
+			 System.out.println(x);
+			 return false; 
+		 }
+	}
+	
+	public List<DTLineaSimple> getLineasNoAsociadasParada(int idParada){
+		Query q = em.createNativeQuery("SELECT DISTINCT (lp.linea_gid) FROM lineaparada lp WHERE lp.linea_gid not IN (SELECT linea_gid FROM lineaparada WHERE parada_gid = :idparada )")
+				.setParameter("idparada", idParada);
+		List<Object> findLineas = q.getResultList();
+		List<DTLineaSimple> listLineas = new ArrayList<DTLineaSimple>();
+		for (Object o: findLineas){
+			int gid = (int) o;
+			DTLineaSimple linea = dll.buscarLinea(gid);
+			linea.setNombre_compania(dcl.buscarCompania(linea.getId_compania()).getNombre());
+			listLineas.add(linea);
+		}
+		return listLineas;
+	}
+
 
 	
 }

@@ -22,4 +22,9 @@ public interface DatosLineaParadaLocal {
 	
 	public boolean agregarHorario(int idparada, int idlinea, int hora, int minuto);
 	
+	public boolean borrarLineaParada(int idparada, int idlinea);
+	
+	public List<DTLineaSimple> getLineasNoAsociadasParada(int idParada);
+
+	
 }

@@ -53,4 +53,9 @@ public class controladorLineaParada implements controladorLineaParadaRemote {
     	return dlpl.getHorariosLineaParada(idParada, idLinea);
     }
     
+    public boolean agregarHorario(int idparada, int idlinea, int hora, int minuto) {
+    	boolean res= dlpl.agregarHorario(idparada, idlinea, hora, minuto);
+    	return res;
+    }
+    
 }

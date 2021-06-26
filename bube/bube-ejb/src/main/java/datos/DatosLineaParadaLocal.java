@@ -20,4 +20,6 @@ public interface DatosLineaParadaLocal {
 	
 	public List<DTHorario> getHorariosLineaParada(int idParada, int idLinea);
 	
+	public boolean agregarHorario(int idparada, int idlinea, int hora, int minuto);
+	
 }

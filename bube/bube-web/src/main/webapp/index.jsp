@@ -131,7 +131,64 @@
 				      </div>
 				    </div>
 			      </div>
+			   </li>
+			   			    <li>
+			      <div class="collapsible-header"><i class="teal-text material-icons">mode_edit</i>Editar Paradas</div>
+			      <div class="collapsible-body">
+			      	<div class="input-field col s12">
+			      		<div id="editParada">
+							<p>Presion el botón y luego seleccione la parada que desea editar</p>
+						</div>
+						<div class="right">
+					      	<button id="btnEditParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+							  <i class="material-icons">fmd_good</i>
+						  	</button>
+				        </div>
+						
+						<div class="input-field col s12">
+						    <select id="horario-linea">
+						      <option value="" disabled selected>Elegir linea</option>
+						    </select>
+						    <label>Linea</label>
+					    </div>
+						
+						<div class="input-field col s6">
+					    	<input name = "origen-linea" id="horario-hora" type="number" min="00" max="23">
+					      	<label class="active" for="horario-hora">Hora</label>
+					    </div>
+					    <div class="input-field col s6">
+					    	<input name = "destino-linea" id="horario-minutos" type="number" min="00" max="59">
+					      	<label class="active" for="horario-minutos">Minuto</label>
+					    </div>
+						
+						
+										
+				      <div class="left">
+					      	<button id="btnGrabarHorario" class="white-text orange darken-4 btn modal-trigger" type="submit" name="action">Grabar Horario
+							  <i class="material-icons">send</i>
+						  	</button>
+				      </div>
+				      <div class="left">
+							<a id="agregar-linea"
+							   class="white-text orange darken-4 btn modal-trigger"
+							   href="#agregar-linea-modal">Agregar linea</a>		
+					  </div>
+				    </div>
+			      </div>
+			    </li>  
 			</ul>
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
 			<%}else{%>
 				<ul class="collapsible">
 					<li>
@@ -451,6 +508,19 @@
 			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
 		</div>
 	</div>	
+	
+			<!-- VER HORARIOS DE PARADA MODAL -->
+	<div id="editar-horarios-modal" class="modal mh">
+		<div class="modal-content">
+			<div id="editar-horarios-titulo"></div>
+			
+			
+		</div>
+		<div class="modal-footer">
+			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+		</div>
+	</div>	
+	
 
 	<script type="text/javascript">
 
@@ -530,7 +600,7 @@
 	    	})
 		}), 
 		 new ol.layer.Vector({
-	        visible: false,
+	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
@@ -741,6 +811,56 @@
 	                interaction.getFeatures().clear();
 	            });
 	            map.addInteraction(interaction);
+	            break;
+
+				case 'btnEditParada':
+		        
+		        	interaction = new ol.interaction.Select();		         
+	            	interaction.getFeatures().on('add', function (e) {
+			            	var info = document.getElementById('editParada');
+							paradahorario=e.target.item(0);                    
+							info.innerHTML += "Codigo: " + paradahorario.get('gid') + '<br>';
+							info.innerHTML += "Codigo2: " + e.target.item(0).get('nombre') + '<br>';
+							var parada_id = paradahorario.getId().split(".")[1];
+		
+							$(document).ready(function(){
+								$.get('${pageContext.request.contextPath}/GetLineasForParada?gid=' + parada_id, function(dataLineas){
+								    $.each(dataLineas, function(index, linea) {
+								    	$('#horario-linea').append($('<option>').val(linea.gid).text(linea.codigo));
+								    	$('select').formSelect();
+								    		
+									});
+								});
+								    
+							});
+		
+		
+							$('#btnGrabarHorario').click(function(){
+								
+							    var hora= document.getElementById("horario-hora").value;
+								var min= document.getElementById("horario-minutos").value;
+								var lineaHorario = $('#horario-linea').find(":selected").val();
+							    console.log(hora);
+								console.log(min);
+							    console.log(lineaHorario);
+							    
+								$.ajax({
+									type : "POST",
+									url : "/bube-web/GrabarHorarios",
+									data : {idparada: parada_id, idlinea: lineaHorario, hora: hora, minuto: min},
+									success : function(data){
+										if (data[0].resultado==true){
+											alert('Horario grabado con exito!');
+			        			        }else{
+			        			        	alert('Error al grabar horario.');}
+										}	
+									
+									});
+								$("horario-minutos").val('');
+								$("horario-hora").val('');
+								})
+	            });
+	        	map.addInteraction(interaction);
 	            break;
 
 	        case 'btnInfoLinea':
@@ -1274,6 +1394,33 @@
                 var id= document.getElementById("horariosIdModal").value;
                 var titulo = document.getElementById("ver-horarios-titulo");
                 var tabla = document.getElementById("ver-horarios-tabla");
+                var id = id.split(",");
+                var idLinea = $('#lineasDestino').find(":selected").val();
+                $.ajax({
+                    type : "GET",
+                    data : {},
+                    url : "/bube-web/GetHorariosLineaParada?gidP=" + id[1] + "&gidL=" + idLinea,
+                    success: function(data){
+                        titulo.innerHTML = "<h4> Horarios de la parada </h4>";
+						if(data != null){
+							
+						}
+                        $.each(data, function(index, d) {
+                            tabla.innerHTML += "<td>" + d.hora+ "</td><td>" + d.min;
+
+                        });
+
+                    }
+                });
+            });
+        });
+    });
+	$(document).ready(function(){
+        $(function(){
+            $('#horario-editar-init').click(function() {
+                var id= document.getElementById("horariosEditModal").value;
+                var titulo = document.getElementById("editar-horarios-titulo");
+                var tabla = document.getElementById("editar-horarios-tabla");
                 var id = id.split(",");
                 var idLinea = $('#lineasDestino').find(":selected").val();
                 $.ajax({

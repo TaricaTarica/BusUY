@@ -87,6 +87,23 @@ public class DatosLineaParada implements DatosLineaParadaLocal {
 		return horarios;
 	}
 	
+	public boolean agregarHorario(int idparada, int idlinea, int hora, int minuto) {
+
+		 try{		
+	         em.createNativeQuery("INSERT INTO lineaparada ( hora, minuto, habilitada, linea_gid, parada_gid)"
+	                 + " VALUES ( :a, :b, :c, :d, :e)")
+	                 .setParameter("a", hora)
+	                 .setParameter("b", minuto)
+	                 .setParameter("c", true)
+	                 .setParameter("d", idlinea)
+	                 .setParameter("e", idparada).executeUpdate();
+			 return true;
+		 }catch(Exception  x){
+			 System.out.println(x);
+			 return false; 
+		 }
+	}
+
 
 	
 }

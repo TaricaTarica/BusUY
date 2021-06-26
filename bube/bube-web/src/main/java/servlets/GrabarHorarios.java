@@ -18,8 +18,8 @@ import datatypes.DTLineaSimple;
 /**
  * Servlet implementation class GetLineaForParada
  */
-@WebServlet("/GetLineasForParada")
-public class GetLineasForParada extends HttpServlet {
+@WebServlet("/GrabarHorarios")
+public class GrabarHorarios extends HttpServlet {
 	private static final long serialVersionUID = 1L;
     
 	@EJB
@@ -27,7 +27,7 @@ public class GetLineasForParada extends HttpServlet {
     /**
      * @see HttpServlet#HttpServlet()
      */
-    public GetLineasForParada() {
+    public GrabarHorarios() {
         super();
         // TODO Auto-generated constructor stub
     }
@@ -50,7 +50,26 @@ public class GetLineasForParada extends HttpServlet {
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
-		doGet(request, response);
+		
+		int idparada = Integer.parseInt(request.getParameter("idparada"));
+		int idlinea= Integer.parseInt(request.getParameter("idlinea"));
+		int hora = Integer.parseInt(request.getParameter("hora"));
+		int minuto = Integer.parseInt(request.getParameter("minuto"));
+		System.out.println("**********************************************************************");
+		System.out.println("**********************************************************************");
+		System.out.println("Datos:  parada " +idparada+" linea "+idlinea+" hora "+hora+" minuto " + minuto);
+		System.out.println("**********************************************************************");
+		System.out.println("**********************************************************************");
+
+		boolean res=clpr.agregarHorario(idparada, idlinea, hora, minuto);
+
+		String json = new Gson().toJson(res);
+		System.out.println(json);
+	    response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
+		
+		//doGet(request, response);
 	}
 
 }

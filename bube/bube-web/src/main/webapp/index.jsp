@@ -677,7 +677,7 @@
 	        contentType: 'text/xml',
 	        data: str
 	    }).done( function(){
-	    	layerWFS.getSource().clear();
+	    	//layerWFS.getSource().clear();
 	        layerWFS.getSource().refresh();
 	        });
 	}
@@ -704,7 +704,7 @@
 	        contentType: 'text/xml',
 	        data: str
 	    }).done( function(){
-	        layerWFS2.getSource().clear();
+	        //layerWFS2.getSource().clear();
 	        layerWFS2.getSource().refresh();
 	        });
 	}
@@ -960,18 +960,13 @@
 										coordinates +=  ",";
 									}
 								});
-		  				       	//console.log(i+":"+feature.getGeometry().getCoordinates());
 		  				       	console.log("coordinates:", coordinates)
 		  				       	i++;
 
-		  				       	//var jsonObj = {}
 
 		  				      $.ajax({
 		  				        url: "http://localhost:8080/bube-web/rest/modificar-recorrido-linea/" + coordinates +"/"+ id_linea[1] ,
 		  				        method: "POST",
-		  				      	//data: JSON.stringify(jsonObj),
-		  			        	//dataType: 'json',
-		  			        	//contentType: "application/json",
 		  				        success: function(result,status ){
 		  				              console.log("exito");
 		  				         },

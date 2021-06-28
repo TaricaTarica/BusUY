@@ -100,7 +100,7 @@ public class DatosLinea implements DatosLineaLocal {
     	
     	System.out.println(fechamod);
     	
-    	Query q = em.createNativeQuery("UPDATE linea SET geom = ST_GeomFromText(:value , 32721), fechamod = CAST ( :fechamod AS DATE ) WHERE gid = :gid");
+    	Query q = em.createNativeQuery("UPDATE linea SET geom = ST_GeomFromText(:value , 32721), fechamod = CAST ( :fechamod AS DATE ), desvio = true WHERE gid = :gid");
     	
     	q.setParameter("value", value).setParameter("gid", gidLinea).setParameter("fechamod", fechamod).executeUpdate();
  

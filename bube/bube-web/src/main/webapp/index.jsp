@@ -1204,6 +1204,7 @@
 		var calle_2 = document.getElementById('calle_2').value;
 		var c1 = calle_1.toUpperCase();
 		var c2 = calle_2.toUpperCase();
+		
 		console.log(c1);
 		console.log(c2);
 
@@ -1213,12 +1214,15 @@
 	        url: endpoint,
 	        cache: false,
 	        success: function (html) {
-	        	const obj = JSON.parse(html);
+				
+				const obj = JSON.parse(html);
 	
 	        	const x = obj.coordinates[0];
+				
 	        	const y = obj.coordinates[1];
+				
 
-	        	console.log(obj.coordinates)
+	        	console.log(obj.coordinates)				
 
 	        	var iconFeature = new ol.Feature({
 	        	    geometry: new ol.geom.Point([x, y]),
@@ -1251,10 +1255,12 @@
 	            });
 
 	        	console.log("vectorLayer ", cruceLayer);
-	            map.addLayer(cruceLayer)
-	            //map.removeLayer(cruceLayer);
-	            
-	    	    	        	
+	            map.addLayer(cruceLayer);
+				
+				var layerExtent = cruceLayer.getSource().getExtent();
+				if (layerExtent) {
+					map.getView().fit(layerExtent);
+				}    	    	        	
 	        }
 	    })
 	}

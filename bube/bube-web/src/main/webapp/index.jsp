@@ -176,6 +176,18 @@
 					  
 				    </div>
 			      </div>
+			    </li>
+			    <li>
+			      <div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Editar recorrido de línea</div>
+			      <div class="collapsible-body">
+				      <div class="input-field col s12">
+					      <div class="right">
+					      	<button id="btnEditLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+							  <i class="material-icons">control_point</i>
+						  	</button>
+					      </div>
+				      </div>
+				    </div>
 			    </li>  
 			</ul>
 			
@@ -910,6 +922,58 @@
 	            });
 	        	map.addInteraction(interaction);
 	            break;
+	            
+			case 'btnEditLinea':
+
+		        	var source = layerWFS2.getSource();
+		        	var select = null;
+
+		        	var selectClick = new ol.interaction.Select({
+		        	  condition: ol.events.condition.click
+		        	});
+
+		        	select = selectClick;
+
+		        	if (select !== null) {
+		        	    map.addInteraction(select);
+		        	    select.on('select', function (e) {
+		        	      console.log("features", e.target.getFeatures())
+
+		        	      var id_linea = e.target.getFeatures().a[0].c.split(".");
+		        	      console.log("id", id_linea[1])
+
+
+		        	      var modify = new ol.interaction.Modify({
+		  	        		features: e.target.getFeatures()
+		  		        	});
+
+		  					console.log(modify)
+		  	        		map.addInteraction(modify);
+
+
+		  				  modify.on('modifyend', function (evt) {
+		  				    console.log("modify end");
+		  				    var i=0;
+		  				    var coordinates = '';
+		  				    evt.features.forEach(function (feature) {
+								//console.log("coordinates", feature.getGeometry().getCoordinates());
+								feature.getGeometry().getCoordinates().forEach(function (c, index){
+									coordinates +=  c[0] + " " + c[1];
+									console.log((feature.getGeometry().getCoordinates().length - 1))
+									if((feature.getGeometry().getCoordinates().length - 1) !== index){
+										coordinates +=  ",";
+									}
+								});
+		  				       	//console.log(i+":"+feature.getGeometry().getCoordinates());
+		  				       	console.log("coordinates:", coordinates)
+		  				       	i++;
+		  				    });
+		  				  });
+
+		        	    });
+		        	  }
+
+		        	break;
 
 	        case 'btnInfoLinea':
 	            interaction = new ol.interaction.Select();

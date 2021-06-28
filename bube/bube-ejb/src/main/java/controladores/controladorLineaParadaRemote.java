@@ -26,5 +26,7 @@ public interface controladorLineaParadaRemote {
 	public List<DTLineaSimple> getLineasNoAsociadasParada(int idParada);
     
     public boolean borrarLineaParada(int idparada, int idlinea);
+    
+    public List<String> buscarParadaCambio();
 
 }

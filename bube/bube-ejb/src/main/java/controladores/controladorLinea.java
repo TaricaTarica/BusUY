@@ -51,5 +51,9 @@ public class controladorLinea implements controladorLineaRemote {
     public List<DTLineaSimple> listarLineaCompania(int id){
     	return  dll.listarLineaCompania(id);
     }
+    
+    public void modificarRecorridoLinea(String geomCoordenadas, int gidLinea) {
+    	dll.modificarRecorridoLinea(geomCoordenadas, gidLinea);
+    }
 
 }

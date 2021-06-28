@@ -19,4 +19,6 @@ public interface controladorLineaRemote {
 	public DTLineaSimple buscarLinea(int gid);
 
 	public List<DTLineaSimple> listarLineaCompania(int id);
+	
+	public void modificarRecorridoLinea(String geomCoordenadas, int gidLinea);
 }

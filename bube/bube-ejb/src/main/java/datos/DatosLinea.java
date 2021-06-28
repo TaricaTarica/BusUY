@@ -90,6 +90,19 @@ public class DatosLinea implements DatosLineaLocal {
     	}
     	return retorno;
     }
+    
+    @Override
+    public void modificarRecorridoLinea(String geomCoordenadas, int gidLinea) {
+    	
+    	System.out.println("geom:" + geomCoordenadas);
+    	
+    	//String value = "MULTILINESTRING((" + geomCoordenadas  + "))";
+    	String value = "LINESTRING(" + geomCoordenadas  +")";
+    	Query q = em.createNativeQuery("UPDATE linea SET geom = ST_GeomFromText(:value , 32721) WHERE gid = :gid");
+    	
+    	q.setParameter("value", value).setParameter("gid", gidLinea).executeUpdate();
+    	
+    }
 
 
 }

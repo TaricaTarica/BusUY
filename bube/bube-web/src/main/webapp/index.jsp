@@ -940,15 +940,12 @@
 		        	      console.log("features", e.target.getFeatures())
 
 		        	      var id_linea = e.target.getFeatures().a[0].c.split(".");
-		        	      console.log("id", id_linea[1])
-
 
 		        	      var modify = new ol.interaction.Modify({
 		  	        		features: e.target.getFeatures()
 		  		        	});
 
-		  					console.log(modify)
-		  	        		map.addInteraction(modify);
+		  	        	  map.addInteraction(modify);
 
 
 		  				  modify.on('modifyend', function (evt) {
@@ -956,7 +953,6 @@
 		  				    var i=0;
 		  				    var coordinates = '';
 		  				    evt.features.forEach(function (feature) {
-								//console.log("coordinates", feature.getGeometry().getCoordinates());
 								feature.getGeometry().getCoordinates().forEach(function (c, index){
 									coordinates +=  c[0] + " " + c[1];
 									console.log((feature.getGeometry().getCoordinates().length - 1))
@@ -967,6 +963,19 @@
 		  				       	//console.log(i+":"+feature.getGeometry().getCoordinates());
 		  				       	console.log("coordinates:", coordinates)
 		  				       	i++;
+
+		  				       	//var jsonObj = {}
+
+		  				      $.ajax({
+		  				        url: "http://localhost:8080/bube-web/rest/modificar-recorrido-linea/" + coordinates +"/"+ id_linea[1] ,
+		  				        method: "POST",
+		  				      	//data: JSON.stringify(jsonObj),
+		  			        	//dataType: 'json',
+		  			        	//contentType: "application/json",
+		  				        success: function(result,status ){
+		  				              console.log("exito");
+		  				         },
+		  				    }); 
 		  				    });
 		  				  });
 

@@ -93,14 +93,17 @@ public class DatosLinea implements DatosLineaLocal {
     
     @Override
     public void modificarRecorridoLinea(String geomCoordenadas, int gidLinea) {
-    	
-    	System.out.println("geom:" + geomCoordenadas);
-    	
-    	//String value = "MULTILINESTRING((" + geomCoordenadas  + "))";
+    	    	
     	String value = "LINESTRING(" + geomCoordenadas  +")";
-    	Query q = em.createNativeQuery("UPDATE linea SET geom = ST_GeomFromText(:value , 32721) WHERE gid = :gid");
     	
-    	q.setParameter("value", value).setParameter("gid", gidLinea).executeUpdate();
+    	String fechamod = LocalDate.now().toString();
+    	
+    	System.out.println(fechamod);
+    	
+    	Query q = em.createNativeQuery("UPDATE linea SET geom = ST_GeomFromText(:value , 32721), fechamod = CAST ( :fechamod AS DATE ) WHERE gid = :gid");
+    	
+    	q.setParameter("value", value).setParameter("gid", gidLinea).setParameter("fechamod", fechamod).executeUpdate();
+ 
     	
     }
 

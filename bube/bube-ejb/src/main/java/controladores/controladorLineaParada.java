@@ -10,6 +10,7 @@ import datatypes.DTHorario;
 import datatypes.DTLineaParada;
 import datatypes.DTLineaSimple;
 import datos.DatosLineaParadaLocal;
+import datos.DatosParadaCambioLocal;
 
 import entities.LineaParada;
 
@@ -22,6 +23,7 @@ public class controladorLineaParada implements controladorLineaParadaRemote {
 
 	@EJB
 	DatosLineaParadaLocal dlpl;
+	DatosParadaCambioLocal dpc; 
     /**
      * Default constructor. 
      */
@@ -68,7 +70,10 @@ public class controladorLineaParada implements controladorLineaParadaRemote {
     	return res;
     }
 
-	
+    public List<String> buscarParadaCambio(){
+    	List<String> listaParadasCambio = dpc.buscarParadaCambio();
+    	return listaParadasCambio;
+    }
 
     
 }

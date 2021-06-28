@@ -1135,8 +1135,11 @@
 	
 	function buscarDir() {
 
-    	var direccion_dir = document.getElementById('dirId').value;
+    	var dir = document.getElementById('dirId').value;
+		var direccion_dir= dir.toUpperCase();
         var numeroPuerta = document.getElementById('numP').value;
+		//var zoomActual = map.getView().getZoom();
+		//var zoomNuevo= zoomActual+10;
 		
 	    if (direccion_dir !=='') { 
         	var fill = new ol.style.Fill({
@@ -1169,7 +1172,12 @@
 			.filter(layer => layer.get('name') === 'dir_search')
 			.forEach(layer => map.removeLayer(layer));
   			
-        	map.addLayer(image);  
+        	map.addLayer(image); 
+			/* map.setView(new ol.View({               
+				center: ol.proj.fromLonLat([6140268.983041 , 578388.061074834]),
+				center: ol.proj.fromLonLat([-56.18816, -34.90328]), //578388.061074834 6140268.983041
+	   			zoom: zoomNuevo
+			}));  */  
 			console.log(
 			map.getLayers().getArray()
 			);      	
@@ -1368,7 +1376,7 @@
 				format: new ol.format.GeoJSON()
 			}),
 			opacity: 0.6,
-			radius: 15,			
+			radius: 8,			
         });	
 		map.addLayer(heatmap);		 	
 	}	

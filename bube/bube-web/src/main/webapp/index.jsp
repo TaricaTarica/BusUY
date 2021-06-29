@@ -1399,7 +1399,12 @@
 				});
 
 				console.log("vectorLayer ", cruceLayer);
-				map.addLayer(cruceLayer);   
+				map.addLayer(cruceLayer);
+				
+				var layerExtent = cruceLayer.getSource().getExtent();
+				if (layerExtent) {
+					map.getView().fit(layerExtent);
+				}   
 	//
 			}
 			navigator.geolocation.getCurrentPosition(success, function(msg){

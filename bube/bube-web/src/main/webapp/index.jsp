@@ -600,14 +600,14 @@
 	        opacity: 0.5
 	    }),
 	    new ol.layer.Vector({
-	        visible: true,
+	        visible: false,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}), 
 		 new ol.layer.Vector({
-	        visible: true,
+	        visible: false,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
@@ -1189,7 +1189,7 @@
         }
     } */
 
-	function localizar(){
+/* 	function localizar(){
 		if(navigator.geolocation){
 			var success = function(position){
 				var latitud = position.coords.latitude,
@@ -1200,7 +1200,7 @@
 			});
 		}
 	}
-	
+	 */
 	function buscarDir() {
 
     	var dir = document.getElementById('dirId').value;
@@ -1365,13 +1365,48 @@
 			var success = function(position){
 				var latitud = position.coords.latitude,
 				longitud = position.coords.longitude;
-				coordenadasUser = ol.proj.transform([latitud, longitud], 'EPSG:4326', 'EPSG:32721');
+				coordenadasUser = ol.proj.transform([longitud,latitud], 'EPSG:4326', 'EPSG:32721');
+				console.log('coordenadasUser',coordenadasUser);
+//
+				var iconFeature = new ol.Feature({
+						geometry: new ol.geom.Point([coordenadasUser[0],coordenadasUser[1]]),
+						name: 'icono',
+						population: 4000,
+						rainfall: 500
+				});
+
+				var iconStyle = new ol.style.Style({
+						image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({  
+							anchor: [0.5, 46],
+							anchorXUnits: 'fraction',
+							anchorYUnits: 'pixels',
+							opacity: 1,
+							src: 'https://i.ibb.co/68Ng1WK/user.png'
+						}))
+				});
+				
+				iconFeature.setStyle(iconStyle);
+
+				var puntoSource = new ol.source.Vector({
+							features: [iconFeature]
+				});
+				
+				console.log("VectorSource: ",puntoSource);
+					
+				var cruceLayer = new ol.layer.Vector({
+						source: puntoSource,
+						name: "puntoLayer"
+				});
+
+				console.log("vectorLayer ", cruceLayer);
+				map.addLayer(cruceLayer);   
+	//
 			}
 			navigator.geolocation.getCurrentPosition(success, function(msg){
 				console.error( msg );
 			});
 		}
-	}
+	} 
 	var btn = document.getElementById('btnParada'),
 		estado = '',
 	//	div = document.getElementById('infoParada'),
@@ -1415,7 +1450,8 @@
 
 	function RecPar() {		
 		var distancia = document.getElementById('distancia').value;
-		var dis = distancia/1000;
+		//var dis = distancia/1000;
+		var dis = (distancia*1.0)/1000;
     	if (distancia !=='') { 
 			map.getLayers().getArray()
 			.filter(layer => layer.get('className') === 'vector')
@@ -1423,7 +1459,7 @@
 			var vectorP = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
-                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint(-6263300.32312%20-4135892.57609)%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
+                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint('+ coordenadasUser[0] + '%20' + coordenadasUser[1] +')%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
 					format: new ol.format.GeoJSON()					
                 }),	
 				className: 'vector',						
@@ -1431,7 +1467,7 @@
 			var vectorL = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
-                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint(-6263300.32312%20-4135892.57609)%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
+                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint('+ coordenadasUser[0] + '%20' + coordenadasUser[1] +')%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
 					format: new ol.format.GeoJSON()					
                 }),	
 				className: 'vector',						

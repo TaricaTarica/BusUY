@@ -11,7 +11,7 @@ import datatypes.DTLineaParada;
 import datatypes.DTLineaSimple;
 import datos.DatosLineaParadaLocal;
 import datos.DatosParadaCambioLocal;
-
+import datos.DatosRecorridoCambioLocal;
 import entities.LineaParada;
 
 /**
@@ -24,6 +24,8 @@ public class controladorLineaParada implements controladorLineaParadaRemote {
 	@EJB
 	DatosLineaParadaLocal dlpl;
 	DatosParadaCambioLocal dpc; 
+	DatosRecorridoCambioLocal drc;
+	
     /**
      * Default constructor. 
      */
@@ -73,6 +75,10 @@ public class controladorLineaParada implements controladorLineaParadaRemote {
     public List<String> buscarParadaCambio(){
     	List<String> listaParadasCambio = dpc.buscarParadaCambio();
     	return listaParadasCambio;
+    }
+    public List<Integer> buscarRecorridoCambio(){
+    	List<Integer> listaRecorridoCambio = drc.buscarRecorridoCambio();
+    	return listaRecorridoCambio;
     }
 
     

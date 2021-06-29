@@ -398,16 +398,16 @@
 						</div>
 						<form action="#">
 						      <label>
-						        <input name="group1" type="radio" checked />
+						        <input name="recorrido_parada" value="R" type="radio" checked />
 						        <span>Recorrido</span>
 						      </label>
 						      <label>
-						        <input name="group1" type="radio" />
+						        <input name="recorrido_parada" value="P" type="radio" />
 						        <span>Parada</span>
 						      </label>
 						</form>
 					      <div class="right">
-					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+					      	<button onclick="recorridoParadaCambio()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 							  <i class="material-icons">info</i>
 						  	</button>
 					      </div>
@@ -559,7 +559,7 @@
 
 	var sourceWFS = new ol.source.Vector({
 	    loader: function (extent, resolution, projection) {
-	        var url = "http://localhost:8080/geoserver/wfs?service=WFS"
+	        var url = "http://localhost:8089/geoserver/wfs?service=WFS"
 	                + "&version=2.0.0&request=GetFeature"
 	                + '&outputFormat=application/json'
 	                + "&typename=busUy:departamento"
@@ -592,7 +592,7 @@
 	    new ol.layer.Image({
 	        visible: true,
 	        source: new ol.source.ImageWMS({
-	            url: 'http://localhost:8080/geoserver/wms?',
+	            url: 'http://localhost:8089/geoserver/wms?',
 	            params: {'LAYERS': 'busUy:Montevideo'},
 	            serverType: 'geoserver',
 	            crossOrigin: 'anonymous'
@@ -602,14 +602,14 @@
 	    new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
-	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json',
+	        	url: 'http://localhost:8089/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}), 
 		 new ol.layer.Vector({
 	        visible: true,
 	    	source: new ol.source.Vector({
-	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
+	        	url: 'http://localhost:8089/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}),
@@ -670,7 +670,7 @@
 	    }
 	    s = new XMLSerializer();
 	    str = s.serializeToString(node);
-	    $.ajax('http://localhost:8080/geoserver/wfs', {
+	    $.ajax('http://localhost:8089/geoserver/wfs', {
 	        type: 'POST',
 	        dataType: 'xml',
 	        processData: false,
@@ -697,7 +697,7 @@
 	    }
 	    s = new XMLSerializer();
 	    str = s.serializeToString(node);
-	    $.ajax('http://localhost:8080/geoserver/wfs', {
+	    $.ajax('http://localhost:8089/geoserver/wfs', {
 	        type: 'POST',
 	        dataType: 'xml',
 	        processData: false,
@@ -965,7 +965,7 @@
 
 
 		  				      $.ajax({
-		  				        url: "http://localhost:8080/bube-web/rest/modificar-recorrido-linea/" + coordinates +"/"+ id_linea[1] ,
+		  				        url: "http://localhost:8089/bube-web/rest/modificar-recorrido-linea/" + coordinates +"/"+ id_linea[1] ,
 		  				        method: "POST",
 		  				        success: function(result,status ){
 		  				              console.log("exito");
@@ -1077,7 +1077,7 @@
 				var image = new ol.layer.Image({
                 visible: true, 
                 source: new ol.source.ImageWMS({
-					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&srs=EPSG:32721&CQL_FILTER=nom_calle like' + direccion_dir + 'and num_puerta=' + numeroPuerta,
+					url: 'http://localhost:8089/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&srs=EPSG:32721&CQL_FILTER=nom_calle like' + direccion_dir + 'and num_puerta=' + numeroPuerta,
 					params: {'LAYERS': 'busUy:direcciones'},
                     serverType: 'geoserver',
                     crossOrigin: 'anonymous'
@@ -1115,7 +1115,7 @@
 		var format = new ol.format.GeoJSON();
 		var lineas;
 		fetch(
-				'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy%3Alinea&srs=EPSG:32721&outputFormat=application/json')
+				'http://localhost:8089/geoserver/wfs?request=getFeature&typeName=busUy%3Alinea&srs=EPSG:32721&outputFormat=application/json')
 				.then(function(response) {
 					return response.json();
 				}).then(function(json) {
@@ -1170,7 +1170,7 @@
         	var image = new ol.layer.Image({
                 visible: true, 
                 source: new ol.source.ImageWMS({
-                    url: 'http://localhost:8080/geoserver/busUy/wms?service=WMS&version=1.1.0&request=GetMap&layers=busUy%3Amanzanas&bbox=553617.1875%2C6134394.5%2C589042.5625%2C6158890.0&srs=EPSG%3A32721&styles=&format=image%2Fpng&CQL_FILTER=carpeta_ca=' + direccionVal,
+                    url: 'http://localhost:8089/geoserver/busUy/wms?service=WMS&version=1.1.0&request=GetMap&layers=busUy%3Amanzanas&bbox=553617.1875%2C6134394.5%2C589042.5625%2C6158890.0&srs=EPSG%3A32721&styles=&format=image%2Fpng&CQL_FILTER=carpeta_ca=' + direccionVal,
                     params: {'LAYERS': 'busUy:manzanas'},
                     serverType: 'geoserver',
                     crossOrigin: 'anonymous'
@@ -1221,7 +1221,7 @@
         	var image = new ol.layer.Image({
                 visible: true, 
                 source: new ol.source.ImageWMS({
-					url: 'http://localhost:8080/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&styles=busUyPunto&srs=EPSG%3A32721&format=image%2Fpng&CQL_FILTER=nom_calle like %27' + direccion_dir + '%27 and num_puerta=' + numeroPuerta,
+					url: 'http://localhost:8089/geoserver/busUy/wms?&REQUEST=GetMap&LAYERS=busUy%3Adirecciones&styles=busUyPunto&srs=EPSG%3A32721&format=image%2Fpng&CQL_FILTER=nom_calle like %27' + direccion_dir + '%27 and num_puerta=' + numeroPuerta,
 					params: {'LAYERS': 'busUy:direcciones'},
                     serverType: 'geoserver',
                     crossOrigin: 'anonymous',
@@ -1276,7 +1276,7 @@
 		console.log(c1);
 		console.log(c2);
 
-		endpoint = "http://localhost:8080/bube-web/rest/buscar-cruce-calles/" + c1 + "/" + c2;
+		endpoint = "http://localhost:8089/bube-web/rest/buscar-cruce-calles/" + c1 + "/" + c2;
 
 	    $.ajax({
 	        url: endpoint,
@@ -1342,7 +1342,7 @@
 				var vector = new ol.layer.Vector({
                 visible: true,
                 source: new ol.source.Vector({
-                    url: 'http://localhost:8080/geoserver/busUy/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&cql_filter=%20destino%20like %27' + destino + '%27 and codigo like %27' + codigo + '%27',
+                    url: 'http://localhost:8089/geoserver/busUy/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&cql_filter=%20destino%20like %27' + destino + '%27 and codigo like %27' + codigo + '%27',
                     format: new ol.format.GeoJSON()
                 }),
 				//name:'recorrido_search'
@@ -1399,7 +1399,7 @@
 			var vector = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
-                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=estado like %27' + estado + '%27',
+                    url: 'http://localhost:8089/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=estado like %27' + estado + '%27',
 					format: new ol.format.GeoJSON()					
                 }),	
 				className: 'test',						
@@ -1423,7 +1423,7 @@
 			var vectorP = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
-                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint(-6263300.32312%20-4135892.57609)%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
+                    url: 'http://localhost:8089/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint(-6263300.32312%20-4135892.57609)%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
 					format: new ol.format.GeoJSON()					
                 }),	
 				className: 'vector',						
@@ -1431,7 +1431,7 @@
 			var vectorL = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
-                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint(-6263300.32312%20-4135892.57609)%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
+                    url: 'http://localhost:8089/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint(-6263300.32312%20-4135892.57609)%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
 					format: new ol.format.GeoJSON()					
                 }),	
 				className: 'vector',						
@@ -1446,7 +1446,7 @@
 		var heatmap = new ol.layer.Heatmap({
 			source: new ol.source.Vector({
 				projection : 'EPSG:4326',
-				url: 'http://localhost:8080/geoserver/wfs?request=GetFeature&typeName=busUy:parada&maxFeatures=100&outputFormat=application%2Fjson',
+				url: 'http://localhost:8089/geoserver/wfs?request=GetFeature&typeName=busUy:parada&maxFeatures=100&outputFormat=application%2Fjson',
 				format: new ol.format.GeoJSON()
 			}),
 			opacity: 0.6,
@@ -1454,6 +1454,42 @@
         });	
 		map.addLayer(heatmap);		 	
 	}	
+	
+	function recorridoParadaCambio() {	
+		var valor  = document.querySelector('input[name="recorrido_parada"]:checked').value	
+		var nombre = 'david2';
+		var codigo = '104'
+		
+		if(valor=='P'){
+				var vector = new ol.layer.Vector({
+                visible: true,
+                source: new ol.source.Vector({
+                    url: 'http://localhost:8089/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=nombre IN (%27' + nombre + '%27)',
+                    format: new ol.format.GeoJSON()
+                }),
+				//name:'recorrido_search'
+            });
+		}else if(valor=='R'){
+			var vector = new ol.layer.Vector({
+                visible: true,
+                source: new ol.source.Vector({
+                    url: 'http://localhost:8089/geoserver/busUy/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&cql_filter=%20codigo%20 IN (%27' + codigo + '%27)',
+                    format: new ol.format.GeoJSON()
+                }),
+				//name:'recorrido_search'
+            });
+		}
+            map.addLayer(vector);
+			vectorLayer.getSource().removeFeature(vector);			
+		
+			map.getLayers().getArray()/*
+			.filter(layer => layer.get('name') === 'recorrido_search')
+			.forEach(layer => map.removeLayer(layer));
+			*/
+			console.log(
+			map.getLayers().getArray()
+			); 							
+	}
 	
 	$(document).ready(function(){
         $(function(){

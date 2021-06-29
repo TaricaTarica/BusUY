@@ -28,5 +28,7 @@ public interface controladorLineaParadaRemote {
     public boolean borrarLineaParada(int idparada, int idlinea);
     
     public List<String> buscarParadaCambio();
+    
+    public List<Integer> buscarRecorridoCambio();
 
 }

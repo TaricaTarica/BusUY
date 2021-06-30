@@ -328,26 +328,23 @@
 						<div class="collapsible-header"><i class="teal-text material-icons">place</i>Ver paradas habilitadas-deshabilitadas</div>
 						<div class="collapsible-body">
 						  <div class="input-field col s12" id="infoParada">
-							  <!-- <p>Presione el botón para cambiar de habilitada a deshabilitada</p> -->
+							  <p>Presione el botón para cambiar de habilitada a deshabilitada</p>
 						  </div>
 						  <div class="input-field col s12" id="infoParada">
 							<div class="right">
-								<button id="btnParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+								<button id="btnParada" onclick="cambiarEstado()"class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 								<i class="material-icons">info</i>
 								</button>
 							</div>
 						   </div>
 						</div>
 					  </li>	
-					  <li>
+					  <!-- <li>
 						<div class="collapsible-header"><i class="teal-text material-icons">near_me</i>Ver paradas y recorridos cercanos</div>
 						<div class="collapsible-body">
 							<div class="input-field col s12">
 								<input name = "distancia" id="distancia" type="text">
 								<label class="distancia" for="distancia">Distancia (en mts)</label>
-						  <!-- <div id="infoParada">
-							  <p>Presione el botón para cambiar de habilitada a deshabilitada</p>
-						  </div> -->
 						  	</div>
 						  	<div class="input-field col s12">
 								<div class="right">
@@ -357,7 +354,7 @@
 								</div>
 							</div>
 						  </div>
-					  </li>
+					  </li> -->
 					<li>
 						<div class="collapsible-header">
 							<i class="teal-text material-icons">remove_red_eye</i>Ver líneas de una compañía
@@ -654,6 +651,63 @@
             zoom: 12
 	        })
 	});
+
+	
+	//function localizar(){
+		if(navigator.geolocation){
+			var latIni;
+			var lonIni;
+			var success = function(position){
+				var latitud = position.coords.latitude,
+				longitud = position.coords.longitude;
+				coordenadasUser = ol.proj.transform([longitud,latitud], 'EPSG:4326', 'EPSG:32721');
+				console.log('coordenadasUser',coordenadasUser);				
+
+				var iconFeature = new ol.Feature({
+						geometry: new ol.geom.Point([coordenadasUser[0],coordenadasUser[1]]),
+						name: 'icono',
+						population: 4000,
+						rainfall: 500
+				});
+
+				var iconStyle = new ol.style.Style({
+						image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({  
+							anchor: [0.5, 46],
+							anchorXUnits: 'fraction',
+							anchorYUnits: 'pixels',
+							opacity: 1,
+							src: 'https://i.ibb.co/68Ng1WK/user.png'
+						}))
+				});
+				
+				iconFeature.setStyle(iconStyle);
+
+				var puntoSource = new ol.source.Vector({
+							features: [iconFeature]
+				});
+				
+				console.log("VectorSource: ",puntoSource);
+					
+				var cruceLayer = new ol.layer.Vector({
+						source: puntoSource,
+						name: "puntoLayer"
+				});
+
+				console.log("vectorLayer ", cruceLayer);
+				map.addLayer(cruceLayer);
+				
+				var layerExtent = cruceLayer.getSource().getExtent();
+				if (layerExtent) {
+					map.getView().fit(layerExtent);
+				} 				
+				RecPar(); // llama a la función RecPar para mostrar las paradas y recorridos cercanos a mi ubicación
+			}
+			navigator.geolocation.getCurrentPosition(success, function(msg){
+				console.error( msg );
+			});
+		
+		} // fin del if de geolocalizacion
+//} // fin de la funcion localizar
 
 	var transactWFS = function (p, f) {
 	    var node;
@@ -1155,59 +1209,12 @@
 				});
 	}
 	var draw;
-	/* function buscarDireccion() {
-    	var direccion = document.getElementById('direccionId');
-        var direccionVal = direccion.value;
-        if (direccionVal !=='') { 
-        	var fill = new ol.style.Fill({
-        		   color: '#eb05d8'
-        		 });
-        	 var stroke = new ol.style.Stroke({
-        		   color: '#3399CC',
-        		   width: 1.25
-        		 });
-        	 
-        	var image = new ol.layer.Image({
-                visible: true, 
-                source: new ol.source.ImageWMS({
-                    url: 'http://localhost:8080/geoserver/busUy/wms?service=WMS&version=1.1.0&request=GetMap&layers=busUy%3Amanzanas&bbox=553617.1875%2C6134394.5%2C589042.5625%2C6158890.0&srs=EPSG%3A32721&styles=&format=image%2Fpng&CQL_FILTER=carpeta_ca=' + direccionVal,
-                    params: {'LAYERS': 'busUy:manzanas'},
-                    serverType: 'geoserver',
-                    crossOrigin: 'anonymous'
-                }),
-                style: new ol.style.Circle({
-                    fill: fill,
-                    stroke: stroke,
-                    radius: 5
-              	}),
-              	projection: new OpenLayers.Projection("EPSG:32721"),
-                opacity: 0.5
-            });
-        	map.addLayer(image);        	
-        	
-        	   		       
-        }
-    } */
-
-/* 	function localizar(){
-		if(navigator.geolocation){
-			var success = function(position){
-				var latitud = position.coords.latitude,
-				longitud = position.coords.longitude;
-			}
-			navigator.geolocation.getCurrentPosition(success, function(msg){
-				console.error( msg );
-			});
-		}
-	}
-	 */
+	
 	function buscarDir() {
 
     	var dir = document.getElementById('dirId').value;
 		var direccion_dir= dir.toUpperCase();
-        var numeroPuerta = document.getElementById('numP').value;
-		//var zoomActual = map.getView().getZoom();
-		//var zoomNuevo= zoomActual+10;
+        var numeroPuerta = document.getElementById('numP').value;		
 		
 	    if (direccion_dir !=='') { 
         	var fill = new ol.style.Fill({
@@ -1240,12 +1247,7 @@
 			.filter(layer => layer.get('name') === 'dir_search')
 			.forEach(layer => map.removeLayer(layer));
   			
-        	map.addLayer(image); 
-			/* map.setView(new ol.View({               
-				center: ol.proj.fromLonLat([6140268.983041 , 578388.061074834]),
-				center: ol.proj.fromLonLat([-56.18816, -34.90328]), //578388.061074834 6140268.983041
-	   			zoom: zoomNuevo
-			}));  */  
+        	map.addLayer(image); 			  
 			console.log(
 			map.getLayers().getArray()
 			);      	
@@ -1339,35 +1341,35 @@
 		var codigo = document.getElementById('codigo').value;
 
 		if (destino !=='') { 
+				map.getLayers().getArray()
+				.filter(layer => layer.get('className') === 'searchrec')
+				.forEach(layer => map.removeLayer(layer));
 				var vector = new ol.layer.Vector({
                 visible: true,
                 source: new ol.source.Vector({
                     url: 'http://localhost:8080/geoserver/busUy/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&cql_filter=%20destino%20like %27' + destino + '%27 and codigo like %27' + codigo + '%27',
                     format: new ol.format.GeoJSON()
                 }),
-				//name:'recorrido_search'
+				className:"searchrec",
             });
 
             map.addLayer(vector);
-			vectorLayer.getSource().removeFeature(vector);			
+			//vectorLayer.getSource().removeFeature(vector);			
 		
-			map.getLayers().getArray()/*
-			.filter(layer => layer.get('name') === 'recorrido_search')
-			.forEach(layer => map.removeLayer(layer));
-			*/
+			map.getLayers().getArray()
 			console.log(
 			map.getLayers().getArray()
 			); 							
 		}
 	}
-	function localizar(){
-		if(navigator.geolocation){
+/*	 function localizar(){
+		 if(navigator.geolocation){
 			var success = function(position){
 				var latitud = position.coords.latitude,
 				longitud = position.coords.longitude;
 				coordenadasUser = ol.proj.transform([longitud,latitud], 'EPSG:4326', 'EPSG:32721');
-				console.log('coordenadasUser',coordenadasUser);
-//
+			//	console.log('coordenadasUser',coordenadasUser);
+
 				var iconFeature = new ol.Feature({
 						geometry: new ol.geom.Point([coordenadasUser[0],coordenadasUser[1]]),
 						name: 'icono',
@@ -1376,8 +1378,9 @@
 				});
 
 				var iconStyle = new ol.style.Style({
-						image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({  
-							anchor: [0.5, 46],
+					  */
+					//	image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({  
+							/*anchor: [0.5, 46],   /*
 							anchorXUnits: 'fraction',
 							anchorYUnits: 'pixels',
 							opacity: 1,
@@ -1405,17 +1408,17 @@
 				if (layerExtent) {
 					map.getView().fit(layerExtent);
 				}   
-	//
+	
 			}
 			navigator.geolocation.getCurrentPosition(success, function(msg){
 				console.error( msg );
 			});
-		}
-	} 
-	var btn = document.getElementById('btnParada'),
-		estado = '',
-	//	div = document.getElementById('infoParada'),
-		eParada = 0;
+		} 
+	}  
+	*/
+	btn = document.getElementById('btnParada');
+	estado = '';
+	eParada = 0;
 
 	function cambiarEstado(){
 		if (eParada == 0){
@@ -1453,10 +1456,11 @@
 	}
 	//btn.addEventListener('click',cambiarEstado,true)
 
-	function RecPar() {		
-		var distancia = document.getElementById('distancia').value;
-		//var dis = distancia/1000;
-		var dis = (distancia*1.0)/1000;
+	function RecPar() {	
+		console.log('entre a la funcion');	
+		console.log('coordenadasUser',coordenadasUser);
+		var distancia = 100;//document.getElementById('distancia').value;
+		var dis = distancia/1000;		
     	if (distancia !=='') { 
 			map.getLayers().getArray()
 			.filter(layer => layer.get('className') === 'vector')
@@ -1464,7 +1468,8 @@
 			var vectorP = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
-                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint('+ coordenadasUser[0] + '%20' + coordenadasUser[1] +')%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
+                    //url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint('+ coordenadasUser[0] + '%20' + coordenadasUser[1] +')%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
+					url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint('+ coordenadasUser[0] + '%20' + coordenadasUser[1] +')%2C' + dis +'%2Ckilometers) and estado like%20%27habilitada%27%20',//CQL_FILTER=estado like %27' + estado + '%27',
 					format: new ol.format.GeoJSON()					
                 }),	
 				className: 'vector',						
@@ -1487,7 +1492,7 @@
 		var heatmap = new ol.layer.Heatmap({
 			source: new ol.source.Vector({
 				projection : 'EPSG:4326',
-				url: 'http://localhost:8080/geoserver/wfs?request=GetFeature&typeName=busUy:parada&maxFeatures=100&outputFormat=application%2Fjson',
+				url: 'http://localhost:8080/geoserver/wfs?request=GetFeature&typeName=busUy:parada&maxFeatures=100&outputFormat=application%2Fjson&CQL_FILTER=estado like%20%27habilitada%27%20',//estadoDWITHIN(geom%2CPoint('+ coordenadasUser[0] + '%20' + coordena',
 				format: new ol.format.GeoJSON()
 			}),
 			opacity: 0.6,
@@ -1498,38 +1503,45 @@
 	
 	function recorridoParadaCambio() {	
 		var valor  = document.querySelector('input[name="recorrido_parada"]:checked').value	
-		var nombre = 'david2';
-		var codigo = '104'
+		var nombre = "Edu";
+		var codigo = "CasaEdu"
 		
 		if(valor=='P'){
+
+				// ****** esto borra el vector llamado cambioLinea (que es el nombre que le puse al verctor que dibuja las lineas) ******
+				map.getLayers().getArray()
+				.filter(layer => layer.get('className') === 'cambioLinea')
+				.forEach(layer => map.removeLayer(layer));
+				// ****** hasta aca ******
+
 				var vector = new ol.layer.Vector({
-                visible: true,
-                source: new ol.source.Vector({
-                    url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=nombre IN (%27' + nombre + '%27)',
-                    format: new ol.format.GeoJSON()
-                }),
-				//name:'recorrido_search'
-            });
-		}else if(valor=='R'){
-			var vector = new ol.layer.Vector({
-                visible: true,
-                source: new ol.source.Vector({
-                    url: 'http://localhost:8080/geoserver/busUy/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&cql_filter=%20codigo%20 IN (%27' + codigo + '%27)',
-                    format: new ol.format.GeoJSON()
-                }),
-				//name:'recorrido_search'
-            });
+                	visible: true,
+                	source: new ol.source.Vector({
+                    	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=nombre IN (%27' + nombre + '%27)',
+                    	format: new ol.format.GeoJSON()
+               		}),
+					className:"cambioParada",		
+        	    });
+				map.addLayer(vector);
 		}
-            map.addLayer(vector);
-			vectorLayer.getSource().removeFeature(vector);			
-		
-			map.getLayers().getArray()/*
-			.filter(layer => layer.get('name') === 'recorrido_search')
-			.forEach(layer => map.removeLayer(layer));
-			*/
-			console.log(
+		else if(valor=='R'){
+
+			// ****** esto borra el vector llamado cambioParada (que es el nombre que le puse al verctor que dibuja las paradas) ******
 			map.getLayers().getArray()
-			); 							
+			.filter(layer => layer.get('className') === 'cambioParada')
+			.forEach(layer => map.removeLayer(layer));
+			// ****** hasta aca ******
+
+			var vector2 = new ol.layer.Vector({
+                		visible: true,
+               			source: new ol.source.Vector({
+                   			url: 'http://localhost:8080/geoserver/busUy/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&cql_filter=%20codigo%20 IN (%27' + codigo + '%27)',
+                   			format: new ol.format.GeoJSON()
+               			}),
+						className:"cambioLinea",		
+            });
+			map.addLayer(vector2);
+		}           					
 	}
 	
 	$(document).ready(function(){

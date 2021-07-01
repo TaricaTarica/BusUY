@@ -1687,17 +1687,30 @@
 		}
 	}
 
-	function MapaCalor() {	
+	var mapaCalor=false;
+	function MapaCalor() {
+		
+
+		if(!mapaCalor){	
 		var heatmap = new ol.layer.Heatmap({
 			source: new ol.source.Vector({
 				projection : 'EPSG:4326',
 				url: 'http://localhost:8080/geoserver/wfs?request=GetFeature&typeName=busUy:parada&maxFeatures=100&outputFormat=application%2Fjson&CQL_FILTER=estado like%20%27habilitada%27%20',//estadoDWITHIN(geom%2CPoint('+ coordenadasUser[0] + '%20' + coordena',
 				format: new ol.format.GeoJSON()
 			}),
+			className:'heatmap',
 			opacity: 0.6,
 			radius: 8,			
         });	
-		map.addLayer(heatmap);		 	
+		map.addLayer(heatmap);
+		mapaCalor=true;
+		}
+		else{
+			map.getLayers().getArray()
+			.filter(layer => layer.get('className') === 'heatmap')
+			.forEach(layer => map.removeLayer(layer));		
+			mapaCalor=false;
+		}		 	
 	}	
 	var entro = false;
 	function recorridoParadaCambio() {

@@ -7,6 +7,6 @@ import javax.ejb.Local;
 @Local
 public interface DatosRecorridoCambioLocal {
 
-	public List<Integer>  buscarRecorridoCambio();
+	public List<String>  buscarRecorridoCambio();
 	
 }

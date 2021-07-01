@@ -29,6 +29,6 @@ public interface controladorLineaParadaRemote {
     
     public List<String> buscarParadaCambio();
     
-    public List<Integer> buscarRecorridoCambio();
+    public List<String> buscarRecorridoCambio();
 
 }

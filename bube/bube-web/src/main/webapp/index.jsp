@@ -696,12 +696,12 @@
 	        opacity: 0.5
 	    }),
 	    new ol.layer.Vector({
-	        visible: true,
+	        visible: false,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
-		}), 
+		}),
 		 new ol.layer.Vector({
 	        visible: false,
 	    	source: new ol.source.Vector({
@@ -1462,16 +1462,12 @@
 	            var vectorSource = new ol.source.Vector({
 	        			features: [iconFeature]
 	            });
-	           	console.log("VectorSource: ",vectorSource);
-
-	            //vectorSource.addFeature(iconFeature);
 
 	            var cruceLayer = new ol.layer.Vector({
 	        	    source: vectorSource,
 	        	    name: "cruceLayer"
 	            });
 
-	        	console.log("vectorLayer ", cruceLayer);
 	            map.addLayer(cruceLayer);
 				
 				var layerExtent = cruceLayer.getSource().getExtent();
@@ -1700,24 +1696,129 @@
         });	
 		map.addLayer(heatmap);		 	
 	}	
-	
-	function recorridoParadaCambio() {	
-		var valor  = document.querySelector('input[name="recorrido_parada"]:checked').value	
-		var nombre = "Edu";
-		var codigo = "CasaEdu"
-		console.log('entre');
+	var entro = false;
+	function recorridoParadaCambio() {
+		if(entro){
+			map.getLayers().getArray()
+	        .filter(layer => layer.get('className') === 'vector')
+	        .forEach(layer => map.removeLayer(layer));
+	        entro = false;
+		}	
+		else{
+			var esLinea  = document.querySelector('input[name="recorrido_parada"]:checked').value	
+			var format = new ol.format.GeoJSON();
+	        var paradas;
 
-		$.ajax({
-			type : "GET",
-			data : {},
-			url : "/bube-web/ListarParadaCambio",
-			success: function(data){
-				$.each(data, function(index, d) {
-					console.log(d);
-				});
+			if(!esLinea){
+				$.ajax({
+					type : "GET",
+					nombres : {},
+					url : "/bube-web/ListarParadaCambio",
+					success: function(nombres){
+						fetch(
+						'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy%3Aparada&srs=EPSG:32721&outputFormat=application/json')
+						.then(function(response) {
+							return response.json();
+						}).then(function(json) {
+								paradas = format.readFeatures(json);
+								paradas.forEach(function (p) {
+									nombres.forEach(function (n) {
+										if(p.get("nombre") === n){
+											entro = true;
+											var previewLine = new ol.Feature({
+				                                  geometry: p.getGeometry(),
+				                                  estado: p.get("estado"),
+				                                  fechamod: p.get("fechamod"),
+				                                  nombre: p.get("nombre")
+				                                });
 
+											var iconFeature = new ol.Feature({
+								        	    geometry: new ol.geom.Point([p.getGeometry().getCoordinates()[0], p.getGeometry().getCoordinates()[1]]),
+								        	    name: 'ParadasCambio',
+								        	    population: 4000,
+								        	    rainfall: 500
+								            });
+
+								            var iconStyle = new ol.style.Style({
+								        	    image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({
+								        		    anchor: [0.5, 46],
+								        		    anchorXUnits: 'fraction',
+								        		    anchorYUnits: 'pixels',
+								        		    opacity: 1,
+								        		    src: 'https://i.ibb.co/3Fhg3gD/point.png'
+								        	    }))
+								            });
+								            iconFeature.setStyle(iconStyle);
+
+								            var vectorSource = new ol.source.Vector({
+								        			features: [iconFeature]
+								            });
+
+								            var cruceLayer = new ol.layer.Vector({
+								        	    source: vectorSource,
+								        	    name: "ParadasCambio",
+								        	    className: 'vector',
+
+								            });
+
+								            map.addLayer(cruceLayer);
+										}
+									});
+								});
+
+							});
+					}
+		        });	
 			}
-        });		         					
+			else{
+				$.ajax({
+					type : "GET",
+					nombres : {},
+					url : "/bube-web/ListarRecorridoCambio",
+					success: function(codigos){
+						fetch(
+						'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy%3Alinea&srs=EPSG:32721&outputFormat=application/json')
+						.then(function(response) {
+							return response.json();
+						}).then(function(json) {
+								lineas = format.readFeatures(json);
+								lineas.forEach(function (l) {
+									codigos.forEach(function (c) {
+										if(l.get("codigo") === c){
+											entro = true;
+											var previewLine = new ol.Feature({
+				                                  geometry: l.getGeometry(),
+				                                  codigo: l.get("codigo"),
+				                                  destino: l.get("destino"),
+				                                  origen: l.get("origen"),
+				                                  compania_id: l.get("compania_id"),
+				                                  desvio: l.get("desvio"),
+				                                  fechamod: l.get("fechamod")
+				                                });
+				                                var previewVector = new ol.layer.Vector({
+				                                  source: new ol.source.Vector({
+				                                    features: [previewLine],
+				                                    className: 'vector',
+				                                  }),
+				                                  style: new ol.style.Style({
+				                                    stroke: new ol.style.Stroke({
+				                                      color: '#fd7e14',
+				                                      width: 2,
+				                                    }),
+				                                  }),
+				                                });
+				                            map.addLayer(previewVector);
+										}
+									});
+								});
+
+							});
+					}
+		        });	
+			}
+				         	
+		}
+						
 	}
 	
 	$(document).ready(function(){

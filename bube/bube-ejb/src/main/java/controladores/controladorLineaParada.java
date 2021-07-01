@@ -23,7 +23,9 @@ public class controladorLineaParada implements controladorLineaParadaRemote {
 
 	@EJB
 	DatosLineaParadaLocal dlpl;
-	DatosParadaCambioLocal dpc; 
+	@EJB
+	DatosParadaCambioLocal dpc;
+	@EJB
 	DatosRecorridoCambioLocal drc;
 	
     /**
@@ -76,8 +78,8 @@ public class controladorLineaParada implements controladorLineaParadaRemote {
     	List<String> listaParadasCambio = dpc.buscarParadaCambio();
     	return listaParadasCambio;
     }
-    public List<Integer> buscarRecorridoCambio(){
-    	List<Integer> listaRecorridoCambio = drc.buscarRecorridoCambio();
+    public List<String> buscarRecorridoCambio(){
+    	List<String> listaRecorridoCambio = drc.buscarRecorridoCambio();
     	return listaRecorridoCambio;
     }
 

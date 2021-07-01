@@ -18,7 +18,7 @@ import datatypes.DTCompania;
 /**
  * Servlet implementation class ListarParadaCambio
  */
-@WebServlet("/ParadaCambio")
+@WebServlet("/ListarParadaCambio")
 public class ListarParadaCambio extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	

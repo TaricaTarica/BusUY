@@ -9,16 +9,18 @@
 	<link rel="stylesheet" href="assets/busuy.css" />
 	<script type="text/javascript" src="assets/proj4.js" ></script>
 	<script src='https://unpkg.com/@turf/turf@6.3.0/turf.min.js'></script>
-
+	
 </head>
 <body>
 <script>
     //var bbox = turf.bbox(features);
 </script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script> 
+ 	
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
 	<script>
+	
 	  document.addEventListener('DOMContentLoaded', function() {
 		    var elems = document.querySelectorAll('.collapsible');
 		    var instances = M.Collapsible.init(elems, {
@@ -498,6 +500,27 @@
 			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
 		</div>
 	</div>
+
+	<!-- VER HORARIOS DE PARADA MODAL -->
+	<div id="ver-horarios-modal" class="modal mh">
+        <div class="modal-content">
+            <div id="ver-horarios-titulo"></div>
+            <table class="striped highlight centered">
+                <thead>
+                    <tr>
+                        <th>Hora</th>
+                        <th>Minuto</th>
+                    </tr>
+                </thead>
+                <tbody id="ver-horarios-tabla">
+                </tbody>
+            </table>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+        </div>
+    </div>
+
 	
 		<!-- MODIFICAR LINEAPARADA MODAL -->
 	<div id="modificar-lineaparada-modal" class="modal mh">
@@ -1439,6 +1462,33 @@
 			map.getLayers().getArray()
 			.filter(layer => layer.get('className') === 'test')
 			.forEach(layer => map.removeLayer(layer));
+
+			// agrega icono de bus a la parada
+			var habilitado = new ol.style.Style({
+	        	    image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({
+	        		    anchor: [0.5, 46],
+	        		    anchorXUnits: 'fraction',
+	        		    anchorYUnits: 'pixels',
+	        		    opacity: 1,
+	        		    src: 'https://i.ibb.co/PMmWf0c/bus.png'
+	        	    }))
+	            });
+			// hasta aca
+
+			// agrega icono de bus a la parada
+			var deshabilitado = new ol.style.Style({
+	        	    image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({
+	        		    anchor: [0.5, 46],
+	        		    anchorXUnits: 'fraction',
+	        		    anchorYUnits: 'pixels',
+	        		    opacity: 1,
+	        		    src: 'https://i.ibb.co/pKphFCW/bus-deshabilitada.png'
+	        	    }))
+	            });
+			// hasta aca
+
+			
+			
 			var vector = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
@@ -1447,6 +1497,18 @@
                 }),	
 				className: 'test',						
             });
+
+			if (estado!=='habilitada'){
+				console.log('habilitado');
+				vector.setStyle(deshabilitado);
+				estado='';
+			}
+			else if(estado!=='deshabilitada'){
+				console.log('deshabilitado');
+				vector.setStyle(habilitado);
+				estado='';
+			}
+			
 			
             map.addLayer(vector);			
 			console.log(
@@ -1459,21 +1521,35 @@
 	function RecPar() {	
 		console.log('entre a la funcion');	
 		console.log('coordenadasUser',coordenadasUser);
-		var distancia = 100;//document.getElementById('distancia').value;
+		var distancia = 300;//document.getElementById('distancia').value;
 		var dis = distancia/1000;		
     	if (distancia !=='') { 
 			map.getLayers().getArray()
 			.filter(layer => layer.get('className') === 'vector')
 			.forEach(layer => map.removeLayer(layer));
+
+			var iconStyle = new ol.style.Style({
+	        	    image: new ol.style.Icon( /** @type {olx.style.IconOptions} */ ({
+	        		    anchor: [0.5, 46],
+	        		    anchorXUnits: 'fraction',
+	        		    anchorYUnits: 'pixels',
+	        		    opacity: 1,
+	        		    src: 'https://i.ibb.co/PMmWf0c/bus.png'
+	        	    }))
+	            });
+
 			var vectorP = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
                     //url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint('+ coordenadasUser[0] + '%20' + coordenadasUser[1] +')%2C' + dis +'%2Ckilometers)',//CQL_FILTER=estado like %27' + estado + '%27',
 					url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=DWITHIN(geom%2CPoint('+ coordenadasUser[0] + '%20' + coordenadasUser[1] +')%2C' + dis +'%2Ckilometers) and estado like%20%27habilitada%27%20',//CQL_FILTER=estado like %27' + estado + '%27',
 					format: new ol.format.GeoJSON()					
-                }),	
+                }),	            			
 				className: 'vector',						
-            });	
+            });
+
+			vectorP.setStyle(iconStyle);
+
 			var vectorL = new ol.layer.Vector({
 				visible: true,
                 source: new ol.source.Vector({                  
@@ -1505,43 +1581,19 @@
 		var valor  = document.querySelector('input[name="recorrido_parada"]:checked').value	
 		var nombre = "Edu";
 		var codigo = "CasaEdu"
-		
-		if(valor=='P'){
+		console.log('entre');
 
-				// ****** esto borra el vector llamado cambioLinea (que es el nombre que le puse al verctor que dibuja las lineas) ******
-				map.getLayers().getArray()
-				.filter(layer => layer.get('className') === 'cambioLinea')
-				.forEach(layer => map.removeLayer(layer));
-				// ****** hasta aca ******
+		$.ajax({
+			type : "GET",
+			data : {},
+			url : "/bube-web/ListarParadaCambio",
+			success: function(data){
+				$.each(data, function(index, d) {
+					console.log(d);
+				});
 
-				var vector = new ol.layer.Vector({
-                	visible: true,
-                	source: new ol.source.Vector({
-                    	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json&styles=busUyPunto&CQL_FILTER=nombre IN (%27' + nombre + '%27)',
-                    	format: new ol.format.GeoJSON()
-               		}),
-					className:"cambioParada",		
-        	    });
-				map.addLayer(vector);
-		}
-		else if(valor=='R'){
-
-			// ****** esto borra el vector llamado cambioParada (que es el nombre que le puse al verctor que dibuja las paradas) ******
-			map.getLayers().getArray()
-			.filter(layer => layer.get('className') === 'cambioParada')
-			.forEach(layer => map.removeLayer(layer));
-			// ****** hasta aca ******
-
-			var vector2 = new ol.layer.Vector({
-                		visible: true,
-               			source: new ol.source.Vector({
-                   			url: 'http://localhost:8080/geoserver/busUy/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json&cql_filter=%20codigo%20 IN (%27' + codigo + '%27)',
-                   			format: new ol.format.GeoJSON()
-               			}),
-						className:"cambioLinea",		
-            });
-			map.addLayer(vector2);
-		}           					
+			}
+        });		         					
 	}
 	
 	$(document).ready(function(){
@@ -1624,6 +1676,7 @@
 						if(data != null){
 							
 						}
+						tabla.innerHTML	
                         $.each(data, function(index, d) {
                             tabla.innerHTML += "<td>" + d.hora+ "</td><td>" + d.min;
 

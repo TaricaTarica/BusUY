@@ -55,5 +55,9 @@ public class controladorLinea implements controladorLineaRemote {
     public void modificarRecorridoLinea(String geomCoordenadas, int gidLinea) {
     	dll.modificarRecorridoLinea(geomCoordenadas, gidLinea);
     }
+    
+    public void modificarParada(String geomCoordenadas, int gidParada) {
+    	dll.modificarParada(geomCoordenadas, gidParada);
+    }
 
 }

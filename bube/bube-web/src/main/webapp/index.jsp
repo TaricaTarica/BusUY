@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,7 +12,7 @@
 	
 </head>
 <body>
-<script>
+	<script>
     //var bbox = turf.bbox(features);
 </script>
  	
@@ -49,299 +49,361 @@
         });
 	</script>
 	<%@include file="navbar.jsp"%>
-	
+
 	<div class="row">
 		<div class="col s12 m3 l3">
-			<%if(sesion.getAttribute("administrador") != null){ %>
-			 <ul class="collapsible">
-			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Agregar Parada</div>
-			      <div class="collapsible-body">
-			      	<div class="input-field col s12">
-				      <input name = "nombre-parada" id="nombre-parada" type="text">
-				      <label class="active" for="nombre-parada">Nombre parada</label>
-				      <div class="input-field col s12">
-					      <div class="right">
-					      	<button id="btnAddParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-							  <i class="material-icons">control_point</i>
-						  	</button>
-					      </div>
-				      </div>
-				    </div>
-			      </div>
-			    </li>
-			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">map</i>Agregar Linea</div>
-			      <div class="collapsible-body mh">
-				  	<div class="input-field col s12">
-				      <input name = "codigo-linea" id="codigo-linea" type="text">
-				      <label class="active" for="codigo-linea">Codigo</label>
-				    </div>
-				    <div class="input-field col s12">
-				    	<p>
-					      <label>
-					        <input id="desvio-linea" value="true" type="checkbox" />
-					        <span>¿Desvío?</span>
-					      </label>
-					    </p>
-				    </div>
-				    <div class="input-field col s6">
-				    	<input name = "origen-linea" id="origen-linea" type="text">
-				      	<label class="active" for="origen-linea">Origen</label>
-				    </div>
-				    <div class="input-field col s6">
-				    	<input name = "destino-linea" id="destino-linea" type="text">
-				      	<label class="active" for="destino-linea">Destino</label>
-				    </div>
-				    <div class="input-field col s12">
-					    <select id="compania-linea">
-					      <option value="" disabled selected>Elegir compañia</option>
-					    </select>
-					    <label>Compañia</label>
-				    </div>
-				    <div class="input-field col s12">
-				    	<div class="right">
-				      	<button id="btnAddLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-						  <i class="material-icons">control_point</i>
-					  	</button>
-				      </div>
-				    </div>
-			      </div>
-			    </li>
-			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">location_off</i>Eliminar Parada</div>
-			      <div class="collapsible-body">
-			      	<div class="input-field col s12">
-					<p>Presion el botón y luego seleccione la parada que desea eliminar</p>
-				      <div class="right">
-				      	<button id="btnDeleteParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-						  <i class="material-icons">delete</i>
-					  	</button>
-				      </div>
-				    </div>
-			      </div>
-			    </li>
-			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Eliminar una línea</div>
-			      <div id="eliminar-linea-container" class="collapsible-body">
-			      	<div class="input-field col s12">
-					<p>Presione el botón y luego seleccione el recorrido en el mapa para eliminar la línea de bus</p>
-				      <div class="right">
-				      	<button id="btnDeleteRecorrido" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-						  <i class="material-icons">delete</i>
-					  	</button>
-				      </div>
-				    </div>
-			      </div>
-			   </li>
-			   			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">mode_edit</i>Editar Paradas</div>
-			      <div class="collapsible-body">
-			      	<div class="input-field col s12">
-			      		<div id="editParada">
-							<p>Presion el botón y luego seleccione la parada que desea editar</p>
-						</div>
-						<div class="right">
-					      	<button id="btnEditParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-							  <i class="material-icons">fmd_good</i>
-						  	</button>
-				        </div>
-						
+			<%
+				if (sesion.getAttribute("administrador") != null) {
+			%>
+			<ul class="collapsible">
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">edit_location</i>Agregar
+						Parada
+					</div>
+					<div class="collapsible-body">
 						<div class="input-field col s12">
-						    <select id="horario-linea">
-						      <option value="" disabled selected>Elegir linea</option>
-						    </select>
-						    <label>Linea</label>
-					    </div>
-						
+							<input name="nombre-parada" id="nombre-parada" type="text">
+							<label class="active" for="nombre-parada">Nombre parada</label>
+							<div class="input-field col s12">
+								<div class="right">
+									<button id="btnAddParada"
+										class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+										<i class="material-icons">control_point</i>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">map</i>Agregar Linea
+					</div>
+					<div class="collapsible-body mh">
+						<div class="input-field col s12">
+							<input name="codigo-linea" id="codigo-linea" type="text">
+							<label class="active" for="codigo-linea">Codigo</label>
+						</div>
+						<div class="input-field col s12">
+							<p>
+								<label> <input id="desvio-linea" value="true"
+									type="checkbox" /> <span>¿Desvío?</span>
+								</label>
+							</p>
+						</div>
 						<div class="input-field col s6">
-					    	<input name = "origen-linea" id="horario-hora" type="number" min="00" max="23">
-					      	<label class="active" for="horario-hora">Hora</label>
-					    </div>
-					    <div class="input-field col s6">
-					    	<input name = "destino-linea" id="horario-minutos" type="number" min="00" max="59">
-					      	<label class="active" for="horario-minutos">Minuto</label>
-					    </div>
-						
-						
-										
-				      <div class="left">
-					      	<button id="btnGrabarHorario" class="white-text orange darken-4 btn modal-trigger" type="submit" name="action">Grabar Horario
-							  <i class="material-icons">send</i>
-						  	</button>
-				      </div>
-				      <div class="right">
-						    <a id="modificar-lineaparada"
-								class="white-text orange darken-4 btn modal-trigger"
-								href="#modificar-lineaparada-modal" >Modificar Lineas</a>
-						    </div>
-					  
-				    </div>
-			      </div>
-			    </li>
-			    <li>
-			      <div class="collapsible-header"><i class="teal-text material-icons">edit_location</i>Editar recorrido de línea</div>
-			      <div class="collapsible-body">
-				      <div class="input-field col s12">
-					      <div class="right">
-					      	<button id="btnEditLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-							  <i class="material-icons">control_point</i>
-						  	</button>
-					      </div>
-				      </div>
-				    </div>
-			    </li>  
-			</ul>
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			
-			<%}else{%>
-				<ul class="collapsible">
-					<li>
-						<div class="collapsible-header"><i class="teal-text material-icons">search</i>Buscar Direccion</div>
-						<div class="collapsible-body">
-							<div class="input-field col s12 m12 l6">
-								<input name = "dir_id" id="dirId" type="text">
-								<label class="active" for="dir_id">Nombre de la calle</label>
-							</div>
-							<div class="input-field col s12 m12 l6">
-								<input name = "num_p" id ="numP" type="text"/> 
-								<label class="active" for="num_p">Nro de puerta</label>
-							</div>
-							<div class="input-field col s12">	 
-								<div class="right">
-									<button onclick="buscarDir()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-										<i class="material-icons">search</i>
-									</button> 
-								</div>
-							</div>
+							<input name="origen-linea" id="origen-linea" type="text">
+							<label class="active" for="origen-linea">Origen</label>
 						</div>
-					</li>
-					<li>
-						<div class="collapsible-header"><i class="teal-text material-icons">add</i>Buscar Intersección</div>
-						<div class="collapsible-body">
-							<div class="input-field col s12 m12 l6">
-								<input name = "calle1" id="calle_1" type="text">
-								<label class="active" for="calle1">Nombre de la calle 1</label>
-							</div>
-							<div class="input-field col s12 m12 l6">
-								<input name = "calle2" id="calle_2" type="text">
-								<label class="active" for="calle2">Nombre de la calle 2</label>
-							</div>
-							<div class="input-field col s12">	 
-								<div class="right">
-									<button onclick="buscarCruce()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-										<i class="material-icons">search</i>
-									</button> 
-								</div>
-							</div>
-						</div>
-					</li>
-					<li>
-						<div class="collapsible-header"><i class="teal-text material-icons">timeline</i>Buscar un recorrido</div>
-						<div class="collapsible-body">
-							<div class="input-field col s12 m12 l6">
-								<input name = "destino_s" id="destino" type="text">
-								<label class="active" for="destino_s">Destino</label>
-							</div>
-							<div class="input-field col s12 m12 l6">
-								<input name = "nrolinea_s" id ="codigo" type="text"/> 
-								<label class="active" for="nrolinea_s">Nro de linea</label>
-							</div>
-							<div class="input-field col s12">	 
-								<div class="right">
-									<button onclick="buscarRecorrido()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-										<i class="material-icons">search</i>
-									</button> 
-								</div>
-							</div>
-						</div>
-					</li>	
-					<li>
-				      <div class="collapsible-header"><i class="teal-text material-icons">info</i>Información de Linea</div>
-				      <div class="collapsible-body">
-						<div class="input-field col s12" id="infoLinea">
-							<p>Presione el botón y luego seleccione un recorrido en el mapa</p>
+						<div class="input-field col s6">
+							<input name="destino-linea" id="destino-linea" type="text">
+							<label class="active" for="destino-linea">Destino</label>
 						</div>
 						<div class="input-field col s12">
-					      <div class="right">
-					      	<button id="btnInfoLinea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-							  <i class="material-icons">info</i>
-						  	</button>
-					      </div>
-					     </div>
-					    </div>
-				    </li>
-					<li>
-				      <div class="collapsible-header"><i class="teal-text material-icons">access_time</i>Horarios por parada</div>
-				      <div class="collapsible-body">
-						<div class="input-field col s12" id="verHorarios">
-							<p>Presione el botón y luego seleccione una parada para ver los horarios</p>
+							<select id="compania-linea">
+								<option value="" disabled selected>Elegir compañia</option>
+							</select> <label>Compañia</label>
 						</div>
-						<div class="input-field col s12">	
-							<div id="lineasHorario" style="display:none;">
+						<div class="input-field col s12">
+							<div class="right">
+								<button id="btnAddLinea"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">control_point</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">location_off</i>Eliminar
+						Parada
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12">
+							<p>Presion el botón y luego seleccione la parada que desea
+								eliminar</p>
+							<div class="right">
+								<button id="btnDeleteParada"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">delete</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">timeline</i>Eliminar una línea
+					</div>
+					<div id="eliminar-linea-container" class="collapsible-body">
+						<div class="input-field col s12">
+							<p>Presione el botón y luego seleccione el recorrido en el
+								mapa para eliminar la línea de bus</p>
+							<div class="right">
+								<button id="btnDeleteRecorrido"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">delete</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">mode_edit</i>Editar Paradas
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12">
+							<div id="editParada">
+								<p>Presion el botón y luego seleccione la parada que desea
+									editar</p>
+							</div>
+							<div class="right">
+								<button id="btnEditParada"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">fmd_good</i>
+								</button>
+							</div>
+
+							<div class="input-field col s12">
+								<select id="horario-linea">
+									<option value="" disabled selected>Elegir linea</option>
+								</select> <label>Linea</label>
+							</div>
+
+							<div class="input-field col s6">
+								<input name="origen-linea" id="horario-hora" type="number"
+									min="00" max="23"> <label class="active"
+									for="horario-hora">Hora</label>
+							</div>
+							<div class="input-field col s6">
+								<input name="destino-linea" id="horario-minutos" type="number"
+									min="00" max="59"> <label class="active"
+									for="horario-minutos">Minuto</label>
+							</div>
+
+
+
+							<div class="left">
+								<button id="btnGrabarHorario"
+									class="white-text orange darken-4 btn modal-trigger"
+									type="submit" name="action">
+									Grabar Horario <i class="material-icons">send</i>
+								</button>
+							</div>
+							<div class="right">
+								<a id="modificar-lineaparada"
+									class="white-text orange darken-4 btn modal-trigger"
+									href="#modificar-lineaparada-modal">Modificar Lineas</a>
+
+								<button id="btnModificarPosicion"
+									class="white-text orange darken-4 btn modal-trigger"
+									type="submit" name="action">Modificar Posicion</button>
+							</div>
+
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">edit_location</i>Editar
+						recorrido de línea
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12">
+							<div class="right">
+								<button id="btnEditLinea"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">control_point</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+			<%
+				} else {
+			%>
+			<ul class="collapsible">
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">search</i>Buscar Direccion
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12 m12 l6">
+							<input name="dir_id" id="dirId" type="text"> <label
+								class="active" for="dir_id">Nombre de la calle</label>
+						</div>
+						<div class="input-field col s12 m12 l6">
+							<input name="num_p" id="numP" type="text" /> <label
+								class="active" for="num_p">Nro de puerta</label>
+						</div>
+						<div class="input-field col s12">
+							<div class="right">
+								<button onclick="buscarDir()"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">search</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">add</i>Buscar Intersección
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12 m12 l6">
+							<input name="calle1" id="calle_1" type="text"> <label
+								class="active" for="calle1">Nombre de la calle 1</label>
+						</div>
+						<div class="input-field col s12 m12 l6">
+							<input name="calle2" id="calle_2" type="text"> <label
+								class="active" for="calle2">Nombre de la calle 2</label>
+						</div>
+						<div class="input-field col s12">
+							<div class="right">
+								<button onclick="buscarCruce()"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">search</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">timeline</i>Buscar un
+						recorrido
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12 m12 l6">
+							<input name="destino_s" id="destino" type="text"> <label
+								class="active" for="destino_s">Destino</label>
+						</div>
+						<div class="input-field col s12 m12 l6">
+							<input name="nrolinea_s" id="codigo" type="text" /> <label
+								class="active" for="nrolinea_s">Nro de linea</label>
+						</div>
+						<div class="input-field col s12">
+							<div class="right">
+								<button onclick="buscarRecorrido()"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">search</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">info</i>Información de Linea
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12" id="infoLinea">
+							<p>Presione el botón y luego seleccione un recorrido en el
+								mapa</p>
+						</div>
+						<div class="input-field col s12">
+							<div class="right">
+								<button id="btnInfoLinea"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">info</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">access_time</i>Horarios por
+						parada
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12" id="verHorarios">
+							<p>Presione el botón y luego seleccione una parada para ver
+								los horarios</p>
+						</div>
+						<div class="input-field col s12">
+							<div id="lineasHorario" style="display: none;">
 								<select id="lineasDestino">
 									<option value="" disabled selected>Elegir Linea</option>
 								</select> <label>Lineas</label>
-						    </div>
-						    <div>
-						    <a id="ver-horarios-init"
-								class="white-text orange darken-4 btn modal-trigger"
-								href="#ver-horarios-modal" style="display:none;" >Ver Horarios</a>
-								<input id="horariosIdModal" type="text" style="display:none;" disabled>
-						    </div>
-						 	<div class="right">
-							    <button id="btnVerHorarios" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+							</div>
+							<div>
+								<a id="ver-horarios-init"
+									class="white-text orange darken-4 btn modal-trigger"
+									href="#ver-horarios-modal" style="display: none;">Ver
+									Horarios</a> <input id="horariosIdModal" type="text"
+									style="display: none;" disabled>
+							</div>
+							<div class="right">
+								<button id="btnVerHorarios"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 									<i class="material-icons">info</i>
 								</button>
-						    </div>
-					    </div>	
-				      </div>
-				    </li>
-				    <li>
-				      <div class="collapsible-header"><i class="teal-text material-icons">directions_bus</i>Ver líneas en una parada</div>
-				      <div class="collapsible-body">
+							</div>
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">directions_bus</i>Ver líneas
+						en una parada
+					</div>
+					<div class="collapsible-body">
 						<div class="input-field col s12" id="verLineasParada">
 							<p>Presione el botón y luego seleccione una parada</p>
 						</div>
 						<div class="input-field col s12">
 							<a id="ver-lineas-init"
-							class="white-text orange darken-4 btn modal-trigger"
-							href="#ver-lineas-modal" style="display:none;" >Ver líneas</a>
-							<input id="paradaIdModal" type="text" style="display:none;" disabled>
-						    <div class="right">  
-						      	<button id="btnVerLineasParada" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-								  <i class="material-icons">add_location</i>
-							  	</button>
-						    </div>
-					    </div>
-				      </div>
-				    </li>
-					<li>
-						<div class="collapsible-header"><i class="teal-text material-icons">place</i>Ver paradas habilitadas-deshabilitadas</div>
-						<div class="collapsible-body">
-						  <div class="input-field col s12" id="infoParada">
-							  <p>Presione el botón para cambiar de habilitada a deshabilitada</p>
-						  </div>
-						  <div class="input-field col s12" id="infoParada">
+								class="white-text orange darken-4 btn modal-trigger"
+								href="#ver-lineas-modal" style="display: none;">Ver líneas</a> <input
+								id="paradaIdModal" type="text" style="display: none;" disabled>
 							<div class="right">
-								<button id="btnParada" onclick="cambiarEstado()"class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-								<i class="material-icons">info</i>
+								<button id="btnVerLineasParada"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">add_location</i>
 								</button>
 							</div>
-						   </div>
 						</div>
-					  </li>	
-					  <!-- <li>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">place</i>Ver paradas
+						habilitadas-deshabilitadas
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12" id="infoParada">
+							<p>Presione el botón para cambiar de habilitada a
+								deshabilitada</p>
+						</div>
+						<div class="input-field col s12" id="infoParada">
+							<div class="right">
+								<button id="btnParada" onclick="cambiarEstado()"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">info</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+				<!-- <li>
 						<div class="collapsible-header"><i class="teal-text material-icons">near_me</i>Ver paradas y recorridos cercanos</div>
 						<div class="collapsible-body">
 							<div class="input-field col s12">
@@ -357,92 +419,102 @@
 							</div>
 						  </div>
 					  </li> -->
-					<li>
-						<div class="collapsible-header">
-							<i class="teal-text material-icons">remove_red_eye</i>Ver líneas de una compañía
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">remove_red_eye</i>Ver líneas
+						de una compañía
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12">
+							<select id="compania-buscar">
+								<option value="" disabled selected>Elegir compañia</option>
+							</select> <label>Compañia</label>
 						</div>
-						<div class="collapsible-body">
-							<div class="input-field col s12">
-								<select id="compania-buscar">
-									<option value="" disabled selected>Elegir compañia</option>
-								</select> <label>Compañia</label>
-							</div>
-							<div class="input-field col m12">
-								<a id="buscar-modal-init"
-									class="white-text orange darken-4 btn modal-trigger"
-									href="#compania-buscar-modal">Ver líneas</a>
-							</div>
+						<div class="input-field col m12">
+							<a id="buscar-modal-init"
+								class="white-text orange darken-4 btn modal-trigger"
+								href="#compania-buscar-modal">Ver líneas</a>
 						</div>
-					</li>
-					<li>
-						<div class="collapsible-header">
-							<i class="teal-text material-icons">pageview</i>Ver líneas dentro de una zona
-						</div>
-						<div class="collapsible-body">
-							<div class="input-field col s12">
-								<div class="right">
-									<button id="btnArea" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">pageview</i>Ver líneas dentro
+						de una zona
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12">
+							<div class="right">
+								<button id="btnArea"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 									<i class="material-icons">info</i>
-									</button>
-								</div>
+								</button>
 							</div>
 						</div>
-					</li>
-					<li>
-				      <div class="collapsible-header"><i class="teal-text material-icons">cached</i>Recorridos y paradas que han cambiado</div>
-				      <div class="collapsible-body">
-				      	<div class="input-field col s12">
-						<div id="infoLinea">
-							<p>Seleccione recorrido o parada para ver cual a cambiado en las últimas 24 horas</p>
-						</div>
-						<form action="#">
-						      <label>
-						        <input name="recorrido_parada" value="R" type="radio" checked />
-						        <span>Recorrido</span>
-						      </label>
-						      <label>
-						        <input name="recorrido_parada" value="P" type="radio" />
-						        <span>Parada</span>
-						      </label>
-						</form>
-					      <div class="right">
-					      	<button onclick="recorridoParadaCambio()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
-							  <i class="material-icons">info</i>
-						  	</button>
-					      </div>
-					    </div>
-				      </div>
-				    </li>
-					<li>
-						<div class="collapsible-header"><i class="teal-text material-icons">flare</i>Mapa de calor de paradas</div>
-						<div class="collapsible-body">							
-						  	<div class="input-field col s12">
-								<div class="right">
-									<button onclick="MapaCalor()" class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">cached</i>Recorridos y paradas
+						que han cambiado
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12">
+							<div id="infoLinea">
+								<p>Seleccione recorrido o parada para ver cual a cambiado en
+									las últimas 24 horas</p>
+							</div>
+							<form action="#">
+								<label> <input name="recorrido_parada" value="R"
+									type="radio" checked /> <span>Recorrido</span>
+								</label> <label> <input name="recorrido_parada" value="P"
+									type="radio" /> <span>Parada</span>
+								</label>
+							</form>
+							<div class="right">
+								<button onclick="recorridoParadaCambio()"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
 									<i class="material-icons">info</i>
-									</button>
-								</div>
+								</button>
 							</div>
-						  </div>
-					  </li>
-			</ul>		
+						</div>
+					</div>
+				</li>
+				<li>
+					<div class="collapsible-header">
+						<i class="teal-text material-icons">flare</i>Mapa de calor de
+						paradas
+					</div>
+					<div class="collapsible-body">
+						<div class="input-field col s12">
+							<div class="right">
+								<button onclick="MapaCalor()"
+									class="white-text orange darken-4 mdl-button mdl-js-button mdl-button--fab">
+									<i class="material-icons">info</i>
+								</button>
+							</div>
+						</div>
+					</div>
+				</li>
+			</ul>
 			<%
 				}
 			%>
-			
-		
 
-			
+
+
+
 		</div>
-    	<div id="map-container" class="col s12 m9 l9">
+		<div id="map-container" class="col s12 m9 l9">
 			<div id="map"></div>
 		</div>
 
-		
+
 		<div id="localizar-container">
-			<button onclick="localizar()"><i class="teal-text material-icons">edit_location</i>
-			</button>	
-		</div> 
+			<button onclick="localizar()">
+				<i class="teal-text material-icons">edit_location</i>
+			</button>
+		</div>
 
 		<!-- <div> 			
 			<input name = "dir_id" id="dirId" type="text">
@@ -454,8 +526,8 @@
 			<label class="active" for="num_p">Nro de puerta</label>
 			<button onclick="buscarDir()" ></button>dd
 		</div> -->
-	
-    </div>
+
+	</div>
 
 	<!-- BUSCAR LINEA DE COMPANIA MODAL -->
 	<div id="compania-buscar-modal" class="modal mh">
@@ -478,8 +550,8 @@
 			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
 		</div>
 	</div>
-	
-		<!-- VER LINEA DE PARADA MODAL -->
+
+	<!-- VER LINEA DE PARADA MODAL -->
 	<div id="ver-lineas-modal" class="modal mh">
 		<div class="modal-content">
 			<div id="ver-lineas-titulo"></div>
@@ -526,28 +598,32 @@
 	<div id="modificar-lineaparada-modal" class="modal mh">
 		<div class="modal-content">
 			<div id="modificar-lineaparada-titulo"></div>
-			
+
 			<div>
 				<div class="left">
-				    <select id="modificar-lineaparada-agregar">
-				      <option value="" disabled selected>Elegir linea para agregar</option>
-				    </select>
-			    </div>
-			    <div class="right">
-				    <select id="modificar-lineaparada-borrar">
-				      <option value="" disabled selected>Elegir linea para borrar</option>
-				    </select>
-			    </div>
-			</div>	
+					<select id="modificar-lineaparada-agregar">
+						<option value="" disabled selected>Elegir linea para
+							agregar</option>
+					</select>
+				</div>
+				<div class="right">
+					<select id="modificar-lineaparada-borrar">
+						<option value="" disabled selected>Elegir linea para
+							borrar</option>
+					</select>
+				</div>
+			</div>
 		</div>
 		<div class="modal-footer">
-			<a id="agregar-lineaparada" class="modal-close waves-effect waves-green btn-flat">Agregar</a>
-			<a id="borrar-lineaparada" class="modal-close waves-effect waves-green btn-flat">Borrar</a>
-			<a href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
+			<a id="agregar-lineaparada"
+				class="modal-close waves-effect waves-green btn-flat">Agregar</a> <a
+				id="borrar-lineaparada"
+				class="modal-close waves-effect waves-green btn-flat">Borrar</a> <a
+				href="#!" class="modal-close waves-effect waves-green btn-flat">Cerrar</a>
 		</div>
-	</div>	
-	
-	
+	</div>
+
+
 
 	<script type="text/javascript">
 
@@ -620,7 +696,7 @@
 	        opacity: 0.5
 	    }),
 	    new ol.layer.Vector({
-	        visible: false,
+	        visible: true,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
@@ -758,6 +834,8 @@
 	        layerWFS.getSource().refresh();
 	        });
 	}
+	
+	var editPunto = false;
 
 	var transactWFS2 = function (p, f) {
 	    var node;
@@ -993,12 +1071,58 @@
 										}	
 									
 									});
-								});
+								});				
+							
+							
+							
 							
 							
 	            });
 	        	map.addInteraction(interaction);
 	            break;
+	            
+			case 'btnModificarPosicion':
+				var interactionSnap = new ol.interaction.Snap({
+			        source: layerWFS2.getSource()
+			    });
+				
+				map.addInteraction(interactionSelect);
+	            interaction = new ol.interaction.Modify({
+	                features: interactionSelect.getFeatures()
+	            });
+	            map.addInteraction(interaction);
+	            map.addInteraction(interactionSnap);
+	            var elementId = undefined;
+	            interactionSelect.getFeatures().on('add', function (e) {
+	                e.element.on('change', function (e) {
+	                    elementId = parseInt(e.target.getId().split('.')[1]);
+	                });
+	            });
+	            
+	            interaction.on('modifystart', function (e) {
+	                editPunto = true;
+	                
+	            });
+	            
+	            interaction.on('modifyend', function (e) {
+	            	console.log(editPunto);
+	            	console.log(elementId);
+	            	var coordinates = '';
+	            	
+	            	
+	            	coordinates = e.features.item(0).getGeometry().getCoordinates()[0] + ' ' + e.features.item(0).getGeometry().getCoordinates()[1];
+	            
+	            	$.ajax({
+  				        url: "http://localhost:8080/bube-web/rest/modificar-parada/" + coordinates +"/"+ elementId ,
+  				        method: "POST",
+  				        success: function(result,status ){
+  				              console.log("exito");
+  				         },
+  				    });
+	            })
+	            
+
+	  	        	break;
 	            
 			case 'btnEditLinea':
 

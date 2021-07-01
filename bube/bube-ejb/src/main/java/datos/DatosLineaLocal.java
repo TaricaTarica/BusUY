@@ -23,4 +23,6 @@ public interface DatosLineaLocal {
 	List<DTLineaSimple> listarLineaCompania(int id);
 	
 	public void modificarRecorridoLinea(String geomCoordenadas, int gidLinea);
+	
+	public void modificarParada(String geomCoordenadas, int gidParada);
 }

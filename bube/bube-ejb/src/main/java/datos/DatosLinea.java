@@ -106,6 +106,22 @@ public class DatosLinea implements DatosLineaLocal {
  
     	
     }
+    
+    @Override
+    public void modificarParada(String geomCoordenadas, int gidParada) {
+    	    	
+    	String value = "POINT(" + geomCoordenadas  +")";
+    	
+    	String fechamod = LocalDate.now().toString();
+    	
+    	System.out.println(fechamod);
+    	
+    	Query q = em.createNativeQuery("UPDATE parada SET geom = ST_GeomFromText(:value , 32721), fechamod = CAST ( :fechamod AS DATE ) WHERE gid = :gid");
+    	
+    	q.setParameter("value", value).setParameter("gid", gidParada).setParameter("fechamod", fechamod).executeUpdate();
+ 
+    	
+    }
 
 
 }

@@ -696,14 +696,14 @@
 	        opacity: 0.5
 	    }),
 	    new ol.layer.Vector({
-	        visible: false,
+	        visible: <%=sesion.getAttribute("administrador") != null%>,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:parada&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
 	    	})
 		}),
 		 new ol.layer.Vector({
-	        visible: false,
+	        visible: <%=sesion.getAttribute("administrador") != null%>,
 	    	source: new ol.source.Vector({
 	        	url: 'http://localhost:8080/geoserver/wfs?request=getFeature&typeName=busUy:linea&srs=EPSG:32721&outputFormat=application/json',
 	        	format: new ol.format.GeoJSON()
@@ -798,8 +798,11 @@
 				var layerExtent = cruceLayer.getSource().getExtent();
 				if (layerExtent) {
 					map.getView().fit(layerExtent);
-				} 				
-				RecPar(); // llama a la función RecPar para mostrar las paradas y recorridos cercanos a mi ubicación
+				} 	
+				if (<%=sesion.getAttribute("administrador") == null%>){
+					RecPar();
+				}
+				 // llama a la función RecPar para mostrar las paradas y recorridos cercanos a mi ubicación
 			}
 			navigator.geolocation.getCurrentPosition(success, function(msg){
 				console.error( msg );
